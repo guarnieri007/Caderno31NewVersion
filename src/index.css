@@ -1,0 +1,41 @@
+:root {
+  font-family: Gelasio, Arial;
+  line-height: 1.4;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: var(--text-color);
+  background-color: var(--background-secondary);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  --main-padding: 56px;
+
+  --primary-color: #00B1FF;
+  --primary-hover-color: #535bf2;
+  --background-color: #2F343D;
+  --background-secondary: #1F242E;
+  --text-color: rgba(255, 255, 255, 0.87);
+  --text-color-hover: rgba(255, 255, 255, 1);
+  --button-text-color: #030303;
+  --button-background-color: #B9BECC;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --primary-color: #00B1FF;
+    --primary-hover-color: #535bf2;
+    --background-color: #2F343D;
+    --background-secondary: #1F242E;
+    --text-color: rgba(255, 255, 255, 0.87);
+    --button-text-color: #030303;
+    --button-background-color: #B9BECC;
+  }
+}
+
+body {
+  padding: 0px;
+  margin: 0px;
+}
