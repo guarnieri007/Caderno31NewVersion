@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react"
 import { ReactElement } from "react"
-import { ButtonStyled } from "@/component/common/common-styles"
+import { ButtonStyled } from "../styles/common/common-styles"
 
 export interface ButtonProps {
     color: "primary" | "secondary",

@@ -27,3 +27,7 @@ export interface BannerProps {
     image: string;
     actionText: string | null;
 }
+
+export interface MiniBannerLayoutProps {
+    items: ReactNode[];
+}

@@ -1,15 +1,16 @@
 import React, { ReactElement } from "react";
 import { BannerProps } from "@/component/interfaces"
-import styles from "@/component/common/input.module.scss"
+import { Chip } from "../styles/common/common-styles";
+import { BannerDiv } from "../styles/common/banner-styles";
 
 export const Banner = ({ actionText, buttonText, image, text, title }: BannerProps): ReactElement => {
     return (
-        <div>
+        <BannerDiv>
             <div>
 
-                <p className={styles.chip}>
+                <Chip>
                     {title}
-                </p>
+                </Chip>
                 <h2>
                     {text}
                 </h2>
@@ -18,6 +19,6 @@ export const Banner = ({ actionText, buttonText, image, text, title }: BannerPro
                 </a>
             </div>
 
-        </div>
+        </BannerDiv>
     )
 }

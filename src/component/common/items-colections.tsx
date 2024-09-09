@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { ItemsColectionsProps } from "@/component/interfaces"
-import { ItemsColectionsDiv } from "@/component/common/common-styles";
 import { Button } from "./inputs";
+import { ItemsColectionsDiv } from "../styles/common/common-styles";
 
 export const ItemsColections = ({ title, children }: ItemsColectionsProps): ReactElement => {
     return (

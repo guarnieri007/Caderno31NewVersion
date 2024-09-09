@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { ButtonProps } from "./inputs";
+import { ButtonProps } from "../../common/inputs";
 interface ButtonStyledProps {
   ButtonTheme: ButtonProps["color"];
 }
@@ -159,7 +159,13 @@ export const ContentCreatorDiv = styled.div`
   gap: 16px 24px;
 `
 
-export const chip = styled.div`
+export const Chip = styled.div`
   background-color: #b9becc;
   border: ${(prop) => prop.theme.white} solid 2px;
+  border-radius: 1rem;
+  font-size: 0.875rem;
+  display: inline-flex;
+  flex-wrap: nowrap;
+  width: auto;
+  padding: 0.175rem 0.75rem; 
 `

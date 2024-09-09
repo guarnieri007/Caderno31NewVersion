@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
-import { HeroHeader } from "@/component/common/common-styles";
 import { Button } from "./inputs";
 import { HeroProps } from "@/component/interfaces";
+import { HeroHeader } from "../styles/common/common-styles";
 
 
 
