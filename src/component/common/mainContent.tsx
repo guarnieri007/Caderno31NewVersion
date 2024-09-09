@@ -1,5 +1,5 @@
+import { ContentContainer } from "@/AppStyled";
 import React, { ReactNode } from "react";
-import styles from '@/App.module.scss'
 
 interface MaindContentProps {
     children: ReactNode
@@ -7,8 +7,8 @@ interface MaindContentProps {
 
 export const MainContent = ({children}:MaindContentProps) => {
     return (
-        <main className={styles.content}>
+        <ContentContainer>
             {children}
-        </main>
+        </ContentContainer>
     )
 }

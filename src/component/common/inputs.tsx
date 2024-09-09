@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react"
 import { ReactElement } from "react"
-import style from "./input.module.scss"
+import { ButtonStyled } from "@/component/common/common-styles"
 
 export interface ButtonProps {
     color: "primary" | "secondary",
@@ -8,8 +8,10 @@ export interface ButtonProps {
     children: ReactNode,
 }
 
-export const Button = ({color, handleOnClick, children}:ButtonProps):ReactElement => {
+export const Button = ({ color, handleOnClick, children }: ButtonProps): ReactElement => {
     return (
-        <button onClick={() => handleOnClick} className={`${style.button} ${style[color]}`}>{children}</button>
+        <>
+            <ButtonStyled ButtonTheme={color} onClick={() => handleOnClick}>{children}</ButtonStyled>
+        </>
     )
 }
