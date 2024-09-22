@@ -15,7 +15,7 @@ export const GlobalStyles = createGlobalStyle`
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    --main-padding: 56px;
+    --main-padding: ${(prop) => prop.theme["main-padding"]};
   
     --primary-color: ${(prop) => prop.theme["primary-color"]};
     --primary-hover-color: ${(prop) => prop.theme["primary-hover-color"]};
@@ -55,4 +55,18 @@ body
     padding: 24px var(--main-padding);
     background-color: var(--background-color);
 }
+
+.collectionContainer {
+    width: auto;
+    height: auto;
+    background-color: transparent;
+    border-radius: 8px;
+    border: 1px solid ${(prop) => prop.theme["text-color"]};
+    box-sizing: border-box;
+    padding: 32px;
+    button {
+      display: block;
+      margin: 40px auto 0px;
+    }
+  }
 `

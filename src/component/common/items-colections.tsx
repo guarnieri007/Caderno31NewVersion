@@ -7,7 +7,7 @@ export const ItemsColections = ({ title, children }: ItemsColectionsProps): Reac
     return (
         <ItemsColectionsDiv>
             <h2>{title}</h2>
-            <div>
+            <div className="collectionContainer">
                 {children}
                 <Button color="secondary">See more</Button>
             </div>

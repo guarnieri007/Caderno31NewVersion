@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import { ButtonProps } from "../../common/inputs";
 interface ButtonStyledProps {
-  ButtonTheme: ButtonProps["color"];
+  $buttontheme: ButtonProps["color"];
 }
 
 export const ButtonStyled = styled.button<ButtonStyledProps>`
@@ -19,7 +19,7 @@ export const ButtonStyled = styled.button<ButtonStyledProps>`
   line-height: 18px;
   outline: none;
   color: ${(prop) => prop.theme["button-text-color"]};
-  background-color: ${(prop) => prop.ButtonTheme === "primary" ? prop.theme["primary-color"] : prop.theme["button-background-color"]};
+  background-color: ${(prop) => prop.$buttontheme === "primary" ? prop.theme["primary-color"] : prop.theme["button-background-color"]};
   
   &:hover {
     color: ${(prop) => prop.theme["button-text-color_hover"]};
@@ -42,10 +42,11 @@ export const ButtonStyled = styled.button<ButtonStyledProps>`
       height: 2px;
     }
   }
-`
+`;
+
 interface HeroHeaderProps {
-  bgColor: string | undefined;
-  imagebg: string | undefined;
+  $bgcolor: string | undefined;
+  $imagebg: string | undefined;
 }
 export const HeroHeader = styled.header<HeroHeaderProps>`
 
@@ -60,8 +61,9 @@ export const HeroHeader = styled.header<HeroHeaderProps>`
   background-repeat: no-repeat;
   background-position: right center;
   background-size: auto 364px;
-  background-color: ${(prop) => prop.bgColor !== null ? prop.bgColor : "#fff"};
-  background-image: url(${(prop) => (prop.imagebg !== null && prop.imagebg !== undefined) ? prop.imagebg : "#fff"});
+  border: solid 1px ${(prop) => prop.theme["text-color"]};
+  background-color: ${(prop) => prop.$bgcolor !== null ? prop.$bgcolor : "#fff"};
+  background-image: url(${(prop) => (prop.$imagebg !== null && prop.$imagebg !== undefined) ? prop.$imagebg : "#fff"});
 
   h1 {
     flex-grow: 1;
@@ -75,6 +77,8 @@ export const HeroHeader = styled.header<HeroHeaderProps>`
     font-weight: 800;
     line-height: 62px;
     align-content: center;
+    //-webkit-text-stroke: 1px ${(prop) => prop.theme["primary-hover-color"]};
+    word-spacing: 40%;
   }
 
   p {
@@ -83,13 +87,14 @@ export const HeroHeader = styled.header<HeroHeaderProps>`
     font-size: 18px;
     line-height: 22px;
   }
-`
+`;
 
 export const ItemsColectionsDiv = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
   height: auto;
+  margin-bottom: 5rem;
 
   h2 {
     color: ${(prop) => prop.theme.white};
@@ -98,39 +103,25 @@ export const ItemsColectionsDiv = styled.div`
     font-weight: 800;
     line-height: 32px;
   }
-
-  > div {
-    width: auto;
-    height: auto;
-    background-color: transparent;
-    border-radius: 8px;
-    border: 3px solid #b9becc;
-    box-sizing: border-box;
-    padding: 32px;
-    button {
-      display: block;
-      margin: 40px auto 0px;
-    }
-  }
-`
+`;
 
 export const CreatorChipDiv = styled.div`
 
   width: 100%;
-  height: 85px;
+  height: 105px;
   background-color: #030303;
   border-radius: 8px;
-  border: 2px solid ${(prop) => prop.theme.white};
+  border: 1px solid ${(prop) => prop.theme["text-color"]};
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 8px;
-  padding: 8px;
+  gap: 16px;
+  padding: 14px;
 
   img {
-    max-width: 54px;
-    max-height: 40px;
+    max-width: 64px;
+    max-height: 64px;
     border-radius: 50%;
   }
 
@@ -140,32 +131,48 @@ export const CreatorChipDiv = styled.div`
     h2 {
       color: ${(prop) => prop.theme.white};
       font-size: 1rem;
-      line-height: 15px;
+      line-height: 1rem;
+      display: -webkit-box;               /* Usa o layout flexível baseado em caixas */
+      -webkit-box-orient: vertical;       /* Orienta as caixas verticalmente */
+      overflow: hidden;                   /* Esconde o texto que exceder o tamanho */
+      text-overflow: ellipsis;            /* Exibe os três pontinhos */
+      -webkit-line-clamp: 2;              /* Limita a exibição a 3 linhas */
+      line-height: 1rem;                   /* Define a altura da linha para ajustar a altura da div */
+      max-height: calc(1rem * 2);
     }
 
     p {
+      display: -webkit-box;               /* Usa o layout flexível baseado em caixas */
+      -webkit-box-orient: vertical;       /* Orienta as caixas verticalmente */
+      overflow: hidden;                   /* Esconde o texto que exceder o tamanho */
+      text-overflow: ellipsis;            /* Exibe os três pontinhos */
+      -webkit-line-clamp: 1;              /* Limita a exibição a 3 linhas */
+      line-height: 1rem;                   /* Define a altura da linha para ajustar a altura da div */
+      max-height: calc(1rem * 1);
       color: #a09ea3;
       font-size: 0.875rem;
       line-height: 15px;
     }
   }
-`
+`;
 
 export const ContentCreatorDiv = styled.div`
 
   width: 100%;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px 24px;
-`
+  gap: 16px;
+  overflow-y: auto;
+`;
 
 export const Chip = styled.div`
-  background-color: #b9becc;
-  border: ${(prop) => prop.theme.white} solid 2px;
+  background-color: ${(prop) => prop.theme["text-color"]};
+  border: ${(prop) => prop.theme["button-text-color_hover"]} solid 2px;
   border-radius: 1rem;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   display: inline-flex;
   flex-wrap: nowrap;
-  width: auto;
-  padding: 0.175rem 0.75rem; 
-`
+  width: fit-content;
+  padding: 0.175rem 0.75rem;
+  color: ${(prop) => prop.theme["button-text-color_hover"]};
+`;

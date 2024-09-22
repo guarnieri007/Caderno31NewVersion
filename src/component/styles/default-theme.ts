@@ -9,4 +9,5 @@ export const darkTheme = {
     "button-text-color": "#030303cc",
     "button-text-color_hover": "#030303",
     "button-background-color": "#B9BECC",
+    "main-padding": "56px",
   } as const

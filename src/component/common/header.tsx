@@ -13,9 +13,9 @@ export const Header = ():ReactElement => {
               <img src={bookIcon} />
               <span className="title">Caderno31</span>
             </div>
-            <a>Home</a>
-            <a>Categories</a>
-            <a>Posts</a>
+            <a href="#">Home</a>
+            <a href="#">Categories</a>
+            <a href="#">Posts</a>
           </div>
           <div className="right">
             <Button color='secondary'>log in</Button>

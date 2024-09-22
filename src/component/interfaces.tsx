@@ -5,7 +5,7 @@ export interface HeroProps {
     text?: string;
     buttonText?: string;
     handleClickButton?: () => void;
-    bgColor?: string;
+    $bgcolor?: string;
     image?: string;
 }
 
@@ -15,6 +15,7 @@ export interface ItemsColectionsProps {
 }
 
 export interface CreatorChipProps {
+    id: number;
     title: string;
     category: string;
     image?: string;
@@ -25,9 +26,29 @@ export interface BannerProps {
     text: string;
     buttonText: string;
     image: string;
-    actionText: string | null;
 }
 
 export interface MiniBannerLayoutProps {
     items: ReactNode[];
+}
+
+export interface BannerDivProps {
+    $bg_image?: string;
+}
+
+export interface MediaInformation {
+    amountVideos: number;
+    amountPhotos: number;
+    amountAudios: number;
+}
+
+export interface ItemAsCardProps {
+    cardId: number;
+    creatorsName: string;
+    image: string;
+    title: string;
+    category: string;
+    price: number;
+    profileImage: string;
+    mediaInfo: MediaInformation;
 }

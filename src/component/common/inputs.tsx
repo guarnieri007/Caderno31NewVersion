@@ -11,7 +11,7 @@ export interface ButtonProps {
 export const Button = ({ color, handleOnClick, children }: ButtonProps): ReactElement => {
     return (
         <>
-            <ButtonStyled ButtonTheme={color} onClick={() => handleOnClick}>{children}</ButtonStyled>
+            <ButtonStyled $buttontheme={color} onClick={() => handleOnClick}>{children}</ButtonStyled>
         </>
     )
 }

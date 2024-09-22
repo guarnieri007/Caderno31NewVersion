@@ -94,22 +94,22 @@ export const FooterContainer = styled.div`
 
 `
 
-export const HeaderComponent =  styled.header`
+export const HeaderComponent = styled.header`
 
-    position: sticky;
+    //position: sticky;
     z-index: 1;
     top: 0px;
     box-sizing: border-box;
-    padding: 12px var(--main-padding);
+    padding: 12px ${(prop) => prop.theme["main-padding"]};
     gap: 24px;
     display: flex;
     flex-direction: row;
     align-items: center;
     width: 100%;
-    min-height: '96px';
+    //min-height: 96px;
     height: auto;
-    background-color: var(--background-color);
-    border-bottom: solid rgba(255, 255, 255, 0.1) 2px;
+    background-color: ${(prop) => prop.theme["background-color"]};
+    border-bottom: solid ${(prop) => prop.theme["button-text-color_hover"]} 3px;
 
     .left {
         display: inherit;
@@ -147,6 +147,23 @@ export const HeaderComponent =  styled.header`
             font-family: "Gelasio";
             font-weight: 500;
             line-height: 22px;
+            position: relative;
+            text-decoration: none;
+
+            &:focus {
+                outline: none;
+                box-shadow: none;
+            }
+
+            &:hover:after, &:focus::after {
+                content: "";
+                position: absolute;
+                bottom: -2px;
+                left: 0px;
+                width: 100%;
+                height: 2px;
+                background-color: ${(prop) => prop.theme["button-text-color_hover"]};
+            }
         }
     }
 

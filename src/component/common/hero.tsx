@@ -5,11 +5,11 @@ import { HeroHeader } from "../styles/common/common-styles";
 
 
 
-export const Hero = ({ title, text, buttonText, handleClickButton, bgColor, image }: HeroProps): ReactElement => {
+export const Hero = ({ title, text, buttonText, handleClickButton, $bgcolor, image }: HeroProps): ReactElement => {
     return (
         <HeroHeader
-            bgColor={bgColor}
-            imagebg={image}>
+            $bgcolor={$bgcolor}
+            $imagebg={image}>
             <h1>
                 {title}
             </h1>
