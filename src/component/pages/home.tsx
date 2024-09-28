@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { Hero } from "../common/hero";
 import FaceImage from "@/assets/images/face.png"
 import { ItemsColections } from "../common/items-colections";
@@ -20,8 +20,12 @@ import Computer_bg from "@/assets/images/teste/minibanner/computer_bg.png";
 import Laptop_bg from "@/assets/images/teste/minibanner/laptop_bg.png";
 import Azukat_bg from "@/assets/images/teste/minibanner/azukat.jpg";
 import { ItemAsCard } from "../common/itemAsCard";
+import { fetchBestOfMonth } from "@/api/backendApi";
 
 export const Home = (): ReactElement => {
+    const [dataBestOfTheMonth, setDataBestOfTheMonth] = useState<ItemAsCardProps[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
     //it will be the variable with all the bannerItems that we want to render on the MiniBannerLayout
     const bannerItems: ReactElement[] = [];
@@ -94,15 +98,31 @@ export const Home = (): ReactElement => {
             />
         </ContentCreatorDiv>
     </>
-    const dataBestOfTheMonth = [
-        { cardId: 1, category: "Foot Worship", price: 25.05, profileImage: `${GGiA}`,creatorsName: "Grappling Girls in Action", image: `${GGiA}`, title: "Testing this new foot slave", mediaInfo: {amountAudios: 1, amountPhotos: 2, amountVideos: 3} } as ItemAsCardProps,
-        { cardId: 2, category: "Foot Worship", price: 25.05, profileImage: `${BratyPrincess}`,creatorsName: "Brat Princess 2", image: `${BratyPrincess}`, title: "Licking feet", mediaInfo: {amountAudios: 1, amountPhotos: 2, amountVideos: 3} } as ItemAsCardProps,
-        { cardId: 3, category: "Foot Worship", price: 25.05, profileImage: `${BratyFootGril}`,creatorsName: "Bratty Foot Girls", image: `${BratyFootGril}`, title: "Dirty feet", mediaInfo: {amountAudios: 1, amountPhotos: 2, amountVideos: 3} } as ItemAsCardProps,
-        { cardId: 4, category: "Foot Worship", price: 25.05, profileImage: "",creatorsName: "", image: "", title: "Testing", mediaInfo: {amountAudios: 1, amountPhotos: 2, amountVideos: 3} } as ItemAsCardProps,
-        { cardId: 5, category: "Foot Worship", price: 25.05, profileImage: "",creatorsName: "", image: "", title: "Testing", mediaInfo: {amountAudios: 1, amountPhotos: 2, amountVideos: 3} } as ItemAsCardProps,
-        { cardId: 6, category: "Foot Worship", price: 25.05, profileImage: "",creatorsName: "", image: "", title: "Testing", mediaInfo: {amountAudios: 1, amountPhotos: 2, amountVideos: 3} } as ItemAsCardProps,
-        { cardId: 7, category: "Foot Worship", price: 25.05, profileImage: "",creatorsName: "", image: "", title: "Testing", mediaInfo: {amountAudios: 1, amountPhotos: 2, amountVideos: 3} } as ItemAsCardProps,
-    ]
+
+    useEffect(() => {
+        const getData = async () => {
+            try {
+                // Aguarde a resposta da API
+                const result = await fetchBestOfMonth();
+                setDataBestOfTheMonth(result); // Atualize o estado com os dados recebidos
+            } catch (error) {
+                setError(`Erro ao carregar os dados do Best of the Month: ${error}`);
+            } finally {
+                setLoading(false); // Quando terminar, setar loading para false
+            }
+        };
+
+        getData(); // Chame a função para buscar os dados
+    }, []); // O array vazio [] significa que o efeito roda apenas uma vez quando o componente é montado
+
+    if (loading) {
+        return <div>Loading...</div>;
+      }
+    
+      if (error) {
+        return <div>{error}</div>;
+      }
+
     const collectionBestOfTheMonth =
         <ContentCreatorDiv>
             {dataBestOfTheMonth.map((item) => {

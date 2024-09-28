@@ -131,18 +131,21 @@ export const HeaderComponent = styled.header`
             }
 
             .title {
-                color: var(--text-color);
+                color: ${(prop) =>prop.theme["text-color"]};
                 font-size: 20px;
                 font-family: "Gelasio";
                 font-weight: 800;
                 line-height: 26px;
+            }
 
+            .title.active {
+                color: ${(prop) =>prop.theme.white};
             }
         }
 
 
         a {
-            color: var(--text-color);
+            color: ${(prop) =>prop.theme["text-color"]};
             font-size: 16px;
             font-family: "Gelasio";
             font-weight: 500;
@@ -155,6 +158,10 @@ export const HeaderComponent = styled.header`
                 box-shadow: none;
             }
 
+            .active {
+                color: ${(prop) =>prop.theme["primary-color"]};
+            }
+
             &:hover:after, &:focus::after {
                 content: "";
                 position: absolute;
@@ -164,6 +171,9 @@ export const HeaderComponent = styled.header`
                 height: 2px;
                 background-color: ${(prop) => prop.theme["button-text-color_hover"]};
             }
+        }
+        a.active {
+            color: ${(prop) =>prop.theme.white};
         }
     }
 

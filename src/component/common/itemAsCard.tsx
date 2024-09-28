@@ -4,12 +4,19 @@ import { ItemAsCardProps } from "../interfaces";
 import imageIcon from "@/assets/icons/photo.svg";
 import videoIcon from "@/assets/icons/slideshow.svg";
 import audioIcon from "@/assets/icons/audio_file.svg";
+import { Button } from "./inputs";
 
 
 
 
-export const ItemAsCard = ({ category, title, price, image, profileImage, creatorsName,
+export const ItemAsCard = ({ category, title, price, image, profileImage, creatorsName, currency,
     mediaInfo: { amountAudios, amountPhotos, amountVideos } }: ItemAsCardProps): ReactElement => {
+
+    const GetCurrencyText = (currency: string): string => {
+        if(currency === "real")
+            return "R$";
+        return "$";
+    }
     console.log("testando imagem svg", imageIcon);
     return (
         <ItemAsCardDiv $bg_image={`url(${image})`}>
@@ -22,7 +29,7 @@ export const ItemAsCard = ({ category, title, price, image, profileImage, creato
                     {amountAudios > 0 ? (<div><img srcSet={audioIcon} /> <span>{amountAudios}</span></div>) : null}
                 </div>
                 <span className="price">
-                    {price}
+                    <Button color="primary" >{GetCurrencyText(currency)} {price}</Button>
                 </span>
             </div>
             <div className="description">

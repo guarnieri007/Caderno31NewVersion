@@ -51,4 +51,5 @@ export interface ItemAsCardProps {
     price: number;
     profileImage: string;
     mediaInfo: MediaInformation;
+    currency: "real" | "dolar";
 }

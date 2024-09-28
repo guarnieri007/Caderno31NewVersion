@@ -16,9 +16,9 @@ export const ItemAsCardDiv = styled.div<ItemAsCardDivProps>`
         background-position: center;
         background-size: contain;
         height:auto;
-        min-height: 12rem;
-        border-radius: 8px;
+        border-radius: 8px 8px 0px 0px;
         background-color: ${(prop) => prop.theme["background-color"]};
+        padding-top: 100%;
     }
     .cardData {
         margin-top: 16px;
@@ -26,7 +26,7 @@ export const ItemAsCardDiv = styled.div<ItemAsCardDivProps>`
         right: 24px;
         bottom: 12px;
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         .price {
             padding: 0px 16px;
             font-size: 1.15rem;
@@ -36,7 +36,8 @@ export const ItemAsCardDiv = styled.div<ItemAsCardDivProps>`
             display: flex;
             flex-direction: row;
             align-items: center;
-            flex-grow: 1;
+            width: auto;
+            margin: 0px auto;
             gap: 16px;
             height: 32px;
             div{
@@ -63,7 +64,7 @@ export const ItemAsCardDiv = styled.div<ItemAsCardDivProps>`
     .description {
         margin-top: 24px;
         display: grid;
-        grid-template-rows: 3.6rem 1.2rem 4rem;
+        grid-template-rows: 3.6rem 1.5rem 4rem;
         grid-template-areas:
         "title"
         "category"
@@ -86,7 +87,8 @@ export const ItemAsCardDiv = styled.div<ItemAsCardDivProps>`
         .category {
             align-self: center;
             grid-area: category;
-            font-size: 0.7rem;
+            font-size: 0.95rem;
+            line-height: 1.5rem;
             color: ${(prop) => prop.theme["button-background-color"]};
         }
         .contentCreator {

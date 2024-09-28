@@ -7,6 +7,9 @@ import { ThemeProvider } from 'styled-components'
 import { darkTheme } from './component/styles/default-theme'
 import { GlobalStyles } from './globalStyle'
 import { MainContainer } from './AppStyled'
+import { Route, Routes } from 'react-router-dom'
+import { SignUp } from './component/pages/signup'
+import { NotFound404 } from './component/pages/notFound404'
 
 function App() {
 
@@ -17,7 +20,11 @@ function App() {
         <MainContainer>
           <Header />
           <MainContent>
-            <Home />
+            <Routes>
+              <Route path='/' element={<Home />} />
+              <Route path='/signupUser' element={<SignUp />} />
+              <Route path='*' element={<NotFound404/>} />
+            </Routes>
           </MainContent>
           <Footer />
         </MainContainer>
