@@ -1,11 +1,10 @@
 import React, { ReactElement } from "react";
 import { ItemAsCardDiv } from "../styles/common/itemAsCard-styles";
 import { ItemAsCardProps } from "../interfaces";
-import imageIcon from "@/assets/icons/photo.svg";
-import videoIcon from "@/assets/icons/slideshow.svg";
-import audioIcon from "@/assets/icons/audio_file.svg";
 import { Button } from "./inputs";
-
+import Icon from "../icons/icon";
+import { UIIcons } from "../icons";
+import { useTheme } from "styled-components";
 
 
 
@@ -17,16 +16,18 @@ export const ItemAsCard = ({ category, title, price, image, profileImage, creato
             return "R$";
         return "$";
     }
-    console.log("testando imagem svg", imageIcon);
+
+    const iconColor = useTheme().colors["text-color"];
+
     return (
         <ItemAsCardDiv $bg_image={`url(${image})`}>
             <div className="cardImage" />
             <div className="cardData">
                 <div className="cardAmountInfo">
 
-                    {amountVideos > 0 ? (<div><img srcSet={videoIcon} /> <span>{amountVideos}</span></div>) : null}
-                    {amountPhotos > 0 ? (<div><img srcSet={imageIcon} /> <span>{amountPhotos}</span></div>) : null}
-                    {amountAudios > 0 ? (<div><img srcSet={audioIcon} /> <span>{amountAudios}</span></div>) : null}
+                    {amountVideos > 0 ? (<div><Icon icon={UIIcons.Video} size={30} color={iconColor} /> <span>{amountVideos}</span></div>) : null}
+                    {amountPhotos > 0 ? (<div><Icon icon={UIIcons.Photo} size={30} color={iconColor} /> <span>{amountPhotos}</span></div>) : null}
+                    {amountAudios > 0 ? (<div><Icon icon={UIIcons.Audio} size={30} color={iconColor} /> <span>{amountAudios}</span></div>) : null}
                 </div>
                 <span className="price">
                     <Button color="primary" >{GetCurrencyText(currency)} {price}</Button>

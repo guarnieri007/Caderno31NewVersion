@@ -1,10 +1,10 @@
 import { CSSProperties, MouseEventHandler, ReactElement } from "react";
 import { UIIcons } from ".";
 
-import BookIcon from "../../assets/icons/book-open.svg";
-import AudioIcon from "@/assets/icons/audio_file.svg";
-import PhotoIcon from "@/assets/icons/photo.svg";
-import VideoIcon from "@/assets/icons/slideshow.svg";
+import BookIcon from "../../assets/icons/book-open.svg?react";
+import AudioIcon from "@/assets/icons/audio_file.svg?react";
+import PhotoIcon from "@/assets/icons/photo.svg?react";
+import VideoIcon from "@/assets/icons/slideshow.svg?react";
 import React from "react";
 
 
@@ -12,7 +12,7 @@ const Icon = ({ icon, ...rest }: IconProps): ReactElement => {
   const attr: React.SVGAttributes<SVGElement> = {
     width: rest.size,
     height: rest.size,
-    color: rest.color || "var(--color-primary)",
+    fill: rest.color,
     ...rest,
   };
   
@@ -33,7 +33,7 @@ export default Icon;
 export interface IconProps {
   icon: UIIcons;
   size: number;
-  color?: string;
+  color: string;
   className?: string;
   style?: CSSProperties;
   onClick?: MouseEventHandler<SVGElement>;

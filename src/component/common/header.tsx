@@ -1,9 +1,10 @@
 import React from "react";
 import { ReactElement } from "react";
-import bookIcon from '@/assets/icons/book-open.svg'
 import { Button } from '@/component/common/inputs'
 import { HeaderComponent } from "@/AppStyled";
 import { NavLink, useNavigate } from "react-router-dom";
+import Icon from "../icons/icon";
+import { UIIcons } from "../icons";
 
 export const Header = ():ReactElement => {
   const navigate = useNavigate();
@@ -15,10 +16,10 @@ export const Header = ():ReactElement => {
         <HeaderComponent>
           <div className="left">
 
-            <div className="logo">
-              <img src={bookIcon} />
-              <NavLink to="/" className="title">Caderno31</NavLink>
-            </div>
+            <NavLink to="/" className="logo">
+              <Icon icon={UIIcons.Book} size={24} color="#000"/>
+              <span className="title">Caderno31</span>
+            </NavLink>
             <NavLink to="/categories">Categories</NavLink>
             <NavLink to="/posts">Posts</NavLink>
           </div>

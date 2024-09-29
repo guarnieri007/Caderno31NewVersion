@@ -5,11 +5,7 @@ import svgr from 'vite-plugin-svgr';
 // import fs from "fs";
 
 export default defineConfig({
-  plugins: [react(), svgr({
-    svgrOptions: {
-      icon: true,
-    }
-  })],
+  plugins: [react(), svgr()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
