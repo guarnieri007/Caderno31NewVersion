@@ -8,24 +8,23 @@ export const GlobalStyles = createGlobalStyle`
     font-weight: 400;
   
     color-scheme: light dark;
-    color: var(--text-color);
-    background-color: var(--background-secondary);
+    color: ${(prop) => prop.theme.colors['text-color']};
+    background-color: ${(prop) => prop.theme.colors["background-secondary"]};
   
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    --main-padding: ${(prop) => prop.theme["main-padding"]};
-  
-    --primary-color: ${(prop) => prop.theme["primary-color"]};
-    --primary-hover-color: ${(prop) => prop.theme["primary-hover-color"]};
-    --background-color: ${(prop) => prop.theme["background-color"]};
-    --background-secondary: ${(prop) => prop.theme["background-secondary"]};
-    --text-color: ${(prop) => prop.theme["text-color"]};
-    --text-color-hover: ${(prop) => prop.theme["text-color-hover"]};
-    --button-text-color: ${(prop) => prop.theme["button-text-color"]};
-    --button-text-color_hover: ${(prop) => prop.theme["button-text-color_hover"]};
-    --button-background-color: ${(prop) => prop.theme["button-background-color"]};
+
+    /* --main-padding: ${(prop) => prop.theme.spacings["main-padding"]};  
+    --primary-color: ${(prop) => prop.theme.colors["primary-color"]};
+    --primary-hover-color: ${(prop) => prop.theme.colors["primary-hover-color"]};
+    --background-color: ${(prop) => prop.theme.colors["background-color"]};
+    --background-secondary: ${(prop) => prop.theme.colors["background-secondary"]};
+    --text-color: ${(prop) => prop.theme.colors["text-color"]};
+    --text-color-hover: ${(prop) => prop.theme.colors["text-color-hover"]};
+    --button-text-color: ${(prop) => prop.theme.colors["button-text-color"]};
+    --button-text-color_hover: ${(prop) => prop.theme.colors["button-text-color_hover"]};
+    --button-background-color: ${(prop) => prop.theme.colors["button-background-color"]}; */
 }
 
 body
@@ -42,7 +41,7 @@ body
 .defaultPadding {
     display: block;
     box-sizing: border-box;
-    padding: 24px var(--main-padding);
+    padding: 24px ${(prop) => prop.theme.spacings["main-padding"]};
     width: inherit;
     height: auto;
     overflow: hidden;
@@ -52,8 +51,8 @@ body
     display: block;
     width: inherit;
     height: inherit;
-    padding: 24px var(--main-padding);
-    background-color: var(--background-color);
+    padding: 24px ${(prop) => prop.theme.spacings["main-padding"]};
+    background-color: ${(prop) => prop.theme.colors["background-color"]};
 }
 
 .collectionContainer {
@@ -61,7 +60,7 @@ body
     height: auto;
     background-color: transparent;
     border-radius: 8px;
-    border: 1px solid ${(prop) => prop.theme["text-color"]};
+    border: 1px solid ${(prop) => prop.theme.colors["text-color"]};
     box-sizing: border-box;
     padding: 32px;
     button {

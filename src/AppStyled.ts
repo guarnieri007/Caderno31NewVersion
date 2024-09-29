@@ -27,8 +27,8 @@ export const FooterContainer = styled.div`
     height: auto;
     min-height: 40px;
     width: 100%;
-    background-color: var(--background-color);
-    padding: 12px var(--main-padding);
+    background-color: ${(prop) => prop.theme.colors["background-color"]};
+    padding: 12px ${(prop) => prop.theme.spacings["main-padding"]};
 
     .footerContainer {
         display: flex;
@@ -100,7 +100,7 @@ export const HeaderComponent = styled.header`
     z-index: 1;
     top: 0px;
     box-sizing: border-box;
-    padding: 12px ${(prop) => prop.theme["main-padding"]};
+    padding: 12px ${(prop) => prop.theme.spacings["main-padding"]};
     gap: 24px;
     display: flex;
     flex-direction: row;
@@ -108,8 +108,8 @@ export const HeaderComponent = styled.header`
     width: 100%;
     //min-height: 96px;
     height: auto;
-    background-color: ${(prop) => prop.theme["background-color"]};
-    border-bottom: solid ${(prop) => prop.theme["button-text-color_hover"]} 3px;
+    background-color: ${(prop) => prop.theme.colors["background-color"]};
+    border-bottom: solid ${(prop) => prop.theme.colors["button-text-color_hover"]} 3px;
 
     .left {
         display: inherit;
@@ -125,27 +125,29 @@ export const HeaderComponent = styled.header`
             gap: 8px;
             align-items: center;
 
-            img {
-                width: 16px;
-                height: 16px;
+            svg {
+                fill: ${(prop) =>prop.theme.colors["text-color"]};
+            }
+            &.active svg {
+                fill: ${(prop) =>prop.theme.colors.white};
             }
 
             .title {
-                color: ${(prop) =>prop.theme["text-color"]};
+                color: ${(prop) =>prop.theme.colors["text-color"]};
                 font-size: 20px;
                 font-family: "Gelasio";
                 font-weight: 800;
                 line-height: 26px;
             }
 
-            .title.active {
-                color: ${(prop) =>prop.theme.white};
+            &.active .title {
+                color: ${(prop) =>prop.theme.colors.white};
             }
         }
 
 
         a {
-            color: ${(prop) =>prop.theme["text-color"]};
+            color: ${(prop) =>prop.theme.colors["text-color"]};
             font-size: 16px;
             font-family: "Gelasio";
             font-weight: 500;
@@ -159,21 +161,21 @@ export const HeaderComponent = styled.header`
             }
 
             .active {
-                color: ${(prop) =>prop.theme["primary-color"]};
+                color: ${(prop) =>prop.theme.colors["primary-color"]};
             }
 
             &:hover:after, &:focus::after {
                 content: "";
                 position: absolute;
-                bottom: -2px;
+                bottom: -6px;
                 left: 0px;
                 width: 100%;
                 height: 2px;
-                background-color: ${(prop) => prop.theme["button-text-color_hover"]};
+                background-color: ${(prop) => prop.theme.colors["button-text-color_hover"]};
             }
         }
         a.active {
-            color: ${(prop) =>prop.theme.white};
+            color: ${(prop) =>prop.theme.colors.white};
         }
     }
 

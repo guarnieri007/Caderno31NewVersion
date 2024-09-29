@@ -18,11 +18,11 @@ export const ButtonStyled = styled.button<ButtonStyledProps>`
   font-weight: 500;
   line-height: 18px;
   outline: none;
-  color: ${(prop) => prop.theme["button-text-color"]};
-  background-color: ${(prop) => prop.$buttontheme === "primary" ? prop.theme["primary-color"] : prop.theme["button-background-color"]};
+  color: ${(prop) => prop.theme.colors["button-text-color"]};
+  background-color: ${(prop) => prop.$buttontheme === "primary" ? prop.theme.colors["primary-color"] : prop.theme.colors["button-background-color"]};
   
   &:hover {
-    color: ${(prop) => prop.theme["button-text-color_hover"]};
+    color: ${(prop) => prop.theme.colors["button-text-color_hover"]};
     
     &::after {
       content: "";
@@ -30,9 +30,9 @@ export const ButtonStyled = styled.button<ButtonStyledProps>`
       position: absolute;
       background: linear-gradient(
         to right,
-        ${(prop) => prop.theme["button-text-color"]} 0%,
-        ${(prop) => prop.theme["background-secondary"]} 50%,
-        ${(prop) => prop.theme["button-text-color"]} 100%
+        ${(prop) => prop.theme.colors["button-text-color"]} 0%,
+        ${(prop) => prop.theme.colors["background-secondary"]} 50%,
+        ${(prop) => prop.theme.colors["button-text-color"]} 100%
       );
       border-radius: 999px;
       bottom: 6px;
@@ -55,13 +55,13 @@ export const HeroHeader = styled.header<HeroHeaderProps>`
   align-items: start;
   height: 523px;
   box-sizing: border-box;
-  padding: 12px var(--main-padding);
+  padding: 12px ${(prop) => prop.theme.spacings["main-padding"]};
   padding-bottom: 56px;
   border-radius: 16px;
   background-repeat: no-repeat;
   background-position: right center;
   background-size: auto 364px;
-  border: solid 1px ${(prop) => prop.theme["text-color"]};
+  border: solid 1px ${(prop) => prop.theme.colors["text-color"]};
   background-color: ${(prop) => prop.$bgcolor !== null ? prop.$bgcolor : "#fff"};
   background-image: url(${(prop) => (prop.$imagebg !== null && prop.$imagebg !== undefined) ? prop.$imagebg : "#fff"});
 
@@ -72,18 +72,18 @@ export const HeroHeader = styled.header<HeroHeaderProps>`
     padding: 0px;
     margin-top: 0;
     max-width: min(950px, 60%);
-    color: ${(prop) => prop.theme.white};
+    color: ${(prop) => prop.theme.colors.white};
     font-size: 48px;
     font-weight: 800;
     line-height: 62px;
     align-content: center;
-    //-webkit-text-stroke: 1px ${(prop) => prop.theme["primary-hover-color"]};
+    //-webkit-text-stroke: 1px ${(prop) => prop.theme.colors["primary-hover-color"]};
     word-spacing: 40%;
   }
 
   p {
     margin-top: 20px;
-    color: ${(prop) => prop.theme.white};
+    color: ${(prop) => prop.theme.colors.white};
     font-size: 18px;
     line-height: 22px;
   }
@@ -97,7 +97,7 @@ export const ItemsColectionsDiv = styled.div`
   margin-bottom: 5rem;
 
   h2 {
-    color: ${(prop) => prop.theme.white};
+    color: ${(prop) => prop.theme.colors.white};
     font-size: 24px;
     font-family: "Gelasio";
     font-weight: 800;
@@ -111,7 +111,7 @@ export const CreatorChipDiv = styled.div`
   height: 105px;
   background-color: #030303;
   border-radius: 8px;
-  border: 1px solid ${(prop) => prop.theme["text-color"]};
+  border: 1px solid ${(prop) => prop.theme.colors["text-color"]};
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
@@ -129,7 +129,7 @@ export const CreatorChipDiv = styled.div`
     width: 100%;
 
     h2 {
-      color: ${(prop) => prop.theme.white};
+      color: ${(prop) => prop.theme.colors.white};
       font-size: 1rem;
       line-height: 1rem;
       display: -webkit-box;               /* Usa o layout flexível baseado em caixas */
@@ -166,13 +166,13 @@ export const ContentCreatorDiv = styled.div`
 `;
 
 export const Chip = styled.div`
-  background-color: ${(prop) => prop.theme["text-color"]};
-  border: ${(prop) => prop.theme["button-text-color_hover"]} solid 2px;
+  background-color: ${(prop) => prop.theme.colors["text-color"]};
+  border: ${(prop) => prop.theme.colors["button-text-color_hover"]} solid 2px;
   border-radius: 1rem;
   font-size: 0.75rem;
   display: inline-flex;
   flex-wrap: nowrap;
   width: fit-content;
   padding: 0.175rem 0.75rem;
-  color: ${(prop) => prop.theme["button-text-color_hover"]};
+  color: ${(prop) => prop.theme.colors["button-text-color_hover"]};
 `;

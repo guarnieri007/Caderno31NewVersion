@@ -5,8 +5,8 @@ export interface ItemAsCardDivProps {
 }
 
 export const ItemAsCardDiv = styled.div<ItemAsCardDivProps>`
-    background-color: ${(prop) => prop.theme["button-text-color"]};
-    color: ${(prop) => prop.theme["text-color"]};
+    background-color: ${(prop) => prop.theme.colors["button-text-color"]};
+    color: ${(prop) => prop.theme.colors["text-color"]};
     border-radius: 16px 16px 0px 0px;
     box-sizing:border-box;
     padding: 16px;
@@ -17,7 +17,7 @@ export const ItemAsCardDiv = styled.div<ItemAsCardDivProps>`
         background-size: contain;
         height:auto;
         border-radius: 8px 8px 0px 0px;
-        background-color: ${(prop) => prop.theme["background-color"]};
+        background-color: ${(prop) => prop.theme.colors["background-color"]};
         padding-top: 100%;
     }
     .cardData {
@@ -73,7 +73,7 @@ export const ItemAsCardDiv = styled.div<ItemAsCardDivProps>`
         .title {
             grid-area: title;
             font-size: 1.25rem;
-            color: ${(prop) => prop.theme.white};
+            color: ${(prop) => prop.theme.colors.white};
             align-self: baseline;
             display: -webkit-box;               /* Usa o layout flexível baseado em caixas */
             -webkit-box-orient: vertical;       /* Orienta as caixas verticalmente */
@@ -89,7 +89,7 @@ export const ItemAsCardDiv = styled.div<ItemAsCardDivProps>`
             grid-area: category;
             font-size: 0.95rem;
             line-height: 1.5rem;
-            color: ${(prop) => prop.theme["button-background-color"]};
+            color: ${(prop) => prop.theme.colors["button-background-color"]};
         }
         .contentCreator {
             grid-area: contentCreator;
@@ -107,7 +107,7 @@ export const ItemAsCardDiv = styled.div<ItemAsCardDivProps>`
                 }
             }
             .creatorsName {
-                color: ${(prop) => prop.theme["button-background-color"]};
+                color: ${(prop) => prop.theme.colors["button-background-color"]};
                 line-height: 4rem;
                 overflow: hidden;
                 text-overflow: ellipsis;

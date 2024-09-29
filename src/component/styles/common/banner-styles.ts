@@ -2,9 +2,9 @@ import { BannerDivProps } from "@/component/interfaces";
 import styled from "styled-components";
 
 export const BannerDiv = styled.div<BannerDivProps>`
-    border: 1px solid ${(prop) => prop.theme["text-color"]};
-    background-color: ${(prop) => prop.theme["background-color"]};
-    color: ${(prop) => prop.theme["text-color-hover"]};
+    border: 1px solid ${(prop) => prop.theme.colors["text-color"]};
+    background-color: ${(prop) => prop.theme.colors["background-color"]};
+    color: ${(prop) => prop.theme.colors["text-color-hover"]};
     border-radius: 16px;
     box-sizing: border-box;
     padding: 1rem;
