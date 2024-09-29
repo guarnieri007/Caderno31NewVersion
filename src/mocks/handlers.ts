@@ -19,10 +19,10 @@ export const handlers = [
   http.get('/api/bestofmonth', () => {
     const list: ItemAsCardProps[] = [
       { cardId: 1, category: "Foot Worship", currency: "real", price: 15.05, profileImage: `${MediaImpact}`, creatorsName: "Media Impact Customs Gigante", image: `${MediaImpact}`, title: "Testing this new foot slave", mediaInfo: { amountAudios: 12, amountPhotos: 22, amountVideos: 32 } },
-      { cardId: 2, category: "Foot Worship", currency: "real", price: 5.05, profileImage: `${BratyPrincess}`, creatorsName: "Brat Princess 2", image: `${BratyPrincess}`, title: "Licking feet", mediaInfo: { amountAudios: 11, amountPhotos: 21, amountVideos: 31 } },
-      { cardId: 3, category: "Foot Worship", currency: "real", price: 25.30, profileImage: `${BratyFootGril}`, creatorsName: "Bratty Foot Girls", image: `${BratyFootGril}`, title: "Dirty feet", mediaInfo: { amountAudios: 12, amountPhotos: 24, amountVideos: 34 } },
-      { cardId: 4, category: "Foot Worship", currency: "real", price: 60.50, profileImage: `${Azukat_bg}`, creatorsName: "Gabi", image: `${FmConcepts}`, title: "Testing", mediaInfo: { amountAudios: 51, amountPhotos: 20, amountVideos: 1 } },
-      { cardId: 5, category: "Foot Worship", currency: "real", price: 7.05, profileImage: `${AmericaMeanGirls}`, creatorsName: "Dani Queen", image: `${RfStudio}`, title: "Testing", mediaInfo: { amountAudios: 21, amountPhotos: 12, amountVideos: 6 } },
+      { cardId: 2, category: "Foot Worship", currency: "real", price: 5.05, profileImage: `${BratyPrincess}`, creatorsName: "Brat Princess 2", image: `${BratyPrincess}`, title: "Licking feet", mediaInfo: { amountAudios: 0, amountPhotos: 2, amountVideos: 0 } },
+      { cardId: 3, category: "Foot Worship", currency: "real", price: 25.30, profileImage: `${BratyFootGril}`, creatorsName: "Bratty Foot Girls", image: `${BratyFootGril}`, title: "Dirty feet", mediaInfo: { amountAudios: 0, amountPhotos: 0, amountVideos: 1 } },
+      { cardId: 4, category: "Foot Worship", currency: "real", price: 60.50, profileImage: `${Azukat_bg}`, creatorsName: "Gabi", image: `${FmConcepts}`, title: "Testing", mediaInfo: { amountAudios: 1, amountPhotos: 2, amountVideos: 0 } },
+      { cardId: 5, category: "Foot Worship", currency: "real", price: 7.05, profileImage: `${AmericaMeanGirls}`, creatorsName: "Dani Queen", image: `${RfStudio}`, title: "Testing", mediaInfo: { amountAudios: 1, amountPhotos: 0, amountVideos: 6 } },
       { cardId: 6, category: "Foot Worship", currency: "real", price: 8.05, profileImage: `${Borderland}`, creatorsName: "Borderland Bound", image: `${Laptop_bg}`, title: "Testing", mediaInfo: { amountAudios: 12, amountPhotos: 21, amountVideos: 13 } },
       { cardId: 7, category: "Foot Worship", currency: "real", price: 10.40, profileImage: `${GGiA}`, creatorsName: "Gina", image: `${Computer_bg}`, title: "Testing", mediaInfo: { amountAudios: 13, amountPhotos: 3, amountVideos: 32 } },
     ]

@@ -17,7 +17,7 @@ export const ItemAsCard = ({ category, title, price, image, profileImage, creato
         return "$";
     }
 
-    const iconColor = useTheme().colors["text-color"];
+    const iconColor = useTheme().colors.white;
 
     return (
         <ItemAsCardDiv $bg_image={`url(${image})`}>
@@ -25,9 +25,9 @@ export const ItemAsCard = ({ category, title, price, image, profileImage, creato
             <div className="cardData">
                 <div className="cardAmountInfo">
 
-                    {amountVideos > 0 ? (<div><Icon icon={UIIcons.Video} size={30} color={iconColor} /> <span>{amountVideos}</span></div>) : null}
-                    {amountPhotos > 0 ? (<div><Icon icon={UIIcons.Photo} size={30} color={iconColor} /> <span>{amountPhotos}</span></div>) : null}
-                    {amountAudios > 0 ? (<div><Icon icon={UIIcons.Audio} size={30} color={iconColor} /> <span>{amountAudios}</span></div>) : null}
+                    {amountVideos > 0 ? (<div><Icon icon={UIIcons.Video} size={24} color={iconColor} /> <span>{amountVideos}</span></div>) : null}
+                    {amountPhotos > 0 ? (<div><Icon icon={UIIcons.Photo} size={24} color={iconColor} /> <span>{amountPhotos}</span></div>) : null}
+                    {amountAudios > 0 ? (<div><Icon icon={UIIcons.Audio} size={24} color={iconColor} /> <span>{amountAudios}</span></div>) : null}
                 </div>
                 <span className="price">
                     <Button color="primary" >{GetCurrencyText(currency)} {price}</Button>

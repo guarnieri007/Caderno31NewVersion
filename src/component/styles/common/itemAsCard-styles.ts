@@ -53,6 +53,7 @@ export const ItemAsCardDiv = styled.div<ItemAsCardDivProps>`
                     height:auto;
                 }
                 span {
+                    color: ${(prop) => prop.theme.colors["text-color"]};
                     width: auto;
                     height: 100%;
                     line-height: 32px;
