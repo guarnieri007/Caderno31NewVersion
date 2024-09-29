@@ -11,7 +11,7 @@ import FmConcepts from "@/assets/images/teste/avatar_md_1291.jpg"
 import MediaImpact from "@/assets/images/teste/avatar_md_5309.jpg"
 import GGiA from "@/assets/images/teste/avatar_md_9079.jpg"
 import AmericaMeanGirls from "@/assets/images/teste/avatar_md_3627.jpg"
-import { ItemAsCardProps } from '@/component/interfaces';
+import { CreatorChipProps, ItemAsCardProps } from '@/component/interfaces';
 
 // Aqui você define os endpoints que serão simulados
 export const handlers = [
@@ -28,5 +28,59 @@ export const handlers = [
     ]
     return HttpResponse.json(Array.from(list));
   }),
+
+  http.get('api/contentCreator', () => {
+    const list: CreatorChipProps[] = [
+      {
+        id: 1,
+        category: "Footjob",
+        title: "Bratty Foot Girls",
+        image: BratyFootGril,
+      },
+      {
+        id: 2,
+        title: "Brat Princess 2",
+        category: "Cum Eating Instruction",
+        image: BratyPrincess,
+      },
+      {
+        id: 3,
+        title: "Media Impact Customs Gigante",
+        category: "Giantess",
+        image: MediaImpact,
+      },
+      {
+        id: 4,
+        title: "Borderland Bound",
+        category: "Bondage",
+        image: Borderland,
+      },
+      {
+        id: 5,
+        title: "RF studio production",
+        category: "Tickling",
+        image: RfStudio,
+      },
+      {
+        id: 6,
+        title: "AMERICAN MEAN GIRLS",
+        category: "Whipping",
+        image: AmericaMeanGirls,
+      },
+      {
+        id: 7,
+        title: "FM Concepts 1080p Bondage Store",
+        category: "Bondage",
+        image: FmConcepts,
+      },
+      {
+        id: 8,
+        title: "Grappling Girls in Action",
+        category: "Mixed Wrestling",
+        image: GGiA,
+      },
+    ]
+    return HttpResponse.json(Array.from(list));
+  })
 
 ];
