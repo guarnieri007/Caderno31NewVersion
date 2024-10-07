@@ -4,4 +4,9 @@ export enum UIIcons {
     Photo,
     RecEmpty,
     Video,
+    IdCard,
+    Key,
+    Letter,
+    Lock,
+    User,
 }

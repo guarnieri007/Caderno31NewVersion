@@ -1,56 +1,37 @@
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, ReactNode, useEffect, useState } from "react";
 import { Hero } from "../common/hero";
 import FaceImage from "@/assets/images/face.png";
 import { ItemsColections } from "../common/items-colections";
 import { HomeDiv } from "./home-styles";
-import { MiniBannerLayout } from "../common/miniBannerLayout";
-import { BannerProps } from "../interfaces";
-import { Banner } from "../common/banner";
-import Computer_bg from "@/assets/images/teste/minibanner/computer_bg.png";
-import Laptop_bg from "@/assets/images/teste/minibanner/laptop_bg.png";
-import Azukat_bg from "@/assets/images/teste/minibanner/azukat.jpg";
-import { fetchBestOfMonth, fetchContentCreators } from "@/api/backendApi";
+import { FetchBanners, FetchBestOfMonth, FetchContentCreators } from "@/api/backendApi";
+import { HeroProps } from "../interfaces";
+import { Carrousel } from "../common/carrousel";
 
 export const Home = (): ReactElement => {
     const [dataBestOfTheMonth, setDataBestOfTheMonth] = useState<React.JSX.Element>();
     const [collectionContentCreators, setCollectionContentCreators] = useState<React.JSX.Element>();
+    const [bannerItems, setBannerItems] = useState<React.JSX.Element>();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-
-    //it will be the variable with all the bannerItems that we want to render on the MiniBannerLayout
-    const bannerItems: ReactElement[] = [];
-
-    //Should grab the information from the api server
-    const bannerData = [
-        { buttonText: "Create Account", image: `url(${Computer_bg})`, title: "Become a creator", text: "Turn your kink into money!" } as BannerProps,
-        { buttonText: "Sign up", image: `url(${Laptop_bg})`, title: "Join Caderno31", text: "Signup for free and enjoy customer benefits" } as BannerProps,
-        { buttonText: "See more", image: `url(${Azukat_bg})`, title: "The top categorie", text: "Enjoy the foot worship category" } as BannerProps,
-    ];
-
-    //for each item, we should transform to the element we want to render on the screen and push each item to the bannerItems const
-    bannerData.forEach(element => {
-        const item = <Banner buttonText={element.buttonText} image={element.image} text={element.text} title={element.title} />
-        bannerItems.push(item);
-    });
+    const [heroBanners, setHeroBanners] = useState<ReactNode[]>([]);
 
     useEffect(() => {
+
         const getBestOfMonthData = async () => {
             try {
-                // Aguarde a resposta da API
-                const result = await fetchBestOfMonth();
+                // Waiting the answer from API
+                const result = await FetchBestOfMonth();
                 setDataBestOfTheMonth(result); // Atualize o estado com os dados recebidos
             } catch (error) {
                 setError(`Error on load the Best of the Month data:\n${error}`);
             } finally {
                 setLoading(false); // Quando terminar, setar loading para false
             }
-        };
-
-        
+        };        
         const getCollectionContentCreators = async () => {
             setLoading(true);
             try {
-                const result = await fetchContentCreators();
+                const result = await FetchContentCreators();
                 setCollectionContentCreators(result);
             }
             catch (error) {
@@ -60,10 +41,48 @@ export const Home = (): ReactElement => {
                 setLoading(false);
             }
         };
+        const getBannersData = async () => {
+            setLoading(true);
+            try {
+                const result = await FetchBanners();
+                setBannerItems(result);
+            }
+            catch (error) {
+                setError((last) => `${last}\n\nError on load the Collection Content Creators data:\n${error}`)
+            }
+            finally {
+                setLoading(false);
+            }
+        };
         
         getBestOfMonthData();
         getCollectionContentCreators();
-        
+        getBannersData();
+        const heroData:HeroProps[] = [
+            {
+                heroId: 1,
+                $bgcolor: "#030303",
+                buttonText: "See more",
+                text: "Explore trending posts now.",
+                title: "Discover the latest posts & engage with content!",
+                image: FaceImage
+            },
+            {
+                heroId: 2,
+                $bgcolor: "#102048",
+                buttonText: "See more",
+                text: "Second banner hero",
+                title: "Created the carrousel for the site!",
+                image: FaceImage
+            }
+        ]
+
+        setHeroBanners(heroData.map((item) => {
+            return(
+                <Hero key={item.heroId} {...item} />
+            )
+        }));
+
     }, []);
 
     if (loading) {
@@ -76,21 +95,12 @@ export const Home = (): ReactElement => {
 
     return (
         <HomeDiv>
-            <div className="defaultPadding">
-                <Hero
-                    $bgcolor="#030303"
-                    buttonText="Clica aqui"
-                    text="Explore trending posts now."
-                    title="Discover the latest posts & engage with content!"
-                    image={FaceImage}
-                />
-                <div>
-
-                </div>
-            </div>
+            <Carrousel>
+                {Array.from(heroBanners)}
+            </Carrousel>
 
             <div className="defaultPadding">
-                <MiniBannerLayout items={bannerItems} />
+                {bannerItems}
             </div>
 
             <div className="defaultPadding">

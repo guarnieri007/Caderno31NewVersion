@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 import { ButtonProps } from "../../common/inputs";
 interface ButtonStyledProps {
   $buttontheme: ButtonProps["color"];

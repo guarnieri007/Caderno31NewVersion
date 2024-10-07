@@ -10,8 +10,11 @@ export const darkTheme = {
       "button-text-color": "#030303cc",
       "button-text-color_hover": "#030303",
       "button-background-color": "#B9BECC",
+      "placeHolder-color": "#94a3b8"
     },
     spacings: {
       "main-padding": "56px",
     }
   } as const
+
+  

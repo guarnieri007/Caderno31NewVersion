@@ -68,4 +68,10 @@ body
       margin: 40px auto 0px;
     }
   }
+
+  .signupForm {
+    width: min(90%, 500px);
+    display: block;
+    margin: 24px auto;
+  }
 `

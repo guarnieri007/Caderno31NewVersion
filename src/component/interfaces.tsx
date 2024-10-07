@@ -1,6 +1,8 @@
 import { ReactNode } from "react";
+import { UIIcons } from "./icons";
 
 export interface HeroProps {
+    heroId: number;
     title?: string;
     text?: string;
     buttonText?: string;
@@ -52,4 +54,14 @@ export interface ItemAsCardProps {
     profileImage: string;
     mediaInfo: MediaInformation;
     currency: "real" | "dolar";
+}
+
+export interface CarrouselProps {
+    children: ReactNode[];
+}
+
+export interface InputFIeldProps {
+    label: string;
+    placeHolder: string;
+    icon: UIIcons | null;
 }
