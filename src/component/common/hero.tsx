@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { Button } from "./inputs";
+import { Button } from "./button";
 import { HeroProps } from "@/component/interfaces";
 import { HeroHeader } from "../styles/common/common-styles";
 

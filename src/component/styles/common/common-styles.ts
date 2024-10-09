@@ -1,7 +1,8 @@
 import styled from "styled-components";
-import { ButtonProps } from "../../common/inputs";
+import { ButtonProps } from "../../common/button";
 interface ButtonStyledProps {
   $buttontheme: ButtonProps["color"];
+  $width: string | undefined;
 }
 
 export const ButtonStyled = styled.button<ButtonStyledProps>`
@@ -18,6 +19,7 @@ export const ButtonStyled = styled.button<ButtonStyledProps>`
   font-weight: 500;
   line-height: 18px;
   outline: none;
+  width: ${(prop) => prop.$width !== null ? prop.$width : "initial"};
   color: ${(prop) => prop.theme.colors["button-text-color"]};
   background-color: ${(prop) => prop.$buttontheme === "primary" ? prop.theme.colors["primary-color"] : prop.theme.colors["button-background-color"]};
   
@@ -72,7 +74,7 @@ export const HeroHeader = styled.header<HeroHeaderProps>`
     padding: 0px;
     margin-top: 0;
     max-width: min(950px, 60%);
-    color: ${(prop) => prop.theme.colors.white};
+    color: ${(prop) => prop.theme.colors["text-color-hover"]};
     font-size: 48px;
     font-weight: 800;
     line-height: 62px;
@@ -83,7 +85,7 @@ export const HeroHeader = styled.header<HeroHeaderProps>`
 
   p {
     margin-top: 20px;
-    color: ${(prop) => prop.theme.colors.white};
+    color: ${(prop) => prop.theme.colors["text-color-hover"]};
     font-size: 18px;
     line-height: 22px;
   }
@@ -97,7 +99,7 @@ export const ItemsColectionsDiv = styled.div`
   margin-bottom: 5rem;
 
   h2 {
-    color: ${(prop) => prop.theme.colors.white};
+    color: ${(prop) => prop.theme.colors["text-color-hover"]};
     font-size: 24px;
     font-family: "Gelasio";
     font-weight: 800;
@@ -129,7 +131,7 @@ export const CreatorChipDiv = styled.div`
     width: 100%;
 
     h2 {
-      color: ${(prop) => prop.theme.colors.white};
+      color: ${(prop) => prop.theme.colors["text-color-hover"]};
       font-size: 1rem;
       line-height: 1rem;
       display: -webkit-box;               /* Usa o layout flexível baseado em caixas */

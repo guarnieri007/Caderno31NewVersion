@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { ItemAsCardDiv } from "../styles/common/itemAsCard-styles";
 import { ItemAsCardProps } from "../interfaces";
-import { Button } from "./inputs";
+import { Button } from "./button";
 import Icon from "../icons/icon";
 import { UIIcons } from "../icons";
 import { useTheme } from "styled-components";
@@ -17,7 +17,7 @@ export const ItemAsCard = ({ category, title, price, image, profileImage, creato
         return "$";
     }
 
-    const iconColor = useTheme().colors.white;
+    const iconColor = useTheme().colors["text-color-hover"];
 
     return (
         <ItemAsCardDiv $bg_image={`url(${image})`}>

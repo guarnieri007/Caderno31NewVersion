@@ -129,7 +129,7 @@ export const HeaderComponent = styled.header`
                 fill: ${(prop) =>prop.theme.colors["text-color"]};
             }
             &.active svg {
-                fill: ${(prop) =>prop.theme.colors.white};
+                fill: ${(prop) =>prop.theme.colors["text-color-hover"]};
             }
 
             .title {
@@ -141,7 +141,7 @@ export const HeaderComponent = styled.header`
             }
 
             &.active .title {
-                color: ${(prop) =>prop.theme.colors.white};
+                color: ${(prop) =>prop.theme.colors["text-color-hover"]};
             }
         }
 
@@ -175,7 +175,7 @@ export const HeaderComponent = styled.header`
             }
         }
         a.active {
-            color: ${(prop) =>prop.theme.colors.white};
+            color: ${(prop) =>prop.theme.colors["text-color-hover"]};
         }
     }
 

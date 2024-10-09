@@ -2,7 +2,8 @@ import React, { ReactElement } from "react";
 import { SignUpPage } from "../styles/pages/signup";
 import { InputFIeld } from "../common/input-field";
 import { UIIcons } from "../icons";
-import { Button } from "../common/inputs";
+import { Button } from "../common/button";
+import signup_bg from "@/assets/images/signup_bg.png";
 
 export const SignUp = (): ReactElement => {
 
@@ -11,12 +12,11 @@ export const SignUp = (): ReactElement => {
         // Adicione aqui as validações antes de enviar o formulário
         console.log("Formulário submetido!");
     }
-    
+
 
     return (
-        <SignUpPage>
+        <SignUpPage $bg_image={signup_bg}>
             <div className="photo">
-                foto
             </div>
             <div className="form">
                 <h1>
@@ -51,9 +51,12 @@ export const SignUp = (): ReactElement => {
                         label="Confirm password"
                         placeHolder="Type again the same password"
                     />
-                    <input type="checkbox" name="termsAndConditions" />
-                    <span>I agree with terms and Privacy Policy</span>
-                    <Button color="primary"> Get started</Button>
+                    <div className="termsContainer">
+                        <input type="checkbox" name="termsAndConditions" id="termsAndConditions" />
+                        <label htmlFor="termsAndConditions" className="terms">I agree with terms and Privacy Policy</label>
+                    </div>
+
+                    <Button width={"100%"} color="primary" type="submit"> Get started</Button>
                 </form>
             </div>
 

@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import { ItemsColectionsProps } from "@/component/interfaces"
-import { Button } from "./inputs";
+import { Button } from "./button";
 import { ItemsColectionsDiv } from "../styles/common/common-styles";
 
 export const ItemsColections = ({ title, children }: ItemsColectionsProps): ReactElement => {

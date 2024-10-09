@@ -74,7 +74,7 @@ export const ItemAsCardDiv = styled.div<ItemAsCardDivProps>`
         .title {
             grid-area: title;
             font-size: 1.25rem;
-            color: ${(prop) => prop.theme.colors.white};
+            color: ${(prop) => prop.theme.colors["text-color-hover"]};
             align-self: baseline;
             display: -webkit-box;               /* Usa o layout flexível baseado em caixas */
             -webkit-box-orient: vertical;       /* Orienta as caixas verticalmente */
