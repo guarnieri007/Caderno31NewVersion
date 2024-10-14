@@ -63,5 +63,8 @@ export interface CarrouselProps {
 export interface InputFIeldProps {
     label: string;
     placeHolder: string;
-    icon: UIIcons | null;
+    icon?: UIIcons;
+    instructionsLabel?: string;
+    instructions?: string[];
+    errors?: string[];
 }

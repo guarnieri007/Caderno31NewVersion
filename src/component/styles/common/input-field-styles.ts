@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const InputFieldContent = styled.div`
     width: 100%;
-    height: 72px;
+    height: auto;
     display: flex;
     flex-direction: column;
     margin: 32px auto;
@@ -19,6 +19,9 @@ export const InputFieldContent = styled.div`
     }
     .input-holder {
         position: relative;
+        height: auto;
+        width: 100%;
+        z-index: 2;
         
         input[type="text"] {
             height: 48px;
@@ -46,6 +49,29 @@ export const InputFieldContent = styled.div`
             position: absolute;
             right: 16px;
             bottom: 15px;
+        }
+
+    }
+
+    .instructions {
+        display: block;
+        width: 100%;
+        will-change: max-height;
+        transform: translateY(-4px);
+        z-index: 1;
+        overflow: hidden;
+        transition: max-height 400ms ease-in-out;
+        tr {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            box-sizing: border-box;
+            background-color: ${(prop) => prop.theme.colors["background-color"]};
+            li {
+                padding: 0px 8px;
+                margin: 0px 16px;
+                color: ${(prop) => prop.theme.colors["text-color-hover"]};
+            }
         }
     }
 

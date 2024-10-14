@@ -30,6 +30,7 @@ export const SignUp = (): ReactElement => {
                         icon={UIIcons.IdCard}
                         label="Nickname"
                         placeHolder="Choose a unique nickname"
+                        instructions={["Must be a unique nickname", "should have up to 60 characteres"]}
                     />
                     <InputFIeld
                         icon={UIIcons.Letter}
