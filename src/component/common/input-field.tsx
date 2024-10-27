@@ -2,10 +2,10 @@ import React, { useState, ReactNode } from "react";
 import { InputFieldContent } from "../styles/common/input-field-styles";
 import { InputFIeldProps } from "../interfaces";
 import Icon from "../icons/icon";
-import { useTheme } from "styled-components";
 
-export const InputFIeld = ({ icon, label, placeHolder, instructions, errors }: InputFIeldProps): ReactNode => {
-    const Theme = useTheme().colors;
+export const InputFIeld = ({ icon, label, placeHolder, instructions, maxLength, name, type, errors }: InputFIeldProps): ReactNode => {
+    const hasErrors: boolean = errors !== undefined && errors.length > 0;
+    const [inputValue, setInputValue] = useState<HTMLInputElement["value"]>("");
 
     // Estado para controlar o foco do input
     const [isFocused, setIsFocused] = useState(false);
@@ -20,35 +20,44 @@ export const InputFIeld = ({ icon, label, placeHolder, instructions, errors }: I
         setIsFocused(false);
     };
 
-    const showDivOnFocus = {
-        maxHeight: isFocused ? "400px" : "0px",
-    };
-    
+    const setValue = (event: React.ChangeEvent<HTMLInputElement>) => {
+        event.preventDefault();
+        setInputValue(event.target.value);
+    }
+
 
     return (
-        <InputFieldContent>
-            <label htmlFor={`${label}`}>{label}</label>
-            <div className="input-holder">
-                <input
-                    name={`${label}`}
-                    id={`${label}`}
-                    type="text"
-                    placeholder={placeHolder}
-                    onFocus={handleFocus}  // Chama a função ao focar
-                    onBlur={handleBlur}    // Chama a função ao desfocar
-                />
-
-                {icon !== null && icon !== undefined && (
-                    <Icon
-                        icon={icon}
-                        // Condiciona a cor do ícone com base no estado de foco
-                        color={isFocused ? Theme["text-color-hover"] : Theme["text-color"]}
-                        size={16}
+        <InputFieldContent hasErrors={hasErrors} isFocused={isFocused}>
+            <div className="holder">
+                <label htmlFor={`${label}`}>{label}</label>
+                <div className="input-holder">
+                    <input
+                        name={`${name}`}
+                        id={`${label}`}
+                        type={type !== undefined ? type : "text"}
+                        placeholder={placeHolder}
+                        onFocus={handleFocus}  // Chama a função ao focar
+                        onBlur={handleBlur}    // Chama a função ao desfocar
+                        onChange={(e) => setValue(e)}
+                        value={inputValue}
+                        maxLength={maxLength}
                     />
-                )}
-            </div>
+
+                    {icon !== null && icon !== undefined && (
+                        <Icon
+                            icon={icon}
+                            // Condiciona a cor do ícone com base no estado de foco
+                            size={16}
+                        />
+                    )}
+                </div>
+                <div className="characters">
+                    <p>
+                        {inputValue.length} / {maxLength}
+                    </p>
+                </div>
                 {instructions !== null && instructions !== undefined && (
-                    <div className="instructions" style={showDivOnFocus}>
+                    <div className="instructions expand">
                         <tr>
                             {instructions?.map((instruction) => {
                                 return <li>{instruction}</li>
@@ -56,6 +65,16 @@ export const InputFIeld = ({ icon, label, placeHolder, instructions, errors }: I
                         </tr>
                     </div>
                 )}
+                {hasErrors && (
+                    <div>
+                        <tr className="instructions errors">
+                            {errors?.map((error) => {
+                                return <li>{error}</li>
+                            })}
+                        </tr>
+                    </div>
+                )}
+            </div>
         </InputFieldContent>
     );
 };

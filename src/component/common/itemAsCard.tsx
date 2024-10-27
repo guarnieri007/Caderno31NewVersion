@@ -17,7 +17,7 @@ export const ItemAsCard = ({ category, title, price, image, profileImage, creato
         return "$";
     }
 
-    const iconColor = useTheme().colors["text-color-hover"];
+    const iconColor = useTheme().colors["text_hover"];
 
     return (
         <ItemAsCardDiv $bg_image={`url(${image})`}>

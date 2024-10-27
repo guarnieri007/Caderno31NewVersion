@@ -6,7 +6,8 @@ export const CarrouselMainDiv = styled.div`
     .content {
         display: flex;
         flex-direction: row;
-
+        padding: ${(prop) => prop.theme.spacings.normal} ${(prop) => prop.theme.spacings["main-padding"]};
+        
         .carrousel-item {
             width: 100%;
         }
@@ -15,7 +16,7 @@ export const CarrouselMainDiv = styled.div`
         padding-top: 0px;
         display: flex;
         flex-direction: row;
-
+        
         span {
             margin: 0px 8px;
             min-width: 80px;
@@ -23,7 +24,7 @@ export const CarrouselMainDiv = styled.div`
             line-height: 33px;
         }
         button {
-            padding: 6px 8px;
+            padding: ${(prop) => prop.theme.spacings.min} ${(prop) => prop.theme.spacings.small};
             height: min-content;
         }
         button.previous-button {
@@ -31,6 +32,11 @@ export const CarrouselMainDiv = styled.div`
         }
         button.next-button {
             margin-right: auto;
+        }
+    }
+    @media (max-width: 768px) {
+        .content {
+            padding: ${(prop) => prop.theme.spacings.normal};
         }
     }
 `;

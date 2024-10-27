@@ -18,7 +18,6 @@ export const ContentContainer = styled.main`
     width: 100%;
     box-sizing: border-box;
     padding: 0px;
-    padding-bottom: 42px;
 `
 
 export const FooterContainer = styled.div`
@@ -27,61 +26,82 @@ export const FooterContainer = styled.div`
     height: auto;
     min-height: 40px;
     width: 100%;
-    background-color: ${(prop) => prop.theme.colors["background-color"]};
-    padding: 12px ${(prop) => prop.theme.spacings["main-padding"]};
+    background-color: ${(prop) => prop.theme.colors.background_primary};
+    padding: 0px;
 
     .footerContainer {
         display: flex;
         flex-direction: row;
-        align-items: center;
-        gap: 16px;
+        gap: 0px;
+        height: auto;
 
         .footerLeft {
-            flex-grow: 1;
+            padding: ${(prop) => prop.theme.spacings.normal} 0px;
+            padding-bottom: 0px;
             display: flex;
+            flex-grow: 1;
             flex-direction: column;
-            align-items: normal;
-
-            h1 {
-                color: #ffffff;
-                font-size: 20px;
-                font-family: "Gelasio";
-                font-weight: 500;
-                line-height: 30px;
-                margin: 0px;
-                align-self: center;
-            }
-            p {
-                align-self: center;
-                color: #ffffff;
-                font-size: 12px;
-                font-family: "Gelasio";
-                font-weight: 300;
-                line-height: 16px;
-                margin: 0px;
-            }
-            div {
+            width: 100%;
+            flex-wrap: nowrap;
+            height: auto;
+            border-right: 1px dashed ${(prop) => prop.theme.colors.text};
+            
+            .top {
+                width: 100%;
+                height: auto;
+                text-align: center;
                 flex-grow: 1;
-                margin-top: 32px;
-                span {
-                    color: #ffffff;
+                border-bottom: 1px dashed ${(prop) => prop.theme.colors.text};
+                h1 {
+                    color: ${(prop) => prop.theme.colors.text_hover};
+                    font-size: 20px;
+                    font-family: "Gelasio";
+                    font-weight: 500;
+                    line-height: 30px;
+                    margin: 0px;
+                    align-self: center;
+                }
+                p {
+                    align-self: center;
+                    color: ${(prop) => prop.theme.colors.text};
                     font-size: 12px;
                     font-family: "Gelasio";
                     font-weight: 300;
                     line-height: 16px;
+                    margin: 0px;
+                }
+            }
+
+            .bottom {
+                width: 100%;
+                height: auto;
+                
+                text-align: center;
+                align-content: center;
+                border-top: 1px dotted ${(prop) => prop.theme.colors.text};
+                span {
+                    display: block;
+                    color: ${(prop) => prop.theme.colors.text};
+                    font-size: 12px;
+                    font-family: "Gelasio";
+                    font-weight: 300;
+                    line-height: ${(prop) => prop.theme.spacings.normal};
+                    padding: ${(prop) => prop.theme.spacings.min} 0px;
                 }
                 
             }
         }
 
         .footerRight {
+            padding: ${(prop) => prop.theme.spacings.normal} ${(prop) => prop.theme.spacings["main-padding"]};
             display: flex;
             flex-direction: column;
             align-items: end;
             gap: 8px;
+            border-left: 1px dotted ${(prop) => prop.theme.colors.text_hover}; 
 
             a {
-                color: #ffffff;
+                color: ${(prop) => prop.theme.colors.button_background};
                 font-size: 12px;
                 font-family: "Gelasio";
                 font-weight: 500;
@@ -96,6 +116,29 @@ export const FooterContainer = styled.div`
 
 export const HeaderComponent = styled.header`
 
+    @media (max-width: 768px) {
+        max-width: 100%;
+        flex-direction: column;
+        padding: 12px ${(prop) => prop.theme.spacings.normal};
+        .right {
+            align-items: flex-end;
+            top: 10px;
+            height: auto;
+            width: 100%;
+            flex-direction: row !important;
+            :first-child {
+                margin-right: auto;
+            }
+
+            :last-child {
+                margin-left: auto;
+            }
+        }
+        .left {
+            display: flex;
+        }
+    }
+
     //position: sticky;
     z-index: 1;
     top: 0px;
@@ -108,8 +151,8 @@ export const HeaderComponent = styled.header`
     width: 100%;
     //min-height: 96px;
     height: auto;
-    background-color: ${(prop) => prop.theme.colors["background-color"]};
-    border-bottom: solid ${(prop) => prop.theme.colors["button-text-color_hover"]} 3px;
+    background-color: ${(prop) => prop.theme.colors.background_primary};
+    border-bottom: solid ${(prop) => prop.theme.colors.button_text_hover} 3px;
 
     .left {
         display: inherit;
@@ -126,14 +169,14 @@ export const HeaderComponent = styled.header`
             align-items: center;
 
             svg {
-                fill: ${(prop) =>prop.theme.colors["text-color"]};
+                fill: ${(prop) => prop.theme.colors.text};
             }
             &.active svg {
-                fill: ${(prop) =>prop.theme.colors["text-color-hover"]};
+                fill: ${(prop) => prop.theme.colors.text_hover};
             }
 
             .title {
-                color: ${(prop) =>prop.theme.colors["text-color"]};
+                color: ${(prop) => prop.theme.colors.text};
                 font-size: 20px;
                 font-family: "Gelasio";
                 font-weight: 800;
@@ -141,13 +184,13 @@ export const HeaderComponent = styled.header`
             }
 
             &.active .title {
-                color: ${(prop) =>prop.theme.colors["text-color-hover"]};
+                color: ${(prop) => prop.theme.colors.text_hover};
             }
         }
 
 
         a {
-            color: ${(prop) =>prop.theme.colors["text-color"]};
+            color: ${(prop) => prop.theme.colors.text};
             font-size: 16px;
             font-family: "Gelasio";
             font-weight: 500;
@@ -161,7 +204,7 @@ export const HeaderComponent = styled.header`
             }
 
             .active {
-                color: ${(prop) =>prop.theme.colors["primary-color"]};
+                color: ${(prop) => prop.theme.colors.primary};
             }
 
             &:hover:after, &:focus::after {
@@ -171,11 +214,11 @@ export const HeaderComponent = styled.header`
                 left: 0px;
                 width: 100%;
                 height: 2px;
-                background-color: ${(prop) => prop.theme.colors["button-text-color_hover"]};
+                background-color: ${(prop) => prop.theme.colors.button_text_hover};
             }
         }
         a.active {
-            color: ${(prop) =>prop.theme.colors["text-color-hover"]};
+            color: ${(prop) => prop.theme.colors.text_hover};
         }
     }
 

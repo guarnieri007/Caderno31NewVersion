@@ -21,7 +21,7 @@ export const Carrousel = ({ children }: CarrouselProps): ReactElement => {
 
     return (
         <CarrouselMainDiv>
-            <div className="content defaultPadding">
+            <div className="content">
                 {childrenArray.length > 0 && (
                     <>
                     <div className="carrousel-item">

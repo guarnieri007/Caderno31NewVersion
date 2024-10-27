@@ -99,7 +99,7 @@ export const Home = (): ReactElement => {
                 {Array.from(heroBanners)}
             </Carrousel>
 
-            <div className="defaultPadding">
+            <div className="defaultPadding grid3items">
                 {bannerItems}
             </div>
 

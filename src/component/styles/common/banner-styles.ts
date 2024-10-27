@@ -2,9 +2,9 @@ import { BannerDivProps } from "@/component/interfaces";
 import styled from "styled-components";
 
 export const BannerDiv = styled.div<BannerDivProps>`
-    border: 1px solid ${(prop) => prop.theme.colors["text-color"]};
-    background-color: ${(prop) => prop.theme.colors["background-color"]};
-    color: ${(prop) => prop.theme.colors["text-color-hover"]};
+    border: 1px solid ${(prop) => prop.theme.colors.text};
+    background-color: ${(prop) => prop.theme.colors.background_primary};
+    color: ${(prop) => prop.theme.colors.text_hover};
     border-radius: 16px;
     box-sizing: border-box;
     padding: 1rem;
@@ -13,7 +13,7 @@ export const BannerDiv = styled.div<BannerDivProps>`
     flex-direction: row;
     
     background-image: ${(prop) => prop.$bg_image
-        ? `linear-gradient(rgba(31, 36, 46, 0.8), rgba(31, 36, 46, 0.8)), ${prop.$bg_image}`
+        ? `linear-gradient(rgba(31, 36, 46, 0.4), rgba(31, 36, 46, 0.5)), ${prop.$bg_image}`
         : null};
     
     background-position: right;
@@ -32,6 +32,16 @@ export const BannerDiv = styled.div<BannerDivProps>`
             flex-grow: 1;
             font-size: 1.25rem;
             text-align: center;
+        }
+    }
+    @media (max-width: 768px) {
+        display: block !important;
+        > div {
+            width: 100%;
+            height: 100%;
+            h2 {
+                flex-grow: 1;   
+            }
         }
     }
 `;

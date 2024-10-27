@@ -5,8 +5,8 @@ export interface ItemAsCardDivProps {
 }
 
 export const ItemAsCardDiv = styled.div<ItemAsCardDivProps>`
-    background-color: ${(prop) => prop.theme.colors["button-text-color"]};
-    color: ${(prop) => prop.theme.colors["text-color"]};
+    background-color: ${(prop) => prop.theme.colors.button_text};
+    color: ${(prop) => prop.theme.colors.text};
     border-radius: 16px 16px 0px 0px;
     box-sizing:border-box;
     padding: 16px;
@@ -17,7 +17,7 @@ export const ItemAsCardDiv = styled.div<ItemAsCardDivProps>`
         background-size: contain;
         height:auto;
         border-radius: 8px 8px 0px 0px;
-        background-color: ${(prop) => prop.theme.colors["background-color"]};
+        background-color: ${(prop) => prop.theme.colors.background_primary};
         padding-top: 100%;
     }
     .cardData {
@@ -53,7 +53,7 @@ export const ItemAsCardDiv = styled.div<ItemAsCardDivProps>`
                     height:auto;
                 }
                 span {
-                    color: ${(prop) => prop.theme.colors["text-color"]};
+                    color: ${(prop) => prop.theme.colors.text};
                     width: auto;
                     height: 100%;
                     line-height: 32px;
@@ -74,7 +74,7 @@ export const ItemAsCardDiv = styled.div<ItemAsCardDivProps>`
         .title {
             grid-area: title;
             font-size: 1.25rem;
-            color: ${(prop) => prop.theme.colors["text-color-hover"]};
+            color: ${(prop) => prop.theme.colors.text_hover};
             align-self: baseline;
             display: -webkit-box;               /* Usa o layout flexível baseado em caixas */
             -webkit-box-orient: vertical;       /* Orienta as caixas verticalmente */
@@ -90,7 +90,7 @@ export const ItemAsCardDiv = styled.div<ItemAsCardDivProps>`
             grid-area: category;
             font-size: 0.95rem;
             line-height: 1.5rem;
-            color: ${(prop) => prop.theme.colors["button-background-color"]};
+            color: ${(prop) => prop.theme.colors.button_background};
         }
         .contentCreator {
             grid-area: contentCreator;
@@ -108,7 +108,7 @@ export const ItemAsCardDiv = styled.div<ItemAsCardDivProps>`
                 }
             }
             .creatorsName {
-                color: ${(prop) => prop.theme.colors["button-background-color"]};
+                color: ${(prop) => prop.theme.colors.button_background};
                 line-height: 4rem;
                 overflow: hidden;
                 text-overflow: ellipsis;

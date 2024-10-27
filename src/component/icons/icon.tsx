@@ -18,7 +18,7 @@ const Icon = ({ icon, ...rest }: IconProps): ReactElement => {
   const attr: React.SVGAttributes<SVGElement> = {
     width: rest.size,
     height: rest.size,
-    fill: rest.color,
+    fill: rest.color !== undefined ? rest.color : "#fff",
     ...rest,
   };
   
@@ -45,7 +45,7 @@ export default Icon;
 export interface IconProps {
   icon: UIIcons;
   size: number;
-  color: string;
+  color?: string;
   className?: string;
   style?: CSSProperties;
   onClick?: MouseEventHandler<SVGElement>;

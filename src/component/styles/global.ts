@@ -8,8 +8,8 @@ export const GlobalStyle = createGlobalStyle`
         font-weight: 400;
 
         color-scheme: light dark;
-        color: ${(prop) => prop.theme.colors['text-color']};
-        background-color: ${(prop) => prop.theme.colors['background-secondary']};
+        color: ${(prop) => prop.theme.colors['text']};
+        background-color: ${(prop) => prop.theme.colors['background_secondary']};
 
         font-synthesis: none;
         text-rendering: optimizeLegibility;

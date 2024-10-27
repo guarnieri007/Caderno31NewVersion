@@ -2,18 +2,20 @@ import React from "react";
 import { FooterContainer } from "@/AppStyled";
 
 export const Footer = () => {
-    return(
+    return (
         <FooterContainer>
             <div className="footerContainer">
                 <div className="footerLeft">
-                    <h1>
-                       Your secret is safe with us ;) 
-                    </h1>
-                    <p>
-                        The place you can be yourself
-                    </p>
-                    <div>
-                        <span>Caderno31 © 2021</span>
+                    <div className="top">
+                        <h1>
+                            Your secret is safe with us ;)
+                        </h1>
+                        <p>
+                            The place you can be yourself
+                        </p>
+                    </div>
+                    <div className="bottom">
+                        <span>Caderno31 © 2024</span>
                     </div>
                 </div>
                 <div className="footerRight">
