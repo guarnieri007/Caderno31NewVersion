@@ -85,7 +85,7 @@ export const InputFieldContent = styled.div<InputFieldArguments>`
         z-index: 1;
         overflow: hidden;
         box-sizing: border-box;
-        transition: max-height 300ms ease-in-out, margin 350ms ease-in-out;
+        transition: max-height 400ms ease-in-out, margin 450ms ease-in-out;
 
         tr {
             display: block;

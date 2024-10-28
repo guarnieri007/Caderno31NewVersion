@@ -5,6 +5,8 @@ import { UIIcons } from "../icons";
 import { Button } from "../common/button";
 import signup_bg from "@/assets/images/signup_bg.png";
 import { z } from "zod";
+import axios from 'axios';
+
 
 // Define o esquema de validação com Zod
 const signUpSchema = z.object({
@@ -19,12 +21,42 @@ const signUpSchema = z.object({
   path: ["confirmPassword"],
 });
 
+async function getCsrfToken() {
+  try {
+      await axios.get('http://localhost:8000/sanctum/csrf-cookie', {
+          withCredentials: true
+      });
+      console.log('CSRF token obtido com sucesso!');
+  } catch (error) {
+      console.error('Erro ao obter o CSRF token:', error);
+  }
+}
+
+async function login(email: string, password: string) {
+  try {
+      // Primeiro, obtenha o token CSRF
+      await getCsrfToken();
+
+      // Depois, faça a requisição de login
+      const response = await axios.post('http://localhost:8000/login', {
+          email,
+          password,
+      }, {
+          withCredentials: true // Garantir que os cookies sejam enviados
+      });
+
+      console.log('Login bem-sucedido:', response.data);
+  } catch (error) {
+      console.error('Erro ao fazer login:', error.response?.data);
+  }
+}
+
 type SignUpFormValues = z.infer<typeof signUpSchema>; // Inferir o tipo do esquema
 
 export const SignUp = (): ReactElement => {
   const [errors, setErrors] = useState<{ [key in keyof SignUpFormValues]?: string[] }>({});
 
-  function sendForm(event: React.FormEvent<HTMLFormElement>) {
+  async function sendForm(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     // Coletando os valores dos inputs
@@ -56,7 +88,39 @@ export const SignUp = (): ReactElement => {
     } else {
       setErrors({});
       console.log("Formulário submetido com sucesso!", validationResult.data);
-      // Aqui você pode chamar a API ou realizar outras ações com os dados válidos
+
+      // Envio dos dados para a API
+      try {
+        const response = await axios.post('http://localhost:8000/api/user', {
+          nickname: data.nickname,
+          email: data.email,
+          username: data.username,
+          password: data.password,
+        });
+
+        console.log('Usuário criado com sucesso:', response.data);
+        login(data.email, data.password);
+      } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+          const backendErrors = error.response.data.errors;
+          const newErrors: { [key in keyof SignUpFormValues]?: string[] } = {};
+
+          if (backendErrors) {
+            // Percorre os erros do backend e adiciona no estado
+            Object.keys(backendErrors).forEach((key) => {
+              if (backendErrors[key] && Array.isArray(backendErrors[key])) {
+                newErrors[key as keyof SignUpFormValues] = backendErrors[key];
+              }
+            });
+
+            setErrors(newErrors);
+          } else {
+            console.error('Erro ao criar usuário:', error.response.data);
+          }
+        } else {
+          console.error('Erro desconhecido:', error);
+        }
+      }
     }
   }
 
@@ -81,7 +145,7 @@ export const SignUp = (): ReactElement => {
             label="Email"
             name="email"
             placeHolder="Enter your email"
-            maxLength={100}
+            maxLength={150}
             errors={errors.email}
           />
           <InputFIeld

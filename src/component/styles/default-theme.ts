@@ -3,7 +3,7 @@ export const darkTheme = {
       "primary": "#00B2FF",
       "primary_hover": "#535bf2",
       "background_primary": "#21252B",
-      "background_secondary": "#13171C",
+      "background_secondary": "#242C33",
       "text": "#DEDBCC",
       "text_hover": "#fff",
       "button_text": "#030303cc",
