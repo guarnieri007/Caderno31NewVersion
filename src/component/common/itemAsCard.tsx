@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import { ReactElement } from "react";
 import { ItemAsCardDiv } from "../styles/common/itemAsCard-styles";
 import { ItemAsCardProps } from "../interfaces";
 import { Button } from "./button";

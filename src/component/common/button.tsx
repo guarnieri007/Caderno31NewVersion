@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react"
+import { ReactNode } from "react"
 import { ReactElement } from "react"
 import { ButtonStyled } from "../styles/common/common-styles"
 

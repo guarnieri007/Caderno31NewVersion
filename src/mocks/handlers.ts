@@ -11,7 +11,7 @@ import FmConcepts from "@/assets/images/teste/avatar_md_1291.jpg"
 import MediaImpact from "@/assets/images/teste/avatar_md_5309.jpg"
 import GGiA from "@/assets/images/teste/avatar_md_9079.jpg"
 import AmericaMeanGirls from "@/assets/images/teste/avatar_md_3627.jpg"
-import { BannerProps, CreatorChipProps, ItemAsCardProps } from '@/component/interfaces';
+import { BannerProps, CreatorChipProps, ItemAsCardProps } from '../component/interfaces';
 
 // Aqui você define os endpoints que serão simulados
 export const handlers = [
@@ -97,32 +97,4 @@ export const handlers = [
       return HttpResponse.json(Array.from(list));
   }),
 
-  http.post('/api/userAccount', async ({ request}) => {
-    const userAccount = await request.json();
-
-    // Lógica para simular a criação de uma conta:
-    if (userAccount && email && password) {
-      // Simulação de sucesso na criação da conta
-      return res(
-        ctx.status(201), // HTTP 201 Created
-        ctx.json({
-          message: "Account successfully created",
-          user: {
-            id: 1, // Simula um ID para o novo usuário
-            username,
-            email,
-          },
-          token: "fake-jwt-token", // Simula um token de autenticação
-        })
-      );
-    } else {
-      // Simulação de erro se faltar algum campo obrigatório
-      return res(
-        ctx.status(400),
-        ctx.json({
-          error: "Missing required fields"
-        })
-      );
-    }
-  }),
 ];

@@ -1,4 +1,4 @@
-import { BannerDivProps } from "@/component/interfaces";
+import { BannerDivProps } from "../../../component/interfaces";
 import styled from "styled-components";
 
 export const SignUpPage = styled.div<BannerDivProps>`

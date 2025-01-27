@@ -1,5 +1,5 @@
-import { ContentContainer } from "@/AppStyled";
-import React, { ReactNode } from "react";
+import { ContentContainer } from "../../AppStyled";
+import { ReactNode } from "react";
 
 interface MaindContentProps {
     children: ReactNode

@@ -1,7 +1,6 @@
-import React from "react";
 import { ReactElement } from "react";
-import { Button } from '@/component/common/button'
-import { HeaderComponent } from "@/AppStyled";
+import { Button } from '../../component/common/button'
+import { HeaderComponent } from "../../AppStyled";
 import { NavLink, useNavigate } from "react-router-dom";
 import Icon from "../icons/icon";
 import { UIIcons } from "../icons";

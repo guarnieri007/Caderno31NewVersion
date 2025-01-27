@@ -1,10 +1,9 @@
-import { Banner } from "@/component/common/banner";
-import { CreatorChip } from "@/component/common/creator-chip";
-import { ItemAsCard } from "@/component/common/itemAsCard";
-import { MiniBannerLayout } from "@/component/common/miniBannerLayout";
-import { BannerProps, CreatorChipProps, ItemAsCardProps } from "@/component/interfaces";
-import { ContentCreatorDiv } from "@/component/styles/common/common-styles";
-import React from "react";
+import { Banner } from "../component/common/banner";
+import { CreatorChip } from "../component/common/creator-chip";
+import { ItemAsCard } from "../component/common/itemAsCard";
+import { MiniBannerLayout } from "../component/common/miniBannerLayout";
+import { BannerProps, CreatorChipProps, ItemAsCardProps } from "../component/interfaces";
+import { ContentCreatorDiv } from "../component/styles/common/common-styles";
 
 export const FetchBestOfMonth = async () => {
   const response = await fetch('/api/bestofmonth');

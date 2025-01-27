@@ -1,5 +1,4 @@
-import React from "react";
-import { FooterContainer } from "@/AppStyled";
+import { FooterContainer } from "../../AppStyled";
 
 export const Footer = () => {
     return (

@@ -1,5 +1,5 @@
-import React, { ReactElement } from "react";
-import { BannerProps } from "@/component/interfaces"
+import { ReactElement } from "react";
+import { BannerProps } from "../../component/interfaces"
 import { Chip } from "../styles/common/common-styles";
 import { BannerDiv } from "../styles/common/banner-styles";
 import { Button } from "./button";

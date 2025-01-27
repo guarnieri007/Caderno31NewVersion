@@ -1,9 +1,9 @@
-import React, { ReactElement, ReactNode, useEffect, useState } from "react";
+import { ReactElement, ReactNode, useEffect, useState } from "react";
 import { Hero } from "../common/hero";
 import FaceImage from "@/assets/images/face.png";
 import { ItemsColections } from "../common/items-colections";
 import { HomeDiv } from "./home-styles";
-import { FetchBanners, FetchBestOfMonth, FetchContentCreators } from "@/api/backendApi";
+import { FetchBanners, FetchBestOfMonth, FetchContentCreators } from "../../api/backendApi";
 import { HeroProps } from "../interfaces";
 import { Carrousel } from "../common/carrousel";
 

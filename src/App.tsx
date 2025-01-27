@@ -1,5 +1,4 @@
-import React from 'react'
-import { Header } from '@/component/common/header'
+import { Header } from './component/common/header'
 import { MainContent } from './component/common/mainContent'
 import { Footer } from './component/common/footer'
 import { Home } from './component/pages/home'

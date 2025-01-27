@@ -1,6 +1,6 @@
-import React, { ReactElement } from "react";
+import { ReactElement } from "react";
 import { Button } from "./button";
-import { HeroProps } from "@/component/interfaces";
+import { HeroProps } from "../../component/interfaces";
 import { HeroHeader } from "../styles/common/common-styles";
 
 

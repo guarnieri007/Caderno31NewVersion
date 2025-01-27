@@ -1,11 +1,11 @@
-import React, { ReactElement, useState } from "react";
+import { ReactElement, useState } from "react";
 import { SignUpPage } from "../styles/pages/signup";
 import { InputFIeld } from "../common/input-field";
 import { UIIcons } from "../icons";
 import { Button } from "../common/button";
-import signup_bg from "@/assets/images/signup_bg.png";
+import signup_bg from "../../assets/images/signup_bg.png";
 import { z } from "zod";
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 
 // Define o esquema de validação com Zod
@@ -23,31 +23,32 @@ const signUpSchema = z.object({
 
 async function getCsrfToken() {
   try {
-      await axios.get('http://localhost:8000/sanctum/csrf-cookie', {
-          withCredentials: true
-      });
-      console.log('CSRF token obtido com sucesso!');
+    await axios.get('http://localhost:8000/sanctum/csrf-cookie', {
+      withCredentials: true
+    });
+    console.log('CSRF token obtido com sucesso!');
   } catch (error) {
-      console.error('Erro ao obter o CSRF token:', error);
+    console.error('Erro ao obter o CSRF token:', error);
   }
 }
 
 async function login(email: string, password: string) {
   try {
-      // Primeiro, obtenha o token CSRF
-      await getCsrfToken();
+    // Primeiro, obtenha o token CSRF
+    await getCsrfToken();
 
-      // Depois, faça a requisição de login
-      const response = await axios.post('http://localhost:8000/login', {
-          email,
-          password,
-      }, {
-          withCredentials: true // Garantir que os cookies sejam enviados
-      });
+    // Depois, faça a requisição de login
+    const response = await axios.post('http://localhost:8000/login', {
+      email,
+      password,
+    }, {
+      withCredentials: true // Garantir que os cookies sejam enviados
+    });
 
-      console.log('Login bem-sucedido:', response.data);
-  } catch (error) {
-      console.error('Erro ao fazer login:', error.response?.data);
+    console.log('Login bem-sucedido:', response.data);
+  } catch (err: unknown) {
+    const error = err as AxiosError;
+    console.error('Erro ao fazer login:', error.response?.data);
   }
 }
 
