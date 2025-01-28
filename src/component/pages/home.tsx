@@ -4,8 +4,13 @@ import FaceImage from "@/assets/images/face.png";
 import { ItemsColections } from "../common/items-colections";
 import { HomeDiv } from "./home-styles";
 import { FetchBanners, FetchBestOfMonth, FetchContentCreators } from "../../api/backendApi";
-import { HeroProps } from "../interfaces";
+import { BannerProps, CreatorChipProps, HeroProps, ItemAsCardProps } from "../interfaces";
 import { Carrousel } from "../common/carrousel";
+import { ContentCreatorDiv } from "../styles/common/common-styles";
+import { ItemAsCard } from "../common/itemAsCard";
+import { CreatorChip } from "../common/creator-chip";
+import { Banner } from "../common/banner";
+import { MiniBannerLayout } from "../common/miniBannerLayout";
 
 export const Home = (): ReactElement => {
     const [dataBestOfTheMonth, setDataBestOfTheMonth] = useState<React.JSX.Element>();
@@ -15,12 +20,50 @@ export const Home = (): ReactElement => {
     const [error, setError] = useState<string | null>(null);
     const [heroBanners, setHeroBanners] = useState<ReactNode[]>([]);
 
+    const buildBestofMonth = (content: ItemAsCardProps[]):ReactElement => {
+        return (
+
+        <ContentCreatorDiv>
+        {content.map((item) => {
+          return (
+            <ItemAsCard key={item.cardId} {...item} />
+          )
+        })}
+      </ContentCreatorDiv >
+        )
+    }
+
+    const buildContentCreators = (content: CreatorChipProps[]) => {
+
+            const creatorChipItems =
+                <ContentCreatorDiv>
+                  {content.map((item) => {
+                    return (
+                      <CreatorChip key={item.id} {...item} />
+                    )
+                  })}
+                </ContentCreatorDiv>
+            
+              return creatorChipItems;
+    }
+
+    const buildBanners = (content: BannerProps[]) => {
+
+        const banners = content.map(element => {
+            const item = <Banner buttonText={element.buttonText} image={element.image} text={element.text} title={element.title} />
+            return item;
+          });
+          return <MiniBannerLayout items={banners} />
+    }
+
     useEffect(() => {
 
         const getBestOfMonthData = async () => {
             try {
                 // Waiting the answer from API
-                const result = await FetchBestOfMonth();
+                const content = await FetchBestOfMonth();
+                  const result = buildBestofMonth(content);
+
                 setDataBestOfTheMonth(result); // Atualize o estado com os dados recebidos
             } catch (error) {
                 setError(`Error on load the Best of the Month data:\n${error}`);
@@ -31,7 +74,8 @@ export const Home = (): ReactElement => {
         const getCollectionContentCreators = async () => {
             setLoading(true);
             try {
-                const result = await FetchContentCreators();
+                const content = await FetchContentCreators();
+                const result = buildContentCreators(content);
                 setCollectionContentCreators(result);
             }
             catch (error) {
@@ -44,7 +88,8 @@ export const Home = (): ReactElement => {
         const getBannersData = async () => {
             setLoading(true);
             try {
-                const result = await FetchBanners();
+                const content = await FetchBanners();
+                const result = buildBanners(content);
                 setBannerItems(result);
             }
             catch (error) {
