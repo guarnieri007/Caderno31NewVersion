@@ -11,7 +11,8 @@ import FmConcepts from "@/assets/images/teste/avatar_md_1291.jpg"
 import MediaImpact from "@/assets/images/teste/avatar_md_5309.jpg"
 import GGiA from "@/assets/images/teste/avatar_md_9079.jpg"
 import AmericaMeanGirls from "@/assets/images/teste/avatar_md_3627.jpg"
-import { BannerProps, CreatorChipProps, ItemAsCardProps } from '../component/interfaces';
+import { BannerProps, CreatorChipProps, HeroProps, ItemAsCardProps } from '../component/interfaces';
+import FaceImage from "@/assets/images/face.png";
 
 // Aqui você define os endpoints que serão simulados
 export const handlers = [
@@ -29,7 +30,7 @@ export const handlers = [
     ]
     return HttpResponse.json(Array.from(list));
   }),
-  
+
   http.get('api/contentCreator', async () => {
     //await delay(2000)
     const list: CreatorChipProps[] = [
@@ -84,17 +85,39 @@ export const handlers = [
     ]
     return HttpResponse.json(Array.from(list));
   }),
-  
+
   http.get('api/bannerItems', async () => {
     //await delay(3000)
     const list: BannerProps[] =
-    [
-      { buttonText: "Create Account", image: `url(${Computer_bg})`, title: "Become a creator", text: "Turn your kink into money!" },
-      { buttonText: "Sign up", image: `url(${Laptop_bg})`, title: "Join Caderno31", text: "Signup for free and enjoy customer benefits" },
+      [
+        { buttonText: "Create Account", image: `url(${Computer_bg})`, title: "Become a creator", text: "Turn your kink into money!" },
+        { buttonText: "Sign up", image: `url(${Laptop_bg})`, title: "Join Caderno31", text: "Signup for free and enjoy customer benefits" },
         { buttonText: "See more", image: `url(${Azukat_bg})`, title: "The top categorie", text: "Enjoy the foot worship category" },
       ]
 
-      return HttpResponse.json(Array.from(list));
+    return HttpResponse.json(Array.from(list));
   }),
+
+  http.get('api/heroBanners', async () => {
+    const list: HeroProps[] = [
+      {
+        heroId: 1,
+        $bgcolor: "#030303",
+        buttonText: "See more",
+        text: "Explore trending posts now.",
+        title: "Discover the latest posts & engage with content!",
+        image: FaceImage
+      },
+      {
+        heroId: 2,
+        $bgcolor: "#102048",
+        buttonText: "See more",
+        text: "Second banner hero",
+        title: "Created the carrousel for the site!",
+        image: FaceImage
+      }
+    ]
+    return HttpResponse.json(Array.from(list));
+  })
 
 ];
