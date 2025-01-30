@@ -19,4 +19,7 @@ export default defineConfig({
     //   cert: fs.readFileSync(path.resolve(__dirname, 'localhost.pem')),
     // },
   },
+  build: {
+    outDir: "build",
+  }
 });

@@ -129,7 +129,7 @@ export const Home = (): ReactElement => {
         <HomeDiv>
             {loading && <div>is loading</div>}
             <Carrousel>
-                {Array.from(heroBanners)}
+                {heroBanners}
             </Carrousel>
 
             <div className="defaultPadding grid3items">
