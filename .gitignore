@@ -26,3 +26,5 @@ public/mockServiceWorker.js
 *.tsbuildinfo
 *.lock.json
 package-lock.json
+
+build
