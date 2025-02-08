@@ -60,6 +60,7 @@ export const FooterContainer = styled.div`
                     line-height: 30px;
                     margin: 0px;
                     align-self: center;
+                    padding: ${(prop) => prop.theme.spacings.small}
                 }
                 p {
                     align-self: center;
