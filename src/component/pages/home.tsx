@@ -118,6 +118,7 @@ export const Home = (): ReactElement => {
 
     useEffect(() => {
         getAllSectionData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     

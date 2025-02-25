@@ -11,7 +11,7 @@ import axios, { AxiosError } from 'axios';
 // Define o esquema de validação com Zod
 const signUpSchema = z.object({
   nickname: z.string().min(1, "Nickname is required").max(60, "Nickname too long"),
-  email: z.string().email("Invalid email format").max(100, "Email too long"),
+  email: z.string().email("Invalid email format").min(6, "Email is required witha a minimun 6 characters").max(100, "Email too long"),
   username: z.string().min(1, "Username is required").max(50, "Username too long"),
   password: z.string().min(6, "Password must be at least 6 characters").max(50, "Password too long"),
   confirmPassword: z.string().min(6, "Password must be at least 6 characters").max(50, "Password too long"),

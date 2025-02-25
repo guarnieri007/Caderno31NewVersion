@@ -99,7 +99,7 @@ body
     border-radius: 8px;
     border: 1px solid ${(prop) => prop.theme.colors.text};
     box-sizing: border-box;
-    padding: 32px;
+    padding: ${(prop) => prop.theme.spacings.big};
     button {
       display: block;
       margin: 40px auto 0px;

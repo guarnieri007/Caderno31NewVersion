@@ -190,6 +190,7 @@ export const ContentCreatorDiv = styled.div`
   grid-template-columns: repeat(4, 1fr);
   gap: 16px;
   overflow-y: auto;
+  padding-bottom: 24px;
   @media (max-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
   }

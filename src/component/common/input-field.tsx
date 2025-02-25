@@ -29,7 +29,14 @@ export const InputFIeld = ({ icon, label, placeHolder, instructions, maxLength, 
     return (
         <InputFieldContent hasErrors={hasErrors} isFocused={isFocused}>
             <div className="holder">
-                <label htmlFor={`${label}`}>{label}</label>
+                <div className="label-holder">
+                    <label htmlFor={`${label}`}>{label}</label>
+                    <div className="characters">
+                        <p>
+                            {inputValue.length} / {maxLength}
+                        </p>
+                    </div>
+                </div>
                 <div className="input-holder">
                     <input
                         name={`${name}`}
@@ -50,11 +57,6 @@ export const InputFIeld = ({ icon, label, placeHolder, instructions, maxLength, 
                             size={16}
                         />
                     )}
-                </div>
-                <div className="characters">
-                    <p>
-                        {inputValue.length} / {maxLength}
-                    </p>
                 </div>
                 {instructions !== null && instructions !== undefined && (
                     <div className="instructions expand">
