@@ -27,7 +27,7 @@ export const InputFIeld = ({ icon, label, placeHolder, instructions, maxLength, 
 
 
     return (
-        <InputFieldContent hasErrors={hasErrors} isFocused={isFocused}>
+        <InputFieldContent has_errors={hasErrors} is_focused={isFocused}>
             <div className="holder">
                 <div className="label-holder">
                     <label htmlFor={`${label}`}>{label}</label>
@@ -71,7 +71,7 @@ export const InputFIeld = ({ icon, label, placeHolder, instructions, maxLength, 
                     <div>
                         <tr className="instructions errors">
                             {errors?.map((error) => {
-                                return <li>{error}</li>
+                                return <li><span>{error}</span></li>
                             })}
                         </tr>
                     </div>

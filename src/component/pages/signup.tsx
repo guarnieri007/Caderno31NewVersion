@@ -11,7 +11,7 @@ import axios, { AxiosError } from 'axios';
 // Define o esquema de validação com Zod
 const signUpSchema = z.object({
   nickname: z.string().min(1, "Nickname is required").max(60, "Nickname too long"),
-  email: z.string().email("Invalid email format").min(6, "Email is required witha a minimun 6 characters").max(100, "Email too long"),
+  email: z.string().email("Invalid email format").min(6, "Email is required with a minimun 6 characters").max(150, "Email too long"),
   username: z.string().min(1, "Username is required").max(50, "Username too long"),
   password: z.string().min(6, "Password must be at least 6 characters").max(50, "Password too long"),
   confirmPassword: z.string().min(6, "Password must be at least 6 characters").max(50, "Password too long"),
@@ -20,6 +20,22 @@ const signUpSchema = z.object({
   message: "Passwords do not match",
   path: ["confirmPassword"],
 });
+
+
+// Extract max lengths using schema.innerType.shape.fieldName._def.checks
+const maxLengths = {
+  nickname: getMaxLength(signUpSchema.innerType().shape.nickname),
+  email: getMaxLength(signUpSchema.innerType().shape.email),
+  username: getMaxLength(signUpSchema.innerType().shape.username),
+  password: getMaxLength(signUpSchema.innerType().shape.password),
+  confirmPassword: getMaxLength(signUpSchema.innerType().shape.confirmPassword),
+};
+
+// Helper function to safely extract maxLength
+function getMaxLength(schema: z.ZodString): number {  
+  const maxCheck = schema._def.checks.find(check => check.kind === 'max') as { kind: "max"; value: number };
+  return maxCheck.value;
+}
 
 async function getCsrfToken() {
   try {
@@ -53,6 +69,18 @@ async function login(email: string, password: string) {
 }
 
 type SignUpFormValues = z.infer<typeof signUpSchema>; // Inferir o tipo do esquema
+
+// Função auxiliar para tratar erros do backend
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const handleBackendErrors = (backendErrors: any, setErrors: React.Dispatch<React.SetStateAction<{ [key in keyof SignUpFormValues]?: string[] }>>) => {
+  const newErrors: { [key in keyof SignUpFormValues]?: string[] } = {};
+  Object.keys(backendErrors).forEach((key) => {
+    if (backendErrors[key] && Array.isArray(backendErrors[key])) {
+      newErrors[key as keyof SignUpFormValues] = backendErrors[key];
+    }
+  });
+  setErrors(newErrors);
+};
 
 export const SignUp = (): ReactElement => {
   const [errors, setErrors] = useState<{ [key in keyof SignUpFormValues]?: string[] }>({});
@@ -101,26 +129,25 @@ export const SignUp = (): ReactElement => {
 
         console.log('Usuário criado com sucesso:', response.data);
         login(data.email, data.password);
-      } catch (error) {
-        if (axios.isAxiosError(error) && error.response) {
-          const backendErrors = error.response.data.errors;
-          const newErrors: { [key in keyof SignUpFormValues]?: string[] } = {};
+      }
+      catch (error) {
 
-          if (backendErrors) {
-            // Percorre os erros do backend e adiciona no estado
-            Object.keys(backendErrors).forEach((key) => {
-              if (backendErrors[key] && Array.isArray(backendErrors[key])) {
-                newErrors[key as keyof SignUpFormValues] = backendErrors[key];
-              }
-            });
-
-            setErrors(newErrors);
-          } else {
-            console.error('Erro ao criar usuário:', error.response.data);
-          }
-        } else {
+        if (!axios.isAxiosError(error) || !error.response) {
           console.error('Erro desconhecido:', error);
+          return;
         }
+
+        const backendErrors = error.response.data.errors;
+
+        if (!backendErrors) {
+          console.error('Erro ao criar usuário:', error.response.data);
+          return;
+        }
+
+        console.log(backendErrors);
+
+        handleBackendErrors(backendErrors, setErrors);
+
       }
     }
   }
@@ -133,45 +160,50 @@ export const SignUp = (): ReactElement => {
         <h2>Join our community today!</h2>
         <form action="" className="signupForm" onSubmit={sendForm}>
           <InputFIeld
+            key={"Nickname"}
             icon={UIIcons.IdCard}
             label="Nickname"
             name="nickname"
             placeHolder="Choose a unique nickname"
             instructions={["Must be a unique nickname", "should have up to 60 characters"]}
-            maxLength={50}
+            maxLength={maxLengths.nickname}
             errors={errors.nickname}
-          />
+            />
           <InputFIeld
+            key={"Email"}
             icon={UIIcons.Letter}
             label="Email"
             name="email"
             placeHolder="Enter your email"
-            maxLength={150}
+            maxLength={maxLengths.email}
             errors={errors.email}
-          />
+            />
           <InputFIeld
+            key={"Username"}
             icon={UIIcons.User}
             label="Username"
             name="username"
             placeHolder="Create your username"
-            maxLength={50}
+            maxLength={maxLengths.username}
             errors={errors.username}
-          />
+            />
           <InputFIeld
+            key={"Create your password"}
             icon={UIIcons.Key}
             label="Create your password"
             name="password"
             placeHolder="Enter a new password"
-            maxLength={50}
+            maxLength={maxLengths.password}
             type="password"
             errors={errors.password}
-          />
+            />
           <InputFIeld
+            key={"Confirm password"}
             icon={UIIcons.Lock}
             label="Confirm password"
             name="confirmPassword"
             placeHolder="Type again the same password"
-            maxLength={50}
+            maxLength={maxLengths.confirmPassword}
             type="password"
             errors={errors.confirmPassword}
           />
