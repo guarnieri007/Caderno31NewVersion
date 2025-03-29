@@ -160,8 +160,6 @@ export const HeaderComponent = styled.header`
         flex-direction: inherit;
         align-items: inherit;
         gap: inherit;
-        flex-grow: 1;
-
 
         .logo {
             display: flex;
@@ -229,5 +227,12 @@ export const HeaderComponent = styled.header`
         flex-direction: inherit;
         align-items: inherit;
         gap: inherit;
+        flex-grow: 1;
+        @media (min-width: 768px) {
+
+            :first-child {
+                margin-left: auto;
+            }        
+        }
     }
 `;
