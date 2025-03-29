@@ -32,7 +32,7 @@ const maxLengths = {
 };
 
 // Helper function to safely extract maxLength
-function getMaxLength(schema: z.ZodString): number {  
+function getMaxLength(schema: z.ZodString): number {
   const maxCheck = schema._def.checks.find(check => check.kind === 'max') as { kind: "max"; value: number };
   return maxCheck.value;
 }
@@ -168,7 +168,7 @@ export const SignUp = (): ReactElement => {
             instructions={["Must be a unique nickname", "should have up to 60 characters"]}
             maxLength={maxLengths.nickname}
             errors={errors.nickname}
-            />
+          />
           <InputFIeld
             key={"Email"}
             icon={UIIcons.Letter}
@@ -177,7 +177,7 @@ export const SignUp = (): ReactElement => {
             placeHolder="Enter your email"
             maxLength={maxLengths.email}
             errors={errors.email}
-            />
+          />
           <InputFIeld
             key={"Username"}
             icon={UIIcons.User}
@@ -186,7 +186,7 @@ export const SignUp = (): ReactElement => {
             placeHolder="Create your username"
             maxLength={maxLengths.username}
             errors={errors.username}
-            />
+          />
           <InputFIeld
             key={"Create your password"}
             icon={UIIcons.Key}
@@ -196,7 +196,7 @@ export const SignUp = (): ReactElement => {
             maxLength={maxLengths.password}
             type="password"
             errors={errors.password}
-            />
+          />
           <InputFIeld
             key={"Confirm password"}
             icon={UIIcons.Lock}

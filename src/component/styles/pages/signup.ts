@@ -93,7 +93,7 @@ export const SignUpPage = styled.div<BannerDivProps>`
             display: block;
         }
         .form {
-            padding: ${(prop) => prop.theme.spacings.normal};
+            padding: ${(prop) => prop.theme.spacings["main-padding"]};
             h1 {
                 margin-top: ${(prop) => prop.theme.spacings.min};
             }

@@ -7,7 +7,7 @@ interface ButtonStyledProps {
 
 export const ButtonStyled = styled.button<ButtonStyledProps>`
   cursor: pointer;
-  min-width: 108px;
+  min-width: min(108px, 100%);
   height: 38px;
   padding: 0px 8px;
   border: 0;
@@ -131,6 +131,7 @@ export const ItemsColectionsDiv = styled.div`
 export const CreatorChipDiv = styled.div`
 
   width: 100%;
+  max-width: 100%;
   height: 105px;
   background-color: #030303;
   border-radius: 8px;
@@ -139,7 +140,7 @@ export const CreatorChipDiv = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 16px;
-  padding: 14px;
+  padding: 8px;
   border: 1px solid transparent;
   
   &:hover {
@@ -183,19 +184,29 @@ export const CreatorChipDiv = styled.div`
   }
 `;
 
-export const ContentCreatorDiv = styled.div`
+interface RowsLines {
+  $numberItemsUHD?: number;
+  $numberItemsHD?: number;
+  $numberItemsMobileTurned?: number;
+  $numberItemsMobile?: number;
+}
+
+export const ContentCreatorDiv = styled.div<RowsLines>`
 
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(${(prop) => prop.$numberItemsUHD ? prop.$numberItemsUHD : 5}, 1fr);
   gap: 16px;
   overflow-y: auto;
   padding-bottom: 24px;
+  @media (max-width: 1081px) {
+    grid-template-columns: repeat(${(prop) => prop.$numberItemsHD ? prop.$numberItemsHD : 3}, 1fr);
+  }
   @media (max-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(${(prop) => prop.$numberItemsMobileTurned ? prop.$numberItemsMobileTurned : 2}, 1fr);
   }
   @media (max-width: 430px) {
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: repeat(${(prop) => prop.$numberItemsMobile ? prop.$numberItemsMobile : 1}, 1fr);
   }
 
 `;

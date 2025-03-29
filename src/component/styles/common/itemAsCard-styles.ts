@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+const description_lineHeight = 3.6;
+const description_lineHeightUnit = "rem";
+const description_lines = 2;
+
 export interface ItemAsCardDivProps {
     $bg_image: string;
 }
@@ -8,8 +12,13 @@ export const ItemAsCardDiv = styled.div<ItemAsCardDivProps>`
     background-color: ${(prop) => prop.theme.colors.button_text};
     color: ${(prop) => prop.theme.colors.text};
     border-radius: 16px 16px 0px 0px;
-    box-sizing:border-box;
-    padding: 16px;
+    padding: ${(prop) => prop.theme.spacings.small};
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    overflow: hidden;
+    
     .cardImage {
         background-image: ${(prop) => prop.$bg_image};
         background-repeat: no-repeat;
@@ -22,11 +31,9 @@ export const ItemAsCardDiv = styled.div<ItemAsCardDivProps>`
     }
     .cardData {
         margin-top: 16px;
-        left: 24px;
-        right: 24px;
-        bottom: 12px;
         display: flex;
         flex-direction: column;
+        flex-grow: 1;
         .price {
             padding: 0px 16px;
             font-size: 1.15rem;
@@ -35,19 +42,21 @@ export const ItemAsCardDiv = styled.div<ItemAsCardDivProps>`
         .cardAmountInfo {
             display: flex;
             flex-direction: row;
-            align-items: center;
-            width: auto;
-            margin: 0px auto;
+            justify-content: center;
+            flex-wrap: wrap;
+            width: 100%;
+            margin: 0px;
             gap: 16px;
-            height: 32px;
+            min-height: 32px;
+            height: auto;
+            flex-grow: 1;
             div{
                 display: flex;
                 flex-direction: row;
                 align-items: center;
                 align-content: center;
                 gap: 2px;
-                width: auto;
-                height: 100%;
+                width: min-content;
                 img {
                     width:24px;
                     height:auto;
@@ -55,7 +64,7 @@ export const ItemAsCardDiv = styled.div<ItemAsCardDivProps>`
                 span {
                     color: ${(prop) => prop.theme.colors.text};
                     width: auto;
-                    height: 100%;
+                    height: auto;
                     line-height: 32px;
                 }
             }
@@ -65,24 +74,24 @@ export const ItemAsCardDiv = styled.div<ItemAsCardDivProps>`
     .description {
         margin-top: 24px;
         display: grid;
-        grid-template-rows: 3.6rem 1.5rem 4rem;
+        grid-template-rows: ${description_lineHeight}${description_lineHeightUnit} 1.5rem 4rem;
         grid-template-areas:
         "title"
         "category"
         "contentCreator";
-        gap: 4px;
+        gap: ${(prop) => prop.theme.spacings.reduced};
         .title {
             grid-area: title;
-            font-size: 1.25rem;
+            font-size: 1.15rem;
             color: ${(prop) => prop.theme.colors.text_hover};
             align-self: baseline;
             display: -webkit-box;               /* Usa o layout flexível baseado em caixas */
             -webkit-box-orient: vertical;       /* Orienta as caixas verticalmente */
             overflow: hidden;                   /* Esconde o texto que exceder o tamanho */
             text-overflow: ellipsis;            /* Exibe os três pontinhos */
-            -webkit-line-clamp: 2;              /* Limita a exibição a 3 linhas */
-            line-height: 1.8rem;                   /* Define a altura da linha para ajustar a altura da div */
-            max-height: calc(1.8rem * 2);        /* Altura máxima permitida com base nas linhas */
+            -webkit-line-clamp: ${description_lines};              /* Limita a exibição a x linhas */
+            line-height: ${description_lineHeight/2}${description_lineHeightUnit};                   /* Define a altura da linha para ajustar a altura da div */
+            max-height: ${(description_lineHeight /2)* description_lines}${description_lineHeightUnit};        /* Altura máxima permitida com base nas linhas */
             text-align: center;
         }
         .category {

@@ -22,7 +22,7 @@ export const Home = (): ReactElement => {
     const buildBestofMonth = (content: ItemAsCardProps[]): ReactElement => {
         return (
 
-            <ContentCreatorDiv>
+            <ContentCreatorDiv $numberItemsMobile={1}>
                 {content.map((item) => {
                     return (
                         <ItemAsCard key={item.cardId} {...item} />
@@ -35,7 +35,7 @@ export const Home = (): ReactElement => {
     const buildContentCreators = (content: CreatorChipProps[]) => {
 
         const creatorChipItems =
-            <ContentCreatorDiv>
+            <ContentCreatorDiv $numberItemsUHD={4} $numberItemsHD={2}>
                 {content.map((item) => {
                     return (
                         <CreatorChip key={item.id} {...item} />
