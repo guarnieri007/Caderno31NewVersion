@@ -22,10 +22,16 @@ export const CarrouselMainDiv = styled.div`
             min-width: 80px;
             text-align: center;
             line-height: 33px;
+            pointer-events: none; //evita cliques
+            user-select: none; // evita selecao
         }
         button {
             padding: ${(prop) => prop.theme.spacings.min} ${(prop) => prop.theme.spacings.small};
             height: min-content;
+            line-height: inherit;
+        }
+        button:hover {
+            cursor: pointer;
         }
         button.previous-button {
             margin-left: auto;
