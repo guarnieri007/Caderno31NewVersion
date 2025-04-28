@@ -3,10 +3,10 @@ import { ButtonProps } from "../../common/button";
 interface ButtonStyledProps {
   $buttontheme: ButtonProps["color"];
   $width: string | undefined;
+  $clicable: boolean;
 }
 
 export const ButtonStyled = styled.button<ButtonStyledProps>`
-  cursor: pointer;
   min-width: min(108px, 100%);
   height: 38px;
   padding: 0px 8px;
@@ -24,6 +24,7 @@ export const ButtonStyled = styled.button<ButtonStyledProps>`
   background-color: ${(prop) => prop.$buttontheme === "primary" ? prop.theme.colors.primary : prop.theme.colors.button_background};
   
   &:hover {
+    cursor: ${(prop) => prop.$clicable ? "pointer" : "not-allowed"};
     color: ${(prop) => prop.theme.colors.button_text_hover};
     
     &::after {
