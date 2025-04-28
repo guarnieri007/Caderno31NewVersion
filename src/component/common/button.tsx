@@ -8,13 +8,23 @@ export interface ButtonProps {
     children: ReactNode,
     width?: string,
     type?: "button" | "submit" | "reset";
+    clicable?: boolean;
 }
 
-export const Button = ({ color, handleOnClick, children, type = "button", width }: ButtonProps): ReactElement => {
-    const widthValue = (width != undefined && width != "" ) ? width : "initial";
+export const Button = ({ color, handleOnClick, children, type = "button", width, clicable = true }: ButtonProps): ReactElement => {
+    const widthValue = (width != undefined && width != "") ? width : "initial";
     return (
         <>
-            <ButtonStyled type={type} $width={widthValue} $buttontheme={color} onClick={() => handleOnClick !== undefined && handleOnClick()}>{children}</ButtonStyled>
+            <ButtonStyled
+                type={type}
+                $width={widthValue}
+                $buttontheme={color}
+                onClick={() => handleOnClick !== undefined && handleOnClick()}
+                disabled={!clicable}
+                $clicable={clicable}
+                >
+                {children}
+            </ButtonStyled>
         </>
     )
 }
