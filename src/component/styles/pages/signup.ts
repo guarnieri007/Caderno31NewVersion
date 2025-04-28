@@ -2,12 +2,14 @@ import { BannerDivProps } from "../../../component/interfaces";
 import styled from "styled-components";
 
 export const SignUpPage = styled.div<BannerDivProps>`
-    width: 100%;
-    height: auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-row: 1fr;
-    align-items: center;
+    .grid_div {
+        width: 100%;
+        height: auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-row: 1fr;
+        align-items: center;
+    }
     
     .photo {
         box-sizing: border-box;

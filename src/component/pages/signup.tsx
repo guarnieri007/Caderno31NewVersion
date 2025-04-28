@@ -5,8 +5,10 @@ import { UIIcons } from "../icons";
 import { Button } from "../common/button";
 import signup_bg from "../../assets/images/signup_bg.png";
 import { z } from "zod";
-import axios, { AxiosError } from 'axios';
-
+import { login, CreateNewCredential } from "../../api/auth";
+import { useAuth } from "../../context/AuthContext";
+import { extractMinMaxLengths, validateFormData } from "../../helper/zod-helper";
+import { useNavigate } from "react-router-dom";
 
 // Define o esquema de validação com Zod
 const signUpSchema = z.object({
@@ -23,70 +25,19 @@ const signUpSchema = z.object({
 
 
 // Extract max lengths using schema.innerType.shape.fieldName._def.checks
-const maxLengths = {
-  nickname: getMaxLength(signUpSchema.innerType().shape.nickname),
-  email: getMaxLength(signUpSchema.innerType().shape.email),
-  username: getMaxLength(signUpSchema.innerType().shape.username),
-  password: getMaxLength(signUpSchema.innerType().shape.password),
-  confirmPassword: getMaxLength(signUpSchema.innerType().shape.confirmPassword),
-};
-
-// Helper function to safely extract maxLength
-function getMaxLength(schema: z.ZodString): number {
-  const maxCheck = schema._def.checks.find(check => check.kind === 'max') as { kind: "max"; value: number };
-  return maxCheck.value;
-}
-
-async function getCsrfToken() {
-  try {
-    await axios.get('http://localhost:8000/sanctum/csrf-cookie', {
-      withCredentials: true
-    });
-    console.log('CSRF token obtido com sucesso!');
-  } catch (error) {
-    console.error('Erro ao obter o CSRF token:', error);
-  }
-}
-
-async function login(email: string, password: string) {
-  try {
-    // Primeiro, obtenha o token CSRF
-    await getCsrfToken();
-
-    // Depois, faça a requisição de login
-    const response = await axios.post('http://localhost:8000/login', {
-      email,
-      password,
-    }, {
-      withCredentials: true // Garantir que os cookies sejam enviados
-    });
-
-    console.log('Login bem-sucedido:', response.data);
-  } catch (err: unknown) {
-    const error = err as AxiosError;
-    console.error('Erro ao fazer login:', error.response?.data);
-  }
-}
+const maxLengths = extractMinMaxLengths(signUpSchema);
 
 type SignUpFormValues = z.infer<typeof signUpSchema>; // Inferir o tipo do esquema
 
-// Função auxiliar para tratar erros do backend
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const handleBackendErrors = (backendErrors: any, setErrors: React.Dispatch<React.SetStateAction<{ [key in keyof SignUpFormValues]?: string[] }>>) => {
-  const newErrors: { [key in keyof SignUpFormValues]?: string[] } = {};
-  Object.keys(backendErrors).forEach((key) => {
-    if (backendErrors[key] && Array.isArray(backendErrors[key])) {
-      newErrors[key as keyof SignUpFormValues] = backendErrors[key];
-    }
-  });
-  setErrors(newErrors);
-};
-
 export const SignUp = (): ReactElement => {
   const [errors, setErrors] = useState<{ [key in keyof SignUpFormValues]?: string[] }>({});
+  const [loading, setLoading] = useState<boolean>(false);
+  const { setAccessToken } = useAuth();
+  const navigate = useNavigate();
 
   async function sendForm(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setLoading(true);
 
     // Coletando os valores dos inputs
     const formData = new FormData(event.currentTarget);
@@ -99,129 +50,99 @@ export const SignUp = (): ReactElement => {
       termsAndConditions: formData.get("termsAndConditions") === "on" ? true : false,
     };
 
-    // Validação com Zod
-    const validationResult = signUpSchema.safeParse(data);
+    const validation = validateFormData(signUpSchema, data);
 
-    if (!validationResult.success) {
-      const fieldErrors = validationResult.error.format();
-      const newErrors: { [key in keyof SignUpFormValues]?: string[] } = {};
+    if (validation.success) {
+      setErrors({}); // Nenhum erro
 
-      (Object.keys(fieldErrors) as Array<keyof SignUpFormValues>).forEach(key => {
-        const fieldError = fieldErrors[key]?._errors;
-        if (fieldError && Array.isArray(fieldError)) {
-          newErrors[key] = fieldError; // Armazena todos os erros para o campo
-        }
-      });
+      CreateNewCredential({ data: validation.data });
 
-      setErrors(newErrors);
+      const accessToken = await login(validation.data.email, validation.data.password);
+      if (accessToken)
+        setAccessToken(accessToken);
+      navigate("/");
+
     } else {
-      setErrors({});
-      console.log("Formulário submetido com sucesso!", validationResult.data);
-
-      // Envio dos dados para a API
-      try {
-        const response = await axios.post('http://localhost:8000/api/user', {
-          nickname: data.nickname,
-          email: data.email,
-          username: data.username,
-          password: data.password,
-        });
-
-        console.log('Usuário criado com sucesso:', response.data);
-        login(data.email, data.password);
-      }
-      catch (error) {
-
-        if (!axios.isAxiosError(error) || !error.response) {
-          console.error('Erro desconhecido:', error);
-          return;
-        }
-
-        const backendErrors = error.response.data.errors;
-
-        if (!backendErrors) {
-          console.error('Erro ao criar usuário:', error.response.data);
-          return;
-        }
-
-        console.log(backendErrors);
-
-        handleBackendErrors(backendErrors, setErrors);
-
-      }
+      setErrors(validation.errors); // 🎯 Erros já formatados para exibir no frontend
+      setLoading(false);
     }
   }
 
+
   return (
     <SignUpPage $bg_image={signup_bg}>
-      <div className="photo"></div>
-      <div className="form">
-        <h1>Sign up</h1>
-        <h2>Join our community today!</h2>
-        <form action="" className="signupForm" onSubmit={sendForm}>
-          <InputFIeld
-            key={"Nickname"}
-            icon={UIIcons.IdCard}
-            label="Nickname"
-            name="nickname"
-            placeHolder="Choose a unique nickname"
-            instructions={["Must be a unique nickname", "should have up to 60 characters"]}
-            maxLength={maxLengths.nickname}
-            errors={errors.nickname}
-          />
-          <InputFIeld
-            key={"Email"}
-            icon={UIIcons.Letter}
-            label="Email"
-            name="email"
-            placeHolder="Enter your email"
-            maxLength={maxLengths.email}
-            errors={errors.email}
-          />
-          <InputFIeld
-            key={"Username"}
-            icon={UIIcons.User}
-            label="Username"
-            name="username"
-            placeHolder="Create your username"
-            maxLength={maxLengths.username}
-            errors={errors.username}
-          />
-          <InputFIeld
-            key={"Create your password"}
-            icon={UIIcons.Key}
-            label="Create your password"
-            name="password"
-            placeHolder="Enter a new password"
-            maxLength={maxLengths.password}
-            type="password"
-            errors={errors.password}
-          />
-          <InputFIeld
-            key={"Confirm password"}
-            icon={UIIcons.Lock}
-            label="Confirm password"
-            name="confirmPassword"
-            placeHolder="Type again the same password"
-            maxLength={maxLengths.confirmPassword}
-            type="password"
-            errors={errors.confirmPassword}
-          />
-          <div className="termsContainer">
-            <div>
-              <input type="checkbox" name="termsAndConditions" id="termsAndConditions" />
-              <label htmlFor="termsAndConditions" className="terms">
-                I agree with terms and Privacy Policy
-              </label>
-            </div>
-            {errors.termsAndConditions && <p className="error">{errors.termsAndConditions}</p>}
-          </div>
+      <div className="grid_div">
 
-          <Button width={"100%"} color="primary" type="submit">
-            Get started
-          </Button>
-        </form>
+        <div className="photo"></div>
+        <div className="form">
+          <h1>Sign up</h1>
+          <h2>Join our community today!</h2>
+          <form className="signupForm" onSubmit={sendForm}>
+            <InputFIeld
+              key={"Nickname"}
+              icon={UIIcons.IdCard}
+              label="Nickname"
+              name="nickname"
+              placeHolder="Choose a unique nickname"
+              instructions={["Must be a unique nickname", "should have up to 60 characters"]}
+              maxLength={maxLengths.nickname?.max ?? 0}
+              errors={errors.nickname}
+            />
+            <InputFIeld
+              key={"Email"}
+              icon={UIIcons.Letter}
+              label="Email"
+              name="email"
+              placeHolder="Enter your email"
+              maxLength={maxLengths.email?.max ?? 0}
+              errors={errors.email}
+            />
+            <InputFIeld
+              key={"Username"}
+              icon={UIIcons.User}
+              label="Username"
+              name="username"
+              placeHolder="Create your username"
+              maxLength={maxLengths.username?.max ?? 0}
+              errors={errors.username}
+            />
+            <InputFIeld
+              key={"Create your password"}
+              icon={UIIcons.Key}
+              label="Create your password"
+              name="password"
+              placeHolder="Enter a new password"
+              maxLength={maxLengths.password?.max ?? 0}
+              type="password"
+              errors={errors.password}
+            />
+            <InputFIeld
+              key={"Confirm password"}
+              icon={UIIcons.Lock}
+              label="Confirm password"
+              name="confirmPassword"
+              placeHolder="Type again the same password"
+              maxLength={maxLengths.confirmPassword?.max ?? 0}
+              type="password"
+              errors={errors.confirmPassword}
+            />
+            <div className="termsContainer">
+              <div>
+                <input type="checkbox" name="termsAndConditions" id="termsAndConditions" />
+                <label htmlFor="termsAndConditions" className="terms">
+                  I agree with terms and Privacy Policy
+                </label>
+              </div>
+              {errors.termsAndConditions && <p className="error">{errors.termsAndConditions}</p>}
+            </div>
+
+            <Button width={"100%"} color="primary" type="submit" clicable={!loading}>
+              Get started
+            </Button>
+          </form>
+        </div>
       </div>
+
     </SignUpPage>
   );
 };
