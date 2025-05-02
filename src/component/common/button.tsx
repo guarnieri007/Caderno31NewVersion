@@ -1,6 +1,6 @@
 import { ReactNode } from "react"
 import { ReactElement } from "react"
-import { ButtonStyled } from "../styles/common/common-styles"
+import { ButtonStyled, Spinner } from "../styles/common/common-styles"
 
 export interface ButtonProps {
     color: "primary" | "secondary",
@@ -9,9 +9,10 @@ export interface ButtonProps {
     width?: string,
     type?: "button" | "submit" | "reset";
     clicable?: boolean;
+    loading?: boolean;
 }
 
-export const Button = ({ color, handleOnClick, children, type = "button", width, clicable = true }: ButtonProps): ReactElement => {
+export const Button = ({ color, handleOnClick, children, type = "button", width, loading=false, clicable = true }: ButtonProps): ReactElement => {
     const widthValue = (width != undefined && width != "") ? width : "initial";
     return (
         <>
@@ -22,8 +23,12 @@ export const Button = ({ color, handleOnClick, children, type = "button", width,
                 onClick={() => handleOnClick !== undefined && handleOnClick()}
                 disabled={!clicable}
                 $clicable={clicable}
-                >
-                {children}
+            >
+                {loading ? (
+                    <Spinner />
+                ) : (
+                    children
+                )}
             </ButtonStyled>
         </>
     )
