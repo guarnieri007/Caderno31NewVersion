@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { ButtonProps } from "../../common/button";
 interface ButtonStyledProps {
   $buttontheme: ButtonProps["color"];
@@ -15,6 +15,9 @@ export const ButtonStyled = styled.button<ButtonStyledProps>`
   box-shadow: -2px 2px 0px rgba(0, 0, 0, 0.25);
   font-size: 14px;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   
   font-weight: 500;
   line-height: 18px;
@@ -23,7 +26,7 @@ export const ButtonStyled = styled.button<ButtonStyledProps>`
   color: ${(prop) => prop.theme.colors.button_text};
   background-color: ${(prop) => prop.$buttontheme === "primary" ? prop.theme.colors.primary : prop.theme.colors.button_background};
   
-  &:hover {
+  &:hover, &:focus {
     cursor: ${(prop) => prop.$clicable ? "pointer" : "not-allowed"};
     color: ${(prop) => prop.theme.colors.button_text_hover};
     
@@ -38,13 +41,31 @@ export const ButtonStyled = styled.button<ButtonStyledProps>`
         ${(prop) => prop.theme.colors.button_text} 100%
       );
       border-radius: 999px;
-      bottom: 6px;
+      bottom: 4px;
       left: 16px;
       right: 0px;
       width: calc(100% - 32px);
       height: 2px;
     }
   }
+`;
+
+const spin = keyframes`
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+export const Spinner = styled.span`
+  width: 8px;
+  height: 8px;
+  border: 3px solid transparent;
+  border-top: 3px solid rgba(255,255,255,0.7);
+  border-right: 3px solid #fff;
+  border-radius: 50%;
+  animation: ${spin} 1.2s cubic-bezier(0.39, 0.475, 0.365, 0.665) infinite;
+  display: inline-block;
+  margin: 0px !important;
 `;
 
 interface HeroHeaderProps {
