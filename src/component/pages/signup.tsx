@@ -5,10 +5,10 @@ import { UIIcons } from "../icons";
 import { Button } from "../common/button";
 import signup_bg from "../../assets/images/signup_bg.png";
 import { z } from "zod";
-import { login, CreateNewCredential } from "../../api/auth";
 import { useAuth } from "../../context/AuthContext";
 import { extractMinMaxLengths, validateFormData } from "../../helper/zod-helper";
 import { useNavigate } from "react-router-dom";
+import { useLogin } from "../../hooks/useLogin";
 
 // Define o esquema de validação com Zod
 const signUpSchema = z.object({
@@ -32,7 +32,8 @@ type SignUpFormValues = z.infer<typeof signUpSchema>; // Inferir o tipo do esque
 export const SignUp = (): ReactElement => {
   const [errors, setErrors] = useState<{ [key in keyof SignUpFormValues]?: string[] }>({});
   const [loading, setLoading] = useState<boolean>(false);
-  const { setAccessToken } = useAuth();
+  const { createCredential } = useAuth();
+  const { handleLogin, successLogin } = useLogin();
   const navigate = useNavigate();
 
   async function sendForm(event: React.FormEvent<HTMLFormElement>) {
@@ -55,13 +56,11 @@ export const SignUp = (): ReactElement => {
     if (validation.success) {
       setErrors({}); // Nenhum erro
 
-      CreateNewCredential({ data: validation.data });
+      await createCredential({ data: validation.data });
 
-      const accessToken = await login(validation.data.email, validation.data.password);
-      if (accessToken)
-        setAccessToken(accessToken);
-      navigate("/");
-
+      await handleLogin(validation.data.email, validation.data.password);
+      if(successLogin) navigate("/");
+      
     } else {
       setErrors(validation.errors); // 🎯 Erros já formatados para exibir no frontend
       setLoading(false);
@@ -136,7 +135,7 @@ export const SignUp = (): ReactElement => {
               {errors.termsAndConditions && <p className="error">{errors.termsAndConditions}</p>}
             </div>
 
-            <Button width={"100%"} color="primary" type="submit" clicable={!loading}>
+            <Button width={"100%"} color="primary" type="submit" clicable={!loading} loading={loading}>
               Get started
             </Button>
           </form>

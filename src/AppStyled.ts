@@ -150,7 +150,7 @@ export const HeaderComponent = styled.header`
     flex-direction: row;
     align-items: center;
     width: 100%;
-    //min-height: 96px;
+    min-height: 65px;
     height: auto;
     background-color: ${(prop) => prop.theme.colors.background_primary};
     border-bottom: solid ${(prop) => prop.theme.colors.button_text_hover} 3px;
