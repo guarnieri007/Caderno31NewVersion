@@ -3,9 +3,9 @@ import { InputFieldContent } from "../styles/common/input-field-styles";
 import { InputFIeldProps } from "../interfaces";
 import Icon from "../icons/icon";
 
-export const InputFIeld = ({ icon, label, placeHolder, instructions, maxLength, name, type, errors }: InputFIeldProps): ReactNode => {
+export const InputFIeld = ({ icon, label, placeHolder, instructions, maxLength, name, type, errors, value="" }: InputFIeldProps): ReactNode => {
     const hasErrors: boolean = errors !== undefined && errors.length > 0;
-    const [inputValue, setInputValue] = useState<HTMLInputElement["value"]>("");
+    const [inputValue, setInputValue] = useState<HTMLInputElement["value"]>(value as string);
 
     // Estado para controlar o foco do input
     const [isFocused, setIsFocused] = useState(false);
