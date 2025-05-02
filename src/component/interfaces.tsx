@@ -70,4 +70,5 @@ export interface InputFIeldProps {
     errors?: string[];
     maxLength: number;
     type?: string;
+    value?: unknown;
 }
