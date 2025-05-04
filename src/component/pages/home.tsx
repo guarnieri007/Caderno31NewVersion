@@ -2,8 +2,8 @@ import { ReactElement, ReactNode, useEffect, useState } from "react";
 import { Hero } from "../common/hero";
 import { ItemsColections } from "../common/items-colections";
 import { HomeDiv } from "./home-styles";
-import { FetchBanners, FetchBestOfMonth, FetchContentCreators, FetchHeroBanners } from "../../api/backendApi";
-import { BannerProps, CreatorChipProps, HeroProps, ItemAsCardProps } from "../interfaces";
+import { HomeApi } from "../../api/backendApi";
+import { BannerProps, CreatorChipProps, HeroProps, ItemAsCardProps } from "../../interfaces";
 import { Carrousel } from "../common/carrousel";
 import { ContentCreatorDiv } from "../styles/common/common-styles";
 import { ItemAsCard } from "../common/itemAsCard";
@@ -19,10 +19,12 @@ export const Home = (): ReactElement => {
     const [error, setError] = useState<string | null>(null);
     const [heroBanners, setHeroBanners] = useState<ReactNode[]>([]);
 
+    const { FetchBestOfMonth, FetchContentCreators, FetchBanners, FetchHeroBanners } = HomeApi();
+
     const buildBestofMonth = (content: ItemAsCardProps[]): ReactElement => {
         return (
 
-            <ContentCreatorDiv $numberItemsMobile={1}>
+            <ContentCreatorDiv numberItemsMobile={1}>
                 {content.map((item) => {
                     return (
                         <ItemAsCard key={item.cardId} {...item} />
@@ -35,7 +37,7 @@ export const Home = (): ReactElement => {
     const buildContentCreators = (content: CreatorChipProps[]) => {
 
         const creatorChipItems =
-            <ContentCreatorDiv $numberItemsUHD={4} $numberItemsHD={2}>
+            <ContentCreatorDiv numberItemsUHD={4} numberItemsHD={2}>
                 {content.map((item) => {
                     return (
                         <CreatorChip key={item.id} {...item} />
@@ -67,7 +69,7 @@ export const Home = (): ReactElement => {
         try {
             // Waiting the answer from API
             const content = await FetchBestOfMonth();
-            const result = buildBestofMonth(content);
+            const result = buildBestofMonth(content.data);
 
             setDataBestOfTheMonth(result); // Atualize o estado com os dados recebidos
         } catch (error) {
@@ -77,7 +79,7 @@ export const Home = (): ReactElement => {
     const getCollectionContentCreators = async () => {
         try {
             const content = await FetchContentCreators();
-            const result = buildContentCreators(content);
+            const result = buildContentCreators(content.data);
             setCollectionContentCreators(result);
         }
         catch (error) {
@@ -87,7 +89,7 @@ export const Home = (): ReactElement => {
     const getBannersData = async () => {
         try {
             const content = await FetchBanners();
-            const result = buildBanners(content);
+            const result = buildBanners(content.data);
             setBannerItems(result);
         }
         catch (error) {
@@ -98,7 +100,7 @@ export const Home = (): ReactElement => {
     const getBannerHero = async () => {
         try {
             const content = await FetchHeroBanners();
-            const result = buildBannerHero(content);
+            const result = buildBannerHero(content.data);
             setHeroBanners(result);
             
         }

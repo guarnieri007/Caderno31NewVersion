@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { ItemsColectionsProps } from "../../component/interfaces"
+import { ItemsColectionsProps } from "../../interfaces"
 import { Button } from "./button";
 import { ItemsColectionsDiv } from "../styles/common/common-styles";
 

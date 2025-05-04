@@ -1,6 +1,6 @@
 import React, { ReactElement, useState  } from "react";
 import { CarrouselMainDiv } from "../styles/common/carrousel-styles";
-import { CarrouselProps } from "../interfaces";
+import { CarrouselProps } from "../../interfaces";
 
 export const Carrousel = ({ children }: CarrouselProps): ReactElement => {
     const childrenArray = React.Children.toArray(children);

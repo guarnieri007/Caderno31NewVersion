@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { UIIcons } from "./icons";
+import { UIIcons } from "./component/icons";
 
 export interface HeroProps {
     heroId: number;
@@ -7,7 +7,7 @@ export interface HeroProps {
     text?: string;
     buttonText?: string;
     handleClickButton?: () => void;
-    $bgcolor?: string;
+    bgcolor?: string;
     image?: string;
 }
 
@@ -71,4 +71,35 @@ export interface InputFIeldProps {
     maxLength: number;
     type?: string;
     value?: unknown;
+}
+
+export interface AcessTokenResponse {
+  data?: {
+    accessToken: string;
+  };
+}
+
+export interface CreateNewCredentialProps {
+  data: {
+    email: string;
+    username: string;
+    password: string;
+  }
+}
+
+export interface User {
+  username: string;
+  email: string;
+  role?: string;
+}
+
+export interface AuthContextType {
+  accessToken: string | null;
+  user: User | null;
+  login: (email: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
+  setAccessToken: (token: string) => void;
+  accessTokenRefresh: () => Promise<void>;
+  getUserData: (token?: string) => Promise<User | undefined>;
+  createCredential: (data: CreateNewCredentialProps) => Promise<void>;
 }

@@ -1,4 +1,4 @@
-import { BannerDivProps } from "../../../component/interfaces";
+import { BannerDivProps } from "../../../interfaces";
 import styled from "styled-components";
 
 export const BannerDiv = styled.div<BannerDivProps>`

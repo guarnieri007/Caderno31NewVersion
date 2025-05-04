@@ -25,7 +25,7 @@ export const Login_overlay = ({ onClose }: LoginOverlayProps): ReactElement => {
         left: 0,
         width: "100%",
         height: "100%",
-        background: "rgba(0, 0, 0, 0.95)",
+        background: "rgba(0, 0, 0, 0.65)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -65,7 +65,7 @@ export const Login_overlay = ({ onClose }: LoginOverlayProps): ReactElement => {
     type SignUpFormValues = z.infer<typeof signUpSchema>; // Inferir o tipo do esquema
 
     const maxLengths = extractMinMaxLengths(signUpSchema);
-    const { handleLogin, loadingLogin, successLogin, setSuccessLogin } = useLogin()
+    const { handleLogin, loadingLogin, successLogin, setSuccessLogin, errorLogin } = useLogin()
 
     const [errors, setErrors] = useState<{ [key in keyof SignUpFormValues]?: string[] }>({});
 
@@ -122,8 +122,9 @@ export const Login_overlay = ({ onClose }: LoginOverlayProps): ReactElement => {
                         errors={errors.password}
                         value={"senhasegura123"}
                     />
-                    <Button type="submit" width="100%" color="primary" loading={loadingLogin} clicable={!loadingLogin}>Log In</Button>
+                    <Button type="submit" width="100%" color="secondary" loading={loadingLogin} clicable={!loadingLogin}>Log In</Button>
                 </form>
+                {errorLogin && <p className="error">{errorLogin}</p>}
             </div>
         </div>
     );

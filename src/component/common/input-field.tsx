@@ -1,6 +1,6 @@
 import { useState, ReactNode } from "react";
 import { InputFieldContent } from "../styles/common/input-field-styles";
-import { InputFIeldProps } from "../interfaces";
+import { InputFIeldProps } from "../../interfaces";
 import Icon from "../icons/icon";
 
 export const InputFIeld = ({ icon, label, placeHolder, instructions, maxLength, name, type, errors, value="" }: InputFIeldProps): ReactNode => {

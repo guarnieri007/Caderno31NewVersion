@@ -1,15 +1,15 @@
 import { ReactElement } from "react";
 import { Button } from "./button";
-import { HeroProps } from "../../component/interfaces";
+import { HeroProps } from "../../interfaces";
 import { HeroHeader } from "../styles/common/common-styles";
 
 
 
-export const Hero = ({ title, text, buttonText, handleClickButton, $bgcolor, image }: HeroProps): ReactElement => {
+export const Hero = ({ title, text, buttonText, handleClickButton, bgcolor, image }: HeroProps): ReactElement => {
     return (
         <HeroHeader
-            $bgcolor={$bgcolor}
-            $imagebg={image}>
+            bgcolor={bgcolor}
+            imagebg={image}>
             <h1>
                 {title}
             </h1>

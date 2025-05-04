@@ -12,24 +12,28 @@ export interface ButtonProps {
     loading?: boolean;
 }
 
-export const Button = ({ color, handleOnClick, children, type = "button", width, loading=false, clicable = true }: ButtonProps): ReactElement => {
+export const Button = ({ color, handleOnClick, children, type = "button", width, loading = false, clicable = true }: ButtonProps): ReactElement => {
     const widthValue = (width != undefined && width != "") ? width : "initial";
     return (
         <>
             <ButtonStyled
                 type={type}
-                $width={widthValue}
-                $buttontheme={color}
+                width={widthValue}
+                buttontheme={color}
                 onClick={() => handleOnClick !== undefined && handleOnClick()}
                 disabled={!clicable}
-                $clicable={clicable}
+                clicable={clicable}
             >
-                {loading ? (
-                    <Spinner />
-                ) : (
-                    children
+                <span style={{ visibility: loading ? "hidden" : "visible", width: "100%" }}>
+                    {children}
+                </span>
+                {loading && (
+                    <span style={{ position: "absolute" }}>
+                        <Spinner />
+                    </span>
                 )}
             </ButtonStyled>
+
         </>
     )
 }

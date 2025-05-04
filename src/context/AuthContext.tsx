@@ -1,27 +1,11 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { AuthAPI, CreateNewCredentialProps } from '../api/auth';
-
-interface User {
-  username: string;
-  email: string;
-  role?: string;
-}
-
-interface AuthContextType {
-  accessToken: string | null;
-  user: User | null;
-  login: (email: string, password: string) => Promise<void>;
-  logout: () => Promise<void>;
-  setAccessToken: (token: string) => void;
-  accessTokenRefresh: () => Promise<void>;
-  getUserData: (token: string) => Promise<User | undefined>;
-  createCredential: (data: CreateNewCredentialProps) => Promise<void>;
-}
+import { AuthAPI } from '../api/auth';
+import { setAccessToken, getAccessToken } from './AuthTokenSingleton';
+import { AuthContextType, CreateNewCredentialProps, User } from '../interfaces';
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [accessToken, setAccessToken] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const {
     getJWTToken,
@@ -31,23 +15,23 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     CreateNewCredential,
   } = AuthAPI();
 
-    // Quando o app inicia, não tem token salvo, mas pode ter um refreshToken HttpOnly
-    useEffect(() => {
-      async function tryRecoverSession() {
-        try {
-          const token = await requestAccessTokenRefresh();
-          if (!token) return;
-  
-          setAccessToken(token);
-          await getUserData(token);
-  
-        } catch (error) {
-          console.log('No active session found.', error);
-        }
+  // Quando o app inicia, não tem token salvo, mas pode ter um refreshToken HttpOnly
+  useEffect(() => {
+    async function tryRecoverSession() {
+      try {
+        const token = await requestAccessTokenRefresh();
+        if (!token) return;
+
+        setAccessToken(token);
+        await getUserData(token);
+
+      } catch (error) {
+        console.log('No active session found.', error);
       }
-  
-      tryRecoverSession();
-    }, []);
+    }
+
+    tryRecoverSession();
+  }, []);
 
   async function login(email: string, password: string) {
     try {
@@ -56,7 +40,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setAccessToken(token);
         await getUserData(token);
       } else {
-        throw new Error('No access token received');
+        throw new Error('Email or password not found');
       }
     } catch (error) {
       console.error('Login failed:', error);
@@ -78,7 +62,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   async function getUserData(tokenOverride?: string): Promise<User | undefined> {
-    const tokenToUse = tokenOverride || accessToken;
+    const tokenToUse = tokenOverride || getAccessToken();
     if (!tokenToUse) return;
 
     try {
@@ -110,7 +94,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ accessToken, user, login, getUserData, logout, setAccessToken, accessTokenRefresh, createCredential }}>
+    <AuthContext.Provider value={{
+      accessToken: getAccessToken(),
+      user,
+      login,
+      getUserData,
+      logout,
+      setAccessToken,
+      accessTokenRefresh,
+      createCredential
+    }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 import { ItemAsCardDiv } from "../styles/common/itemAsCard-styles";
-import { ItemAsCardProps } from "../interfaces";
+import { ItemAsCardProps } from "../../interfaces";
 import { Button } from "./button";
 import Icon from "../icons/icon";
 import { UIIcons } from "../icons";
@@ -30,7 +30,7 @@ export const ItemAsCard = ({ category, title, price, image, profileImage, creato
                     {amountAudios > 0 ? (<div><Icon icon={UIIcons.Audio} size={24} color={iconColor} /> <span>{amountAudios}</span></div>) : null}
                 </div>
                 <span className="price">
-                    <Button color="primary" >{GetCurrencyText(currency)} {price}</Button>
+                    <Button color="primary" loading={false} clicable={true} handleOnClick={()=> {}} >{GetCurrencyText(currency)} {price}</Button>
                 </span>
             </div>
             <div className="description">

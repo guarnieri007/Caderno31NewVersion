@@ -1,9 +1,9 @@
 import styled, { keyframes } from "styled-components";
 import { ButtonProps } from "../../common/button";
 interface ButtonStyledProps {
-  $buttontheme: ButtonProps["color"];
-  $width: string | undefined;
-  $clicable: boolean;
+  buttontheme: ButtonProps["color"];
+  width: string | undefined;
+  clicable: boolean;
 }
 
 export const ButtonStyled = styled.button<ButtonStyledProps>`
@@ -15,19 +15,20 @@ export const ButtonStyled = styled.button<ButtonStyledProps>`
   box-shadow: -2px 2px 0px rgba(0, 0, 0, 0.25);
   font-size: 14px;
   position: relative;
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  width: ${({ width }) => width || "auto"};
   justify-content: center;
   
   font-weight: 500;
   line-height: 18px;
   outline: none;
-  width: ${(prop) => prop.$width !== null ? prop.$width : "initial"};
+  width: ${(prop) => prop.width !== null ? prop.width : "initial"};
   color: ${(prop) => prop.theme.colors.button_text};
-  background-color: ${(prop) => prop.$buttontheme === "primary" ? prop.theme.colors.primary : prop.theme.colors.button_background};
+  background-color: ${(prop) => prop.buttontheme === "primary" ? prop.theme.colors.primary : prop.theme.colors.button_background};
   
   &:hover, &:focus {
-    cursor: ${(prop) => prop.$clicable ? "pointer" : "not-allowed"};
+    cursor: ${(prop) => prop.clicable ? "pointer" : "not-allowed"};
     color: ${(prop) => prop.theme.colors.button_text_hover};
     
     &::after {
@@ -69,8 +70,8 @@ export const Spinner = styled.span`
 `;
 
 interface HeroHeaderProps {
-  $bgcolor: string | undefined;
-  $imagebg: string | undefined;
+  bgcolor: string | undefined;
+  imagebg: string | undefined;
 }
 export const HeroHeader = styled.header<HeroHeaderProps>`
 
@@ -86,8 +87,8 @@ background-repeat: no-repeat;
 background-position: right center;
 background-size: auto 364px;
 border: solid 1px ${(prop) => prop.theme.colors.text};
-background-color: ${(prop) => prop.$bgcolor !== null ? prop.$bgcolor : "#fff"};
-background-image: url(${(prop) => (prop.$imagebg !== null && prop.$imagebg !== undefined) ? prop.$imagebg : "#fff"});
+background-color: ${(prop) => prop.bgcolor !== null ? prop.bgcolor : "#fff"};
+background-image: url(${(prop) => (prop.imagebg !== null && prop.imagebg !== undefined) ? prop.imagebg : "#fff"});
 
 h1 {
   flex-grow: 1;
@@ -207,28 +208,28 @@ export const CreatorChipDiv = styled.div`
 `;
 
 interface RowsLines {
-  $numberItemsUHD?: number;
-  $numberItemsHD?: number;
-  $numberItemsMobileTurned?: number;
-  $numberItemsMobile?: number;
+  numberItemsUHD?: number;
+  numberItemsHD?: number;
+  numberItemsMobileTurned?: number;
+  numberItemsMobile?: number;
 }
 
 export const ContentCreatorDiv = styled.div<RowsLines>`
 
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(${(prop) => prop.$numberItemsUHD ? prop.$numberItemsUHD : 5}, 1fr);
+  grid-template-columns: repeat(${(prop) => prop.numberItemsUHD ? prop.numberItemsUHD : 5}, 1fr);
   gap: 16px;
   overflow-y: auto;
   padding-bottom: 24px;
   @media (max-width: 1081px) {
-    grid-template-columns: repeat(${(prop) => prop.$numberItemsHD ? prop.$numberItemsHD : 3}, 1fr);
+    grid-template-columns: repeat(${(prop) => prop.numberItemsHD ? prop.numberItemsHD : 3}, 1fr);
   }
   @media (max-width: 768px) {
-    grid-template-columns: repeat(${(prop) => prop.$numberItemsMobileTurned ? prop.$numberItemsMobileTurned : 2}, 1fr);
+    grid-template-columns: repeat(${(prop) => prop.numberItemsMobileTurned ? prop.numberItemsMobileTurned : 2}, 1fr);
   }
   @media (max-width: 430px) {
-    grid-template-columns: repeat(${(prop) => prop.$numberItemsMobile ? prop.$numberItemsMobile : 1}, 1fr);
+    grid-template-columns: repeat(${(prop) => prop.numberItemsMobile ? prop.numberItemsMobile : 1}, 1fr);
   }
 
 `;
