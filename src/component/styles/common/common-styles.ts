@@ -1,12 +1,14 @@
 import styled, { keyframes } from "styled-components";
 import { ButtonProps } from "../../common/button";
 interface ButtonStyledProps {
-  buttontheme: ButtonProps["color"];
+  button_theme: ButtonProps["color"];
   width: string | undefined;
   clicable: boolean;
 }
 
-export const ButtonStyled = styled.button<ButtonStyledProps>`
+export const ButtonStyled = styled.button.withConfig({
+  shouldForwardProp: (prop) => !['clicable'].includes(prop),
+})<ButtonStyledProps>`
   min-width: min(108px, 100%);
   height: 38px;
   padding: 0px 8px;
@@ -25,7 +27,7 @@ export const ButtonStyled = styled.button<ButtonStyledProps>`
   outline: none;
   width: ${(prop) => prop.width !== null ? prop.width : "initial"};
   color: ${(prop) => prop.theme.colors.button_text};
-  background-color: ${(prop) => prop.buttontheme === "primary" ? prop.theme.colors.primary : prop.theme.colors.button_background};
+  background-color: ${(prop) => prop.button_theme === "primary" ? prop.theme.colors.primary : prop.theme.colors.button_background};
   
   &:hover, &:focus {
     cursor: ${(prop) => prop.clicable ? "pointer" : "not-allowed"};
@@ -70,10 +72,12 @@ export const Spinner = styled.span`
 `;
 
 interface HeroHeaderProps {
-  bgcolor: string | undefined;
-  imagebg: string | undefined;
+  bg_color: string | undefined;
+  bg_image: string | undefined;
 }
-export const HeroHeader = styled.header<HeroHeaderProps>`
+export const HeroHeader = styled.header.withConfig({
+  shouldForwardProp: (prop) => !['bg_color', 'bg_image'].includes(prop),
+})<HeroHeaderProps>`
 
 display: flex;
 flex-direction: column;
@@ -87,8 +91,8 @@ background-repeat: no-repeat;
 background-position: right center;
 background-size: auto 364px;
 border: solid 1px ${(prop) => prop.theme.colors.text};
-background-color: ${(prop) => prop.bgcolor !== null ? prop.bgcolor : "#fff"};
-background-image: url(${(prop) => (prop.imagebg !== null && prop.imagebg !== undefined) ? prop.imagebg : "#fff"});
+background-color: ${(prop) => prop.bg_color !== null ? prop.bg_color : "#fff"};
+background-image: url(${(prop) => (prop.bg_image !== null && prop.bg_image !== undefined) ? prop.bg_image : "#fff"});
 
 h1 {
   flex-grow: 1;
@@ -208,28 +212,30 @@ export const CreatorChipDiv = styled.div`
 `;
 
 interface RowsLines {
-  numberItemsUHD?: number;
-  numberItemsHD?: number;
-  numberItemsMobileTurned?: number;
-  numberItemsMobile?: number;
+  number_items_uhd?: number;
+  number_items_hd?: number;
+  number_items_mobile_turned?: number;
+  number_items_mobile?: number;
 }
 
-export const ContentCreatorDiv = styled.div<RowsLines>`
+export const ContentCreatorDiv = styled.div.withConfig({
+  shouldForwardProp: (prop) => !['number_items_uhd', 'number_items_hd', 'number_items_mobile_turned', 'number_items_mobile'].includes(prop),
+})<RowsLines>`
 
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(${(prop) => prop.numberItemsUHD ? prop.numberItemsUHD : 5}, 1fr);
+  grid-template-columns: repeat(${(prop) => prop.number_items_uhd ? prop.number_items_uhd : 5}, 1fr);
   gap: 16px;
   overflow-y: auto;
   padding-bottom: 24px;
   @media (max-width: 1081px) {
-    grid-template-columns: repeat(${(prop) => prop.numberItemsHD ? prop.numberItemsHD : 3}, 1fr);
+    grid-template-columns: repeat(${(prop) => prop.number_items_hd ? prop.number_items_hd : 3}, 1fr);
   }
   @media (max-width: 768px) {
-    grid-template-columns: repeat(${(prop) => prop.numberItemsMobileTurned ? prop.numberItemsMobileTurned : 2}, 1fr);
+    grid-template-columns: repeat(${(prop) => prop.number_items_mobile_turned ? prop.number_items_mobile_turned : 2}, 1fr);
   }
   @media (max-width: 430px) {
-    grid-template-columns: repeat(${(prop) => prop.numberItemsMobile ? prop.numberItemsMobile : 1}, 1fr);
+    grid-template-columns: repeat(${(prop) => prop.number_items_mobile ? prop.number_items_mobile : 1}, 1fr);
   }
 
 `;

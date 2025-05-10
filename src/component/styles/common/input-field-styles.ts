@@ -5,7 +5,9 @@ interface InputFieldArguments {
     has_errors: boolean,
 }
 
-export const InputFieldContent = styled.div<InputFieldArguments>`
+export const InputFieldContent = styled.div.withConfig({
+    shouldForwardProp: (prop) => !['has_errors', 'is_focused'].includes(prop),
+})<InputFieldArguments>`
     .holder {
         margin: ${(prop) => prop.theme.spacings.normal} 0px;
     }

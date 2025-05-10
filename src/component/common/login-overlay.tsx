@@ -106,7 +106,7 @@ export const Login_overlay = ({ onClose }: LoginOverlayProps): ReactElement => {
                         icon={UIIcons.Letter}
                         label="Email"
                         name="email"
-                        placeHolder="Enter your email"
+                        placeholder="Enter your email"
                         maxLength={maxLengths.email?.max ?? 0}
                         errors={errors.email}
                         value={"guarnieri007@hotmail.com"}
@@ -116,7 +116,7 @@ export const Login_overlay = ({ onClose }: LoginOverlayProps): ReactElement => {
                         icon={UIIcons.Key}
                         label="Password"
                         name="password"
-                        placeHolder="Enter your password"
+                        placeholder="Enter your password"
                         maxLength={maxLengths.password?.max ?? 0}
                         type="password"
                         errors={errors.password}

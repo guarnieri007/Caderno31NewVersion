@@ -5,10 +5,12 @@ const description_lineHeightUnit = "rem";
 const description_lines = 2;
 
 export interface ItemAsCardDivProps {
-    $bg_image: string;
+    bg_image: string;
 }
 
-export const ItemAsCardDiv = styled.div<ItemAsCardDivProps>`
+export const ItemAsCardDiv = styled.div.withConfig({
+    shouldForwardProp: (prop) => !['bg_image'].includes(prop),
+})<ItemAsCardDivProps>`
     background-color: ${(prop) => prop.theme.colors.button_text};
     color: ${(prop) => prop.theme.colors.text};
     border-radius: 16px 16px 0px 0px;
@@ -20,7 +22,7 @@ export const ItemAsCardDiv = styled.div<ItemAsCardDivProps>`
     overflow: hidden;
     
     .cardImage {
-        background-image: ${(prop) => prop.$bg_image};
+        background-image: ${(prop) => prop.bg_image};
         background-repeat: no-repeat;
         background-position: center;
         background-size: contain;

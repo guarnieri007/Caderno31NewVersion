@@ -5,11 +5,11 @@ import { HeroHeader } from "../styles/common/common-styles";
 
 
 
-export const Hero = ({ title, text, buttonText, handleClickButton, bgcolor, image }: HeroProps): ReactElement => {
+export const Hero = ({ title, text, text_button, handleClickButton, bg_color, image }: HeroProps): ReactElement => {
     return (
         <HeroHeader
-            bgcolor={bgcolor}
-            imagebg={image}>
+            bg_color={bg_color}
+            bg_image={image}>
             <h1>
                 {title}
             </h1>
@@ -17,7 +17,7 @@ export const Hero = ({ title, text, buttonText, handleClickButton, bgcolor, imag
                 {text}
             </p>
             <Button color="primary" handleOnClick={handleClickButton}>
-                {buttonText}
+                {text_button}
             </Button>
         </HeroHeader>
     )

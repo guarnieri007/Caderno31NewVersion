@@ -19,7 +19,7 @@ export const Button = ({ color, handleOnClick, children, type = "button", width,
             <ButtonStyled
                 type={type}
                 width={widthValue}
-                buttontheme={color}
+                button_theme={color}
                 onClick={() => handleOnClick !== undefined && handleOnClick()}
                 disabled={!clicable}
                 clicable={clicable}

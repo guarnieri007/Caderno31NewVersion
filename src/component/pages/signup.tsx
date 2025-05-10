@@ -69,7 +69,7 @@ export const SignUp = (): ReactElement => {
 
 
   return (
-    <SignUpPage $bg_image={signup_bg}>
+    <SignUpPage bg_image={signup_bg}>
       <div className="grid_div">
 
         <div className="photo"></div>
@@ -82,7 +82,7 @@ export const SignUp = (): ReactElement => {
               icon={UIIcons.IdCard}
               label="Nickname"
               name="nickname"
-              placeHolder="Choose a unique nickname"
+              placeholder="Choose a unique nickname"
               instructions={["Must be a unique nickname", "should have up to 60 characters"]}
               maxLength={maxLengths.nickname?.max ?? 0}
               errors={errors.nickname}
@@ -92,7 +92,7 @@ export const SignUp = (): ReactElement => {
               icon={UIIcons.Letter}
               label="Email"
               name="email"
-              placeHolder="Enter your email"
+              placeholder="Enter your email"
               maxLength={maxLengths.email?.max ?? 0}
               errors={errors.email}
             />
@@ -101,7 +101,7 @@ export const SignUp = (): ReactElement => {
               icon={UIIcons.User}
               label="Username"
               name="username"
-              placeHolder="Create your username"
+              placeholder="Create your username"
               maxLength={maxLengths.username?.max ?? 0}
               errors={errors.username}
             />
@@ -110,7 +110,7 @@ export const SignUp = (): ReactElement => {
               icon={UIIcons.Key}
               label="Create your password"
               name="password"
-              placeHolder="Enter a new password"
+              placeholder="Enter a new password"
               maxLength={maxLengths.password?.max ?? 0}
               type="password"
               errors={errors.password}
@@ -120,7 +120,7 @@ export const SignUp = (): ReactElement => {
               icon={UIIcons.Lock}
               label="Confirm password"
               name="confirmPassword"
-              placeHolder="Type again the same password"
+              placeholder="Type again the same password"
               maxLength={maxLengths.confirmPassword?.max ?? 0}
               type="password"
               errors={errors.confirmPassword}

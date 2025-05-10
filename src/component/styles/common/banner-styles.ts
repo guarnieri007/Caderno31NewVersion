@@ -1,7 +1,9 @@
 import { BannerDivProps } from "../../../interfaces";
 import styled from "styled-components";
 
-export const BannerDiv = styled.div<BannerDivProps>`
+export const BannerDiv = styled.div.withConfig({
+    shouldForwardProp: (prop) => !['bg_image'].includes(prop),
+})<BannerDivProps>`
     border: 1px solid ${(prop) => prop.theme.colors.text};
     background-color: ${(prop) => prop.theme.colors.background_primary};
     color: ${(prop) => prop.theme.colors.text_hover};
@@ -12,8 +14,8 @@ export const BannerDiv = styled.div<BannerDivProps>`
     display: flex;
     flex-direction: row;
     
-    background-image: ${(prop) => prop.$bg_image
-        ? `linear-gradient(rgba(31, 36, 46, 0.4), rgba(31, 36, 46, 0.5)), ${prop.$bg_image}`
+    background-image: ${(prop) => prop.bg_image
+        ? `linear-gradient(rgba(31, 36, 46, 0.4), rgba(31, 36, 46, 0.5)), ${prop.bg_image}`
         : null};
     
     background-position: right;

@@ -15,7 +15,7 @@ export const SignUpPage = styled.div<BannerDivProps>`
         box-sizing: border-box;
         padding: ${(prop) => prop.theme.spacings["main-padding"]};
         padding-bottom: ${(prop) => prop.theme.spacings.normal};
-        background-image: url(${(prop) => prop.$bg_image});
+        background-image: url(${(prop) => prop.bg_image});
         height: 100%;
         background-repeat: no-repeat;
         background-position: center;

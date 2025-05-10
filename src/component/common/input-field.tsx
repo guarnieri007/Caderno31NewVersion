@@ -3,7 +3,7 @@ import { InputFieldContent } from "../styles/common/input-field-styles";
 import { InputFIeldProps } from "../../interfaces";
 import Icon from "../icons/icon";
 
-export const InputFIeld = ({ icon, label, placeHolder, instructions, maxLength, name, type, errors, value="" }: InputFIeldProps): ReactNode => {
+export const InputFIeld = ({ icon, label, placeholder, instructions, maxLength, name, type, errors, value="" }: InputFIeldProps): ReactNode => {
     const hasErrors: boolean = errors !== undefined && errors.length > 0;
     const [inputValue, setInputValue] = useState<HTMLInputElement["value"]>(value as string);
 
@@ -42,7 +42,7 @@ export const InputFIeld = ({ icon, label, placeHolder, instructions, maxLength, 
                         name={`${name}`}
                         id={`${label}`}
                         type={type !== undefined ? type : "text"}
-                        placeholder={placeHolder}
+                        placeholder={placeholder}
                         onFocus={handleFocus}  // Chama a função ao focar
                         onBlur={handleBlur}    // Chama a função ao desfocar
                         onChange={(e) => setValue(e)}

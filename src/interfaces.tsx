@@ -2,12 +2,12 @@ import { ReactNode } from "react";
 import { UIIcons } from "./component/icons";
 
 export interface HeroProps {
-    heroId: number;
+    id_hero: number;
     title?: string;
     text?: string;
-    buttonText?: string;
+    text_button?: string;
     handleClickButton?: () => void;
-    bgcolor?: string;
+    bg_color?: string;
     image?: string;
 }
 
@@ -26,7 +26,7 @@ export interface CreatorChipProps {
 export interface BannerProps {
     title: string;
     text: string;
-    buttonText: string;
+    text_button: string;
     image: string;
 }
 
@@ -35,24 +35,24 @@ export interface MiniBannerLayoutProps {
 }
 
 export interface BannerDivProps {
-    $bg_image?: string;
+    bg_image?: string;
 }
 
 export interface MediaInformation {
-    amountVideos: number;
-    amountPhotos: number;
-    amountAudios: number;
+    amount_videos: number;
+    amount_photos: number;
+    amount_audios: number;
 }
 
 export interface ItemAsCardProps {
-    cardId: number;
-    creatorsName: string;
+    id_card: number;
+    creators_name: string;
     image: string;
     title: string;
     category: string;
     price: number;
-    profileImage: string;
-    mediaInfo: MediaInformation;
+    profile_image: string;
+    media_info: MediaInformation;
     currency: "real" | "dolar";
 }
 
@@ -63,9 +63,9 @@ export interface CarrouselProps {
 export interface InputFIeldProps {
     label: string;
     name: string;
-    placeHolder: string;
+    placeholder: string;
     icon?: UIIcons;
-    instructionsLabel?: string;
+    label_instructions?: string;
     instructions?: string[];
     errors?: string[];
     maxLength: number;
@@ -94,7 +94,7 @@ export interface User {
 }
 
 export interface AuthContextType {
-  accessToken: string | null;
+  access_Token: string | null;
   user: User | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;

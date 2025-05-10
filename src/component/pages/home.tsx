@@ -24,10 +24,10 @@ export const Home = (): ReactElement => {
     const buildBestofMonth = (content: ItemAsCardProps[]): ReactElement => {
         return (
 
-            <ContentCreatorDiv numberItemsMobile={1}>
+            <ContentCreatorDiv number_items_mobile={1}>
                 {content.map((item) => {
                     return (
-                        <ItemAsCard key={item.cardId} {...item} />
+                        <ItemAsCard key={item.id_card} {...item} />
                     )
                 })}
             </ContentCreatorDiv >
@@ -37,7 +37,7 @@ export const Home = (): ReactElement => {
     const buildContentCreators = (content: CreatorChipProps[]) => {
 
         const creatorChipItems =
-            <ContentCreatorDiv numberItemsUHD={4} numberItemsHD={2}>
+            <ContentCreatorDiv number_items_uhd={4} number_items_hd={2}>
                 {content.map((item) => {
                     return (
                         <CreatorChip key={item.id} {...item} />
@@ -51,7 +51,7 @@ export const Home = (): ReactElement => {
     const buildBanners = (content: BannerProps[]) => {
 
         const banners = content.map(element => {
-            const item = <Banner buttonText={element.buttonText} image={element.image} text={element.text} title={element.title} />
+            const item = <Banner text_button={element.text_button} image={element.image} text={element.text} title={element.title} />
             return item;
         });
         return <MiniBannerLayout items={banners} />
@@ -60,7 +60,7 @@ export const Home = (): ReactElement => {
     const buildBannerHero = (content: HeroProps[]) => {
         return (content.map((item) => {
             return (
-                <Hero key={item.heroId} {...item} />
+                <Hero key={item.id_hero} {...item} />
             )
         }));
     }

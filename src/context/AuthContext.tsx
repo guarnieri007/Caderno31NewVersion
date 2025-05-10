@@ -36,6 +36,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   async function login(email: string, password: string) {
     try {
       const token = await getJWTToken(email, password);
+      console.log("token obtido", token);
       if (token) {
         setAccessToken(token);
         await getUserData(token);
@@ -95,7 +96,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <AuthContext.Provider value={{
-      accessToken: getAccessToken(),
+      access_Token: getAccessToken(),
       user,
       login,
       getUserData,
