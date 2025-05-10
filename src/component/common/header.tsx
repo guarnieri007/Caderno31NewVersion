@@ -7,12 +7,10 @@ import { UIIcons } from "../icons";
 import { useAuth } from "../../context/AuthContext";
 import { Login_overlay } from "../common/login-overlay";
 import { useLogout } from "../../hooks/useLogout";
-import { useCredential } from "../../hooks/useCredential";
 
 export const Header = (): ReactElement => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { handleCredential, loadingCredential } = useCredential();
   const { handleLogout, loadingLogout } = useLogout();
   const [showLogin, setShowLogin] = useState(false); // 🔥 controla se o overlay aparece
 
@@ -48,7 +46,6 @@ export const Header = (): ReactElement => {
                 <>
                   <a >{user.username}</a>
                   <Button color="secondary" handleOnClick={handleLogout} loading={loadingLogout} clicable={!loadingLogout}>Logout</Button>
-                  <Button color="secondary" handleOnClick={handleCredential} loading={loadingCredential} clicable={!loadingCredential}>Get User information</Button>
                 </>
               )}
             </>
