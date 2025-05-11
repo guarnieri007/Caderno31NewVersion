@@ -12,7 +12,7 @@ export interface ButtonProps {
     loading?: boolean;
 }
 
-export const Button = ({ color, handleOnClick, children, type = "button", width, loading = false, clicable = true }: ButtonProps): ReactElement => {
+export const Button = ({ color, handleOnClick, children, type = "button", width, loading = true, clicable = true }: ButtonProps): ReactElement => {
     const widthValue = (width != undefined && width != "") ? width : "initial";
     return (
         <>
