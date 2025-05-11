@@ -36,7 +36,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   async function login(email: string, password: string) {
     try {
       const token = await getJWTToken(email, password);
-      console.log("token obtido", token);
       if (token) {
         setAccessToken(token);
         await getUserData(token);
