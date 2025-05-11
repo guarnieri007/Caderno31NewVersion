@@ -36,7 +36,7 @@ export const Login_overlay = ({ onClose }: LoginOverlayProps): ReactElement => {
         background: theme.colors.background_secondary,
         padding: "2rem",
         borderRadius: "10px",
-        width: "min(333px calc(100% - 0.5rem))",
+        width: "min(333px, calc(70%))",
         position: "relative",
         overflowY: "auto",
 
