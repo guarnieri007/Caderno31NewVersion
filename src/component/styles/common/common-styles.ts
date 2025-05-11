@@ -147,6 +147,16 @@ export const ItemsColectionsDiv = styled.div`
     line-height: 32px;
   }
 
+  .containerButton {
+    display: flex;
+    height: auto;
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    min-height: 80px;
+  }
+
   @media (max-width: 768px) {
     h2 {
       text-align: center;

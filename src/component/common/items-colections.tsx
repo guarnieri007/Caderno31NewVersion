@@ -9,7 +9,9 @@ export const ItemsColections = ({ title, children }: ItemsColectionsProps): Reac
             <h2>{title}</h2>
             <div className="collectionContainer">
                 {children}
-                <Button color="secondary">See more</Button>
+                <div className="containerButton">
+                    <Button color="secondary">See more</Button>
+                </div>
             </div>
         </ItemsColectionsDiv>
     )

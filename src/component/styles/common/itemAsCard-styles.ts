@@ -14,7 +14,7 @@ export const ItemAsCardDiv = styled.div.withConfig({
     background-color: ${(prop) => prop.theme.colors.button_text};
     color: ${(prop) => prop.theme.colors.text};
     border-radius: 16px 16px 0px 0px;
-    padding: ${(prop) => prop.theme.spacings.small};
+    padding: 2px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -23,6 +23,7 @@ export const ItemAsCardDiv = styled.div.withConfig({
     
     .cardImage {
         background-image: ${(prop) => prop.bg_image};
+        border-radius: 16px 16px 8px 8px !important;
         background-repeat: no-repeat;
         background-position: center;
         background-size: contain;
@@ -37,7 +38,11 @@ export const ItemAsCardDiv = styled.div.withConfig({
         flex-direction: column;
         flex-grow: 1;
         .price {
-            padding: 0px 16px;
+            height: auto;
+            min-height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 1.15rem;
             line-height: 32px;
         }
@@ -51,7 +56,6 @@ export const ItemAsCardDiv = styled.div.withConfig({
             gap: 16px;
             min-height: 32px;
             height: auto;
-            flex-grow: 1;
             div{
                 display: flex;
                 flex-direction: row;
@@ -72,15 +76,17 @@ export const ItemAsCardDiv = styled.div.withConfig({
             }
         }
     }
-
+    
     .description {
-        margin-top: 24px;
+        margin: 0px;
+        padding: ${(prop) => prop.theme.spacings.small};
         display: grid;
-        grid-template-rows: ${description_lineHeight}${description_lineHeightUnit} 1.5rem 4rem;
+        flex-grow: 1;
+        grid-template-rows: auto auto auto;
         grid-template-areas:
         "title"
-        "category"
-        "contentCreator";
+        "contentCreator"
+        "category";
         gap: ${(prop) => prop.theme.spacings.reduced};
         .title {
             grid-area: title;
@@ -102,31 +108,39 @@ export const ItemAsCardDiv = styled.div.withConfig({
             font-size: 0.95rem;
             line-height: 1.5rem;
             color: ${(prop) => prop.theme.colors.button_background};
+            text-align: center;
         }
         .contentCreator {
             grid-area: contentCreator;
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             gap: 8px;
             .profileImage {
-                display:block;
-                height:100%;
+                display:flex;
+                align-items: center;
+                justify-content: center;
+                height:initial;
                 width: 4rem;
                 img {
                     border-radius: 8px;
                     height: 100%;
+                    max-height: 64px;
                     width: auto;
                 }
             }
             .creatorsName {
-                color: ${(prop) => prop.theme.colors.button_background};
-                line-height: 4rem;
+                color: ${(prop) => prop.theme.colors.text};
+                line-height: 1.1;
+                display: block;
                 overflow: hidden;
                 text-overflow: ellipsis;
-                height:100%;
+                height:auto;
                 width: 100%;
                 flex-grow: 1;
                 font-size: 1rem;
+                text-align: center;
             }
         }
     }
