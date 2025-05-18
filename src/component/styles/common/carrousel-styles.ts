@@ -26,7 +26,7 @@ export const CarrouselMainDiv = styled.div`
             user-select: none; // evita selecao
         }
         button {
-            padding: ${(prop) => prop.theme.spacings.min} ${(prop) => prop.theme.spacings.small};
+            padding: 6px ${(prop) => prop.theme.spacings.small};
             height: min-content;
             line-height: inherit;
         }
