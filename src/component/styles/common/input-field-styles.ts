@@ -75,8 +75,11 @@ export const InputFieldContent = styled.div.withConfig({
             }
     
             &::placeholder {
-                color: ${(prop) => prop.theme.colors.text};
-            }    
+                color: ${(prop) => prop.theme.colors.placeHolder};
+            }
+            &:focus::placeholder {
+                color: ${(prop) => prop.theme.colors.placeHolder_focus};
+            }
         }
         svg {
             position: absolute;
@@ -84,7 +87,10 @@ export const InputFieldContent = styled.div.withConfig({
             //the proper math is, the svg height, minus the element height, the difference we should add the padding and border, divide by 2. In my case, I have 18px
             bottom: 18px;
             top: 18px;
-            fill: ${(prop) => prop.has_errors ? prop.theme.colors.error : prop.is_focused ? prop.theme.colors.text_hover : prop.theme.colors.text};
+            fill: ${(prop) => prop.has_errors ? prop.theme.colors.error
+            : prop.is_focused ? prop.theme.colors.text_hover
+            : prop.theme.colors.text
+            };
         }
 
     }
