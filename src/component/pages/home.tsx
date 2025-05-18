@@ -1,7 +1,6 @@
 import { ReactElement, ReactNode, useEffect, useState } from "react";
 import { Hero } from "../common/hero";
 import { ItemsColections } from "../common/items-colections";
-import { HomeDiv } from "./home-styles";
 import { HomeApi } from "../../api/backendApi";
 import { BannerProps, CreatorChipProps, HeroProps, ItemAsCardProps } from "../../interfaces";
 import { Carrousel } from "../common/carrousel";
@@ -18,6 +17,11 @@ export const Home = (): ReactElement => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [heroBanners, setHeroBanners] = useState<ReactNode[]>([]);
+
+    const HomeStyle: React.CSSProperties = {
+        padding: "0px",
+        margin: "0px",
+    }
 
     const { FetchBestOfMonth, FetchContentCreators, FetchBanners, FetchHeroBanners } = HomeApi();
 
@@ -96,19 +100,19 @@ export const Home = (): ReactElement => {
             setError((last) => `${last}\n\nError on load the Collection Content Creators data:\n${error}`)
         }
     };
-    
+
     const getBannerHero = async () => {
         try {
             const content = await FetchHeroBanners();
             const result = buildBannerHero(content.data);
             setHeroBanners(result);
-            
+
         }
         catch (error) {
             setError((last) => `${last}\n\nError on load the collection content Banner Hero:\n${error}`)
         }
     }
-    
+
     const getAllSectionData = async () => {
         setLoading(true); //removed the loading for each call individually and now the app will load when we have all the information available
         getBestOfMonthData();
@@ -120,16 +124,16 @@ export const Home = (): ReactElement => {
 
     useEffect(() => {
         getAllSectionData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    
+
     if (error) {
         return <div>{error}</div>;
     }
-    
+
     return (
-        <HomeDiv>
+        <div style={HomeStyle}>
             {loading && <div>is loading</div>}
             <Carrousel>
                 {heroBanners}
@@ -148,6 +152,6 @@ export const Home = (): ReactElement => {
                     </ItemsColections>
                 </div>
             </div>
-        </HomeDiv>
+        </div>
     )
 }
