@@ -85,8 +85,10 @@ export const SignUpPage = styled.div<BannerDivProps>`
         }
     }
     @media (max-width: 768px) {
-        grid-template-columns: 1fr;
-        grid-row: auto auto;
+        .grid_div {
+            grid-template-columns: 1fr;
+            grid-row: auto auto;
+        }
         .photo {
             padding: ${(prop) => prop.theme.spacings.normal};
             width: auto;
