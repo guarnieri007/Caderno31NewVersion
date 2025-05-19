@@ -1,8 +1,11 @@
 import { CSSProperties, MouseEventHandler, ReactElement } from "react";
 import { UIIcons } from ".";
 
-import BookIcon from "../../assets/icons/book-open.svg?react";
 import AudioIcon from "@/assets/icons/audio_file.svg?react";
+import BackspaceIcon from "../../assets/icons/backspace.svg?react";
+import BookIcon from "../../assets/icons/book-open.svg?react";
+import ChevronDownIcon from "@/assets/icons/chevron-down.svg?react"
+import ChevronUpIcon from "@/assets/icons/chevron-up.svg?react"
 import PhotoIcon from "@/assets/icons/photo.svg?react";
 import VideoIcon from "@/assets/icons/slideshow.svg?react";
 import IdCardIcon from "@/assets/icons/id-card.svg?react";
@@ -24,7 +27,10 @@ const Icon = ({ icon, ...rest }: IconProps): ReactElement => {
   
   const iconComponents = {
     [UIIcons.Audio]: AudioIcon,
+    [UIIcons.Backspace]: BackspaceIcon,
     [UIIcons.Book]: BookIcon,
+    [UIIcons.ChevronDown]: ChevronDownIcon,
+    [UIIcons.ChevronUp]: ChevronUpIcon,
     [UIIcons.Photo]: PhotoIcon,
     [UIIcons.RecEmpty]: "",
     [UIIcons.Video]: VideoIcon,

@@ -1,6 +1,9 @@
 export enum UIIcons {
     Audio,
+    Backspace,
     Book,
+    ChevronDown,
+    ChevronUp,
     Photo,
     RecEmpty,
     Video,

@@ -9,6 +9,7 @@ import { MainContainer } from './AppStyled'
 import { Route, Routes } from 'react-router-dom'
 import { SignUp } from './component/pages/signup'
 import { NotFound404 } from './component/pages/notFound404'
+import { PublishContent } from './component/pages/publishContent'
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
             <Routes>
               <Route path='/' element={<Home />} />
               <Route path='/signupUser' element={<SignUp />} />
+              <Route path='/publishContent' element={<PublishContent />} />
               <Route path='*' element={<NotFound404/>} />
             </Routes>
           </MainContent>

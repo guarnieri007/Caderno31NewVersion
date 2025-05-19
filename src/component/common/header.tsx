@@ -18,6 +18,10 @@ export const Header = (): ReactElement => {
     navigate("/signupUser");
   }
 
+  function GoToPostContent() {
+    navigate("/publishContent");
+  }
+
   function OpenLoginForm() {
     setShowLogin(true); // 🔥 Abre o login
   }
@@ -46,6 +50,7 @@ export const Header = (): ReactElement => {
                 <>
                   <a >{user.username}</a>
                   <Button color="secondary" handleOnClick={handleLogout} loading={loadingLogout} clicable={!loadingLogout}>Logout</Button>
+                  <Button color="primary" handleOnClick={GoToPostContent} >Post a new content</Button>
                 </>
               )}
             </>
