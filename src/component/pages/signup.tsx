@@ -59,8 +59,8 @@ export const SignUp = (): ReactElement => {
       await createCredential({ data: validation.data });
 
       await handleLogin(validation.data.email, validation.data.password);
-      if(successLogin) navigate("/");
-      
+      if (successLogin) navigate("/");
+
     } else {
       setErrors(validation.errors); // 🎯 Erros já formatados para exibir no frontend
       setLoading(false);

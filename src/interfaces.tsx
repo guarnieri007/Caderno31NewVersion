@@ -98,6 +98,7 @@ export interface LabelProps {
   length: number;
   maxLength: number;
   is_focused: boolean;
+  forInput: string;
 }
 
 export interface AuthContextType {
@@ -109,4 +110,18 @@ export interface AuthContextType {
   accessTokenRefresh: () => Promise<void>;
   getUserData: (token?: string) => Promise<User | undefined>;
   createCredential: (data: CreateNewCredentialProps) => Promise<void>;
+}
+
+export interface CategoryProps {
+  ds_category: string;
+  cd_category: number;
+  status: string;
+}
+
+export interface CategorySelectorProps {
+  all_categories: CategoryProps[],
+  max_selection: number,
+  selected_categories: CategoryProps[],
+  name: string,
+  placeHolder?: string,
 }

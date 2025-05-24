@@ -1,7 +1,15 @@
 import styled from "styled-components";
 
-export const CategorySelectorStyle = styled.div`
-  margin-top: 1rem;
+interface CategorySelectorStyleProps {
+  is_focused: boolean,
+}
+
+export const CategorySelectorStyle = styled.div.withConfig({
+  shouldForwardProp: (prop) => !['is_focused'].includes(prop),
+})<CategorySelectorStyleProps>`
+  margin-top: 0rem;
+  width: 100%;
+  height: auto;
 
   .dropdown {
     position: relative;
@@ -9,16 +17,17 @@ export const CategorySelectorStyle = styled.div`
   }
 
   .dropdown-header {
-  background-color: #1f242c;
-  padding: 0.75rem 1rem;
-  border: 1px solid #444;
+  background-color: ${(prop) => prop.is_focused ? prop.theme.colors.background_secondary : prop.theme.colors.background_primary};
+  padding: 0rem ${(prop) => prop.theme.spacings.normal};
+  border: 2px solid ${(prop) => prop.is_focused ? prop.theme.colors.text_hover : prop.theme.colors.button_text};
   border-radius: 8px;
   color: #fff;
   display: flex;
   justify-content: space-between;
   align-items: center;
-
+  
   input {
+    padding-right: ${(prop) => prop.theme.spacings.normal} !important;
     background: transparent;
     padding: 0px;
     margin: 0px;
@@ -29,6 +38,8 @@ export const CategorySelectorStyle = styled.div`
     flex: 1;
     width: 100%;
     font-family: inherit;
+    height: 48px;
+
 
     &::placeholder {
       color: #aaa;
@@ -108,5 +119,11 @@ export const CategorySelectorStyle = styled.div`
       cursor: pointer;
       font-weight: bold;
     }
+  }
+  .warning {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: ${(prop) => prop.theme.spacings.small} 0px;
   }
 `;

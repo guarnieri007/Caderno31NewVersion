@@ -5,7 +5,9 @@ interface LabelStyleProps {
 }
 
 
-export const LabelStyle = styled.div<LabelStyleProps>`
+export const LabelStyle = styled.div.withConfig({
+  shouldForwardProp: (prop) => !['is_focused'].includes(prop),
+})<LabelStyleProps>`
 
     
         display: flex;

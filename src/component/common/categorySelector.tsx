@@ -3,13 +3,19 @@ import { CategorySelectorStyle } from "../styles/common/categorySelector";
 import { motion, AnimatePresence } from "framer-motion";
 import Icon from "../icons/icon";
 import { UIIcons } from "../icons";
+import { Label } from "./label";
+import { CategorySelectorProps, CategoryProps } from "../../interfaces";
 
-const categories = ["Tech", "Gaming", "Music", "Books", "Fitness", "Science"];
-const MAX_SELECTION = 3;
-
-export const CategorySelector = () => {
+export const CategorySelector = (
+  { 
+    all_categories,
+    selected_categories,
+    max_selection,
+    name,
+    placeHolder = "Select Categories"
+  }: CategorySelectorProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState<string[]>([]);
+  const [selected, setSelected] = useState<CategoryProps[]>(selected_categories);
   const [search, setSearch] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -19,15 +25,15 @@ export const CategorySelector = () => {
     setTimeout(() => inputRef.current?.focus(), 0); // foca no input suavemente
   };
 
-  const handleSelect = (category: string) => {
-    if (!selected.includes(category) && selected.length < MAX_SELECTION) {
+  const handleSelect = (category: CategoryProps) => {
+    if (!selected.includes(category) && selected.length < max_selection) {
       setSelected([...selected, category]);
     }
     setIsOpen(false);
     setSearch("");
   };
 
-  const removeCategory = (category: string) => {
+  const removeCategory = (category: CategoryProps) => {
     setSelected(selected.filter((c) => c !== category));
   };
 
@@ -56,32 +62,41 @@ export const CategorySelector = () => {
     };
   }, []);
 
-  const filteredOptions = categories.filter(
+  const filteredOptions = all_categories.filter(
     (cat) =>
-      cat.toLowerCase().includes(search.toLowerCase()) &&
-      !selected.includes(cat)
+      cat.ds_category.toLowerCase().includes(search.toLowerCase()) &&
+      !selected.some((category) => category.ds_category.toLowerCase() === cat.ds_category.toLowerCase())
   );
 
   return (
-    <CategorySelectorStyle>
+    <CategorySelectorStyle is_focused={isOpen}>
       <div className="dropdown" ref={dropdownRef}>
+        <Label
+          forInput={name}
+          label="Categories"
+          is_focused={isOpen}
+          maxLength={max_selection}
+          length={selected.length}
+        />
         <div className="dropdown-header">
           <input
             type="text"
             ref={inputRef}
-            placeholder="Select Categories"
+            placeholder={placeHolder}
             value={search}
             onChange={(e) => {
               setSearch(e.target.value);
               setIsOpen(true); // ao digitar, força abrir
             }}
+            name={name}
+            id={name}
             onFocus={openDropdown}
-            disabled={selected.length >= MAX_SELECTION}
+            disabled={selected.length >= max_selection}
           />
           <span
-            className={`icon ${selected.length >= MAX_SELECTION ? "disabled" : ""}`}
+            className={`icon ${selected.length >= max_selection ? "disabled" : ""}`}
             onClick={() => {
-              if (selected.length < MAX_SELECTION) {
+              if (selected.length < max_selection) {
                 setIsOpen((prev) => !prev);
               }
             }}
@@ -104,8 +119,8 @@ export const CategorySelector = () => {
               transition={{ duration: 0.2 }}
             >
               {filteredOptions.map((cat) => (
-                <li key={cat} onClick={() => handleSelect(cat)}>
-                  {cat}
+                <li key={cat.cd_category} onClick={() => handleSelect(cat)}>
+                  {cat.ds_category}
                 </li>
               ))}
             </motion.ul>
@@ -115,8 +130,8 @@ export const CategorySelector = () => {
 
       <div className="chip-container">
         {selected.map((cat) => (
-          <div key={cat} className="chip">
-            {cat}
+          <div key={cat.cd_category} className="chip">
+            {cat.ds_category}
             <button onClick={() => removeCategory(cat)}>
               <Icon icon={UIIcons.Backspace} size={14} />
             </button>
@@ -124,9 +139,9 @@ export const CategorySelector = () => {
         ))}
       </div>
 
-      {selected.length >= MAX_SELECTION && (
+      {selected.length >= max_selection && (
         <div className="warning">
-          You can select up to {MAX_SELECTION} categories.
+          You can select up to {max_selection} categories.
         </div>
       )}
     </CategorySelectorStyle>

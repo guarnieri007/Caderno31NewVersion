@@ -5,6 +5,7 @@ export const PublishContentStyle = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: start;
+    margin: ${({ theme }) => theme.spacings.big} 0px;
 
   .card_style {
     top: 92px;
@@ -30,5 +31,13 @@ export const PublishContentStyle = styled.div`
       font-size: 1.8rem;
       text-align: center
     }
+  }
+
+  form {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    gap: ${({ theme }) => theme.spacings.normal};
   }
 `;

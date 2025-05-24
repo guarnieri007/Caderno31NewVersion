@@ -4,7 +4,20 @@ import { InputFIeldProps } from "../../interfaces";
 import Icon from "../icons/icon";
 import { Label } from "./label";
 
-export const InputFIeld = ({ icon, label, placeholder, instructions, maxLength, name, type, errors, value = "" }: InputFIeldProps): ReactNode => {
+export const InputFIeld = (
+    {
+
+        icon,
+        label,
+        placeholder,
+        instructions,
+        maxLength,
+        name,
+        type,
+        errors,
+        value = "",
+
+    }: InputFIeldProps): ReactNode => {
     const hasErrors: boolean = errors !== undefined && errors.length > 0;
     const [inputValue, setInputValue] = useState<HTMLInputElement["value"]>(value as string);
 
@@ -35,11 +48,12 @@ export const InputFIeld = ({ icon, label, placeholder, instructions, maxLength, 
                     length={inputValue.length}
                     maxLength={maxLength}
                     is_focused={isFocused}
+                    forInput={name}
                 />
                 <div className="input-holder">
                     <input
                         name={`${name}`}
-                        id={`${label}`}
+                        id={`${name}`}
                         type={type !== undefined ? type : "text"}
                         placeholder={placeholder}
                         onFocus={handleFocus}  // Chama a função ao focar
