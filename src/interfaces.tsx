@@ -93,6 +93,13 @@ export interface User {
   role?: string;
 }
 
+export interface LabelProps {
+  label: string;
+  length: number;
+  maxLength: number;
+  is_focused: boolean;
+}
+
 export interface AuthContextType {
   access_Token: string | null;
   user: User | null;

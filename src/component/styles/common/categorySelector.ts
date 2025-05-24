@@ -20,6 +20,8 @@ export const CategorySelectorStyle = styled.div`
 
   input {
     background: transparent;
+    padding: 0px;
+    margin: 0px;
     border: none;
     outline: none;
     color: #fff;
@@ -39,7 +41,8 @@ export const CategorySelectorStyle = styled.div`
   }
 
   .icon {
-  margin-left: 0.5rem;
+  margin: 0px;
+  padding: 0px;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -91,12 +94,17 @@ export const CategorySelectorStyle = styled.div`
     display: flex;
     align-items: center;
     font-size: 0.875rem;
+    gap: ${(prop) => prop.theme.spacings.small};
+
 
     button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       background: none;
       border: none;
       color: #fff;
-      margin-left: 0.5rem;
+      margin-left: 0rem;
       cursor: pointer;
       font-weight: bold;
     }

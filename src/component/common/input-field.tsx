@@ -2,8 +2,9 @@ import { useState, ReactNode } from "react";
 import { InputFieldContent } from "../styles/common/input-field-styles";
 import { InputFIeldProps } from "../../interfaces";
 import Icon from "../icons/icon";
+import { Label } from "./label";
 
-export const InputFIeld = ({ icon, label, placeholder, instructions, maxLength, name, type, errors, value="" }: InputFIeldProps): ReactNode => {
+export const InputFIeld = ({ icon, label, placeholder, instructions, maxLength, name, type, errors, value = "" }: InputFIeldProps): ReactNode => {
     const hasErrors: boolean = errors !== undefined && errors.length > 0;
     const [inputValue, setInputValue] = useState<HTMLInputElement["value"]>(value as string);
 
@@ -29,14 +30,12 @@ export const InputFIeld = ({ icon, label, placeholder, instructions, maxLength, 
     return (
         <InputFieldContent has_errors={hasErrors} is_focused={isFocused}>
             <div className="holder">
-                <div className="label-holder">
-                    <label htmlFor={`${label}`}>{label}</label>
-                    <div className="characters">
-                        <p>
-                            {inputValue.length} / {maxLength}
-                        </p>
-                    </div>
-                </div>
+                <Label
+                    label={label}
+                    length={inputValue.length}
+                    maxLength={maxLength}
+                    is_focused={isFocused}
+                />
                 <div className="input-holder">
                     <input
                         name={`${name}`}
