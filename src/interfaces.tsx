@@ -114,7 +114,7 @@ export interface AuthContextType {
 
 export interface CategoryProps {
   ds_category: string;
-  cd_category: number;
+  cd_category: string;
   status: string;
 }
 

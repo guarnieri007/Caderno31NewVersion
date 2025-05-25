@@ -67,11 +67,11 @@ export const CategorySelectorStyle = styled.div.withConfig({
 
 
   .dropdown-list {
-    background-color: #2f343d;
+    background-color: ${(prop) => prop.theme.colors.background_card};
     list-style: none;
     padding: 0;
     margin: 0.5rem 0 0 0;
-    border: 1px solid #444;
+    border: 2px solid ${(prop) => prop.theme.colors.text_hover};
     border-radius: 8px;
     position: absolute;
     width: 100%;
@@ -85,7 +85,7 @@ export const CategorySelectorStyle = styled.div.withConfig({
       color: #fff;
 
       &:hover {
-        background-color: #3a404b;
+        background-color: ${(prop) => prop.theme.colors.background_primary};
       }
     }
   }

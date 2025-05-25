@@ -13,7 +13,7 @@ export const PublishContentStyle = styled.div`
     width: 1000px;
     height: auto;
     max-width: 90%;
-    background-color: #2f343d;
+    background-color: ${(prop) => prop.theme.colors.background_card};
     border-radius: 14px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     align-self: center;

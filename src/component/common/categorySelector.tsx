@@ -7,7 +7,7 @@ import { Label } from "./label";
 import { CategorySelectorProps, CategoryProps } from "../../interfaces";
 
 export const CategorySelector = (
-  { 
+  {
     all_categories,
     selected_categories,
     max_selection,
@@ -70,6 +70,12 @@ export const CategorySelector = (
 
   return (
     <CategorySelectorStyle is_focused={isOpen}>
+      <input
+        type="hidden"
+        name={name}
+        id={name}
+        value={JSON.stringify(selected)}
+      />
       <div className="dropdown" ref={dropdownRef}>
         <Label
           forInput={name}
@@ -145,5 +151,6 @@ export const CategorySelector = (
         </div>
       )}
     </CategorySelectorStyle>
+
   );
 };
