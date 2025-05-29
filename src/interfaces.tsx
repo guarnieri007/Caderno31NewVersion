@@ -125,3 +125,15 @@ export interface CategorySelectorProps {
   name: string,
   placeHolder?: string,
 }
+
+export interface UploadFile {
+    file: File;
+    progress: number;
+    status: "uploading" | "paused" | "error" | "done";
+    xhr?: XMLHttpRequest;
+}
+
+export interface UploadFileProps {
+    uploadFiles: UploadFile[];
+    path: string;
+}

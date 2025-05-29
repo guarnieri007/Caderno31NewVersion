@@ -1,0 +1,81 @@
+import styled from "styled-components";
+
+
+export const UploadWrapper = styled.div`
+  border: 2px dashed ${(prop) => prop.theme.colors.button_text};
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 12px;
+  background-color: ${(prop) => prop.theme.colors.background_primary};
+  transition: background-color 0.2s;
+  &:hover {
+    background-color: ${(prop) => prop.theme.colors.background_secondary};
+  }
+`;
+
+export const FileItem = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-template-rows: auto auto auto;
+  grid-template-areas:
+    "picture description"
+    "picture description"
+    "progress-actions progress-actions";
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0rem;
+  padding: 0.3rem;
+  background: ${(prop) => prop.theme.colors.background_primary};
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  gap: ${(prop) => prop.theme.spacings.min};
+
+  .picture {
+    grid-area: picture;
+    height: 48px;
+    width: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 50%;
+  }
+
+  .description {
+    grid-area: description;
+  }
+
+  .progress-actions-holder {
+    grid-area: progress-actions;
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+
+    .actions {
+      display: flex;
+      gap: ${(prop) => prop.theme.spacings.small};
+      align-items: end;
+      justify-content: end;
+      align-self: end;
+    }
+  }
+`;
+
+
+export const ProgressBar = styled.div<{ progress: number }>`
+  height: 8px;
+  width: 100%;
+  background: ${(prop) => prop.theme.colors.background_card};
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 0.5rem 0;
+  &::after {
+    content: "";
+    display: block;
+    height: 100%;
+    width: ${({ progress }) => `${progress}%`};
+    background-color: #007bff;
+    transition: width 0.3s ease;
+  }
+`;

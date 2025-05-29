@@ -1,67 +1,21 @@
 // components/common/UploadArea.tsx
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import styled from "styled-components";
-
-interface UploadFile {
-    file: File;
-    progress: number;
-    status: "uploading" | "paused" | "error" | "done";
-    xhr?: XMLHttpRequest;
-}
-
-const UploadWrapper = styled.div`
-  border: 2px dashed ${(prop) => prop.theme.colors.button_text};
-  padding: 2rem;
-  text-align: center;
-  cursor: pointer;
-  border-radius: 12px;
-  background-color: ${(prop) => prop.theme.colors.background_primary};
-  transition: background-color 0.2s;
-  &:hover {
-    background-color: ${(prop) => prop.theme.colors.background_secondary};
-  }
-`;
-
-const FileItem = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 1rem;
-  padding: 0.5rem;
-  background: ${(prop) => prop.theme.colors.background_primary};
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  gap: ${(prop) => prop.theme.spacings.reduced};
-
-  .actions {
-    display: flex;
-    gap: ${(prop) => prop.theme.spacings.small};
-    align-items: end;
-    justify-content: end;
-    align-self: end;
-  }
-`;
-
-const ProgressBar = styled.div<{ progress: number }>`
-  height: 8px;
-  width: 100%;
-  background: ${(prop) => prop.theme.colors.background_card};
-  border-radius: 4px;
-  overflow: hidden;
-  margin: 0.5rem 0;
-  &::after {
-    content: "";
-    display: block;
-    height: 100%;
-    width: ${({ progress }) => `${progress}%`};
-    background-color: #007bff;
-    transition: width 0.3s ease;
-  }
-`;
+import { FileItem, ProgressBar, UploadWrapper } from "../styles/common/uploadArea";
+import { UploadFile } from "../../interfaces";
+import Icon from "../icons/icon";
+import { UIIcons } from "../icons";
+import { formatFileSize } from "../../helper/file-size-convertions";
 
 export const UploadArea = () => {
     const [uploads, setUploads] = useState<UploadFile[]>([]);
+
+    const itemsLoadingFiles: React.CSSProperties = {
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr 1fr",
+        gap: "16px",
+        marginTop: "16px",
+    }
 
     const onDrop = useCallback((acceptedFiles: File[]) => {
         const newUploads = acceptedFiles.map((file) => {
@@ -73,6 +27,7 @@ export const UploadArea = () => {
                 xhr,
             };
         });
+
 
         newUploads.forEach((upload) => {
             const { file, xhr } = upload;
@@ -187,13 +142,13 @@ export const UploadArea = () => {
     };
 
     return (
-        <div>
+        <div style={{ width: "100%", height: "auto" }}>
             <UploadWrapper {...getRootProps()}>
                 <input {...getInputProps()} />
                 <p>📁 Drag and drop or click here to send your files</p>
             </UploadWrapper>
 
-            <div>
+            <div style={itemsLoadingFiles}>
                 {uploads.map((upload) => {
                     const type = upload.file.type.startsWith("image")
                         ? "Image"
@@ -205,23 +160,47 @@ export const UploadArea = () => {
 
                     return (
                         <FileItem key={upload.file.name}>
-                            <div style={{ flex: 1 }}>
+                            <div className="picture">
+
+                                {type === "Image" && (
+                                    <img
+                                        style={{ maxHeight: "100%", maxWidth: "100%" }}
+                                        src={URL.createObjectURL(upload.file)}
+                                        alt={upload.file.name}
+                                    />
+                                )}
+                                {type === "Video" && (
+                                    <video src={URL.createObjectURL(upload.file)} controls={false} style={{ maxHeight: "100%", maxWidth: "100%" }} />
+                                )}
+                                {type === "Audio" && (
+                                    <Icon icon={UIIcons.Audio} style={{ maxHeight: "100%", maxWidth: "100%" }} size={25} />
+                                )}
+                                {type === "Unknown" && (
+                                    <Icon icon={UIIcons.Book} style={{ maxHeight: "100%", maxWidth: "100%" }} size={25} />
+                                )}
+
+                            </div>
+                            <div className="description" style={{ flex: 1 }}>
                                 <strong>{type}</strong>
-                                <ProgressBar progress={upload.progress} />
+                                <p style={{ fontSize: "12px", padding: "0px", margin: "0px" }}>{upload.file.name}</p>
+                                <p style={{ fontSize: "12px", padding: "0px", margin: "0px" }}>{formatFileSize(upload.file.size)}</p>
                             </div>
 
+                            <div className="progress-actions-holder">
+                                <ProgressBar progress={upload.progress} />
 
-                            <div className="actions">
-                                {upload.status === "uploading" && (
-                                    <button onClick={() => handlePause(upload.file)}>⏸️</button>
-                                )}
-                                {upload.status === "paused" && (
-                                    <button onClick={() => handleResume(upload.file)}>▶️</button>
-                                )}
-                                {upload.status === "error" && (
-                                    <button onClick={() => handleRetry(upload.file)}>🔁</button>
-                                )}
-                                <button onClick={() => handleRemove(upload.file)}>❌</button>
+                                <div className="actions">
+                                    {upload.status === "uploading" && (
+                                        <button onClick={() => handlePause(upload.file)}>⏸️</button>
+                                    )}
+                                    {upload.status === "paused" && (
+                                        <button onClick={() => handleResume(upload.file)}>▶️</button>
+                                    )}
+                                    {upload.status === "error" && (
+                                        <button onClick={() => handleRetry(upload.file)}>🔁</button>
+                                    )}
+                                    <button onClick={() => handleRemove(upload.file)}>❌</button>
+                                </div>
                             </div>
                         </FileItem>
                     );
