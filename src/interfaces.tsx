@@ -2,75 +2,75 @@ import { ReactNode } from "react";
 import { UIIcons } from "./component/icons";
 
 export interface HeroProps {
-    id_hero: number;
-    title?: string;
-    text?: string;
-    text_button?: string;
-    handleClickButton?: () => void;
-    bg_color?: string;
-    image?: string;
+  id_hero: number;
+  title?: string;
+  text?: string;
+  text_button?: string;
+  handleClickButton?: () => void;
+  bg_color?: string;
+  image?: string;
 }
 
 export interface ItemsColectionsProps {
-    title: string;
-    children: ReactNode;
+  title: string;
+  children: ReactNode;
 }
 
 export interface CreatorChipProps {
-    id: number;
-    title: string;
-    category: string;
-    image?: string;
+  id: number;
+  title: string;
+  category: string;
+  image?: string;
 }
 
 export interface BannerProps {
-    title: string;
-    text: string;
-    text_button: string;
-    image: string;
+  title: string;
+  text: string;
+  text_button: string;
+  image: string;
 }
 
 export interface MiniBannerLayoutProps {
-    items: ReactNode[];
+  items: ReactNode[];
 }
 
 export interface BannerDivProps {
-    bg_image?: string;
+  bg_image?: string;
 }
 
 export interface MediaInformation {
-    amount_videos: number;
-    amount_photos: number;
-    amount_audios: number;
+  amount_videos: number;
+  amount_photos: number;
+  amount_audios: number;
 }
 
 export interface ItemAsCardProps {
-    id_card: number;
-    creators_name: string;
-    image: string;
-    title: string;
-    category: string;
-    price: number;
-    profile_image: string;
-    media_info: MediaInformation;
-    currency: "real" | "dolar";
+  id_card: number;
+  creators_name: string;
+  image: string;
+  title: string;
+  category: string;
+  price: number;
+  profile_image: string;
+  media_info: MediaInformation;
+  currency: "real" | "dolar";
 }
 
 export interface CarrouselProps {
-    children: ReactNode[];
+  children: ReactNode[];
 }
 
 export interface InputFIeldProps {
-    label: string;
-    name: string;
-    placeholder: string;
-    icon?: UIIcons;
-    label_instructions?: string;
-    instructions?: string[];
-    errors?: string[];
-    maxLength: number;
-    type?: string;
-    value?: unknown;
+  label: string;
+  name: string;
+  placeholder: string;
+  icon?: UIIcons;
+  label_instructions?: string;
+  instructions?: string[];
+  errors?: string[];
+  maxLength: number;
+  type?: string;
+  value?: unknown;
 }
 
 export interface AcessTokenResponse {
@@ -127,13 +127,16 @@ export interface CategorySelectorProps {
 }
 
 export interface UploadFile {
-    file: File;
-    progress: number;
-    status: "uploading" | "paused" | "error" | "done";
-    xhr?: XMLHttpRequest;
+  file: File;
+  progress: number;
+  status: "uploading" | "paused" | "error" | "done" | "waiting";
+  fileId?: string;
+  currentChunk: number;
+  totalChunks: number;
+  xhr?: XMLHttpRequest;
 }
 
 export interface UploadFileProps {
-    uploadFiles: UploadFile[];
-    path: string;
+  uploadFiles: UploadFile[];
+  path: string;
 }

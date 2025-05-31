@@ -13,7 +13,7 @@ export const UploadArea = () => {
     const itemsLoadingFiles: React.CSSProperties = {
         display: "grid",
         gridTemplateColumns: "1fr 1fr 1fr",
-        gap: "16px",
+        gap: "12px",
         marginTop: "16px",
     }
 
