@@ -1,7 +1,19 @@
+// /src/api/upload.tsx
 export const UploadAPI = () => {
-  const backendURL = `${import.meta.env.VITE_BACKEND_PROTOCOAL}://${import.meta.env.VITE_BACKEND_HOST}:${import.meta.env.VITE_BACKEND_PORT}/api/`;
+  const backendURL = `${import.meta.env.VITE_BACKEND_PROTOCOAL}://${import.meta.env.VITE_BACKEND_HOST}:${import.meta.env.VITE_BACKEND_PORT}/api/upload/`;
 
-  const uploadChunk = (file: File, chunkIndex: number, chunkSize: number, fileId: string, totalChunks: number, onProgress: (percent: number) => void, onSuccess: () => void, onError: (error: string) => void): XMLHttpRequest => {
+  const uploadChunk = (
+    file: File,
+    chunkIndex: number,
+    chunkSize: number,
+    fileId: string,
+    totalChunks: number,
+    onProgress: (percent: number) => void,
+    onSuccess: () => void,
+    onError: (error: string) => void,
+    token?: string | null // ✅ esse é o novo argumento opcional
+  ): XMLHttpRequest => {
+
     const start = chunkIndex * chunkSize;
     const end = Math.min(start + chunkSize, file.size);
     const chunk = file.slice(start, end);
@@ -30,8 +42,11 @@ export const UploadAPI = () => {
     xhr.onerror = () => {
       onError(xhr.statusText);
     };
-
+    
     xhr.open("POST", `${backendURL}upload-chunk`);
+    if (token) {
+      xhr.setRequestHeader("Authorization", `Bearer ${token}`);
+    }
     xhr.send(formData);
 
     return xhr;

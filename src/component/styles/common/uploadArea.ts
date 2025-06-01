@@ -1,5 +1,5 @@
+// /src/component/styles/common/uploadArea.ts
 import styled from "styled-components";
-
 
 export const UploadWrapper = styled.div`
   border: 2px dashed ${(prop) => prop.theme.colors.button_text};
@@ -63,10 +63,13 @@ export const FileItem = styled.div`
 `;
 
 
-export const ProgressBar = styled.div<{ progress: number }>`
+export const ProgressBar = styled.div.withConfig({
+  shouldForwardProp: (prop) => !['progress'].includes(prop),
+})<{ progress: number }>`
   height: 8px;
   width: 100%;
   background: ${(prop) => prop.theme.colors.background_card};
+  border: 2px solid ${(prop) => prop.theme.colors.button_text_hover};
   border-radius: 4px;
   overflow: hidden;
   margin: 0.5rem 0;
@@ -75,7 +78,7 @@ export const ProgressBar = styled.div<{ progress: number }>`
     display: block;
     height: 100%;
     width: ${({ progress }) => `${progress}%`};
-    background-color: #007bff;
+    background-color: ${(prop) => prop.theme.colors.primary};
     transition: width 0.3s ease;
   }
 `;
