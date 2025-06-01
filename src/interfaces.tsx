@@ -130,7 +130,7 @@ export interface UploadFile {
   file: File;
   progress: number;
   status: "uploading" | "paused" | "error" | "done" | "waiting";
-  fileId?: string;
+  fileId: string;
   currentChunk: number;
   totalChunks: number;
   xhr?: XMLHttpRequest;

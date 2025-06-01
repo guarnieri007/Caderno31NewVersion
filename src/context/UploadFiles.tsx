@@ -1,5 +1,5 @@
 // src/context/UploadFiles.tsx
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, useRef, ReactNode } from "react";
 import { UploadFile } from "../interfaces";
 import { UploadAPI } from "../api/upload";
 import { v4 as uuidv4 } from "uuid";
@@ -20,6 +20,7 @@ export const UploadFilesProvider = ({ children }: { children: ReactNode }) => {
   const [uploads, setUploads] = useState<UploadFile[]>([]);
   const { uploadChunk, mergeChunks, cancelUpload } = UploadAPI();
   const chunkSize = 40 * 1024; // 40KB
+  const activeRequests = useRef<Map<string, XMLHttpRequest[]>>(new Map());
 
   const addFiles = (files: File[]) => {
     const newUploads: UploadFile[] = files.map((file) => ({
@@ -31,26 +32,22 @@ export const UploadFilesProvider = ({ children }: { children: ReactNode }) => {
       totalChunks: Math.ceil(file.size / chunkSize),
     }));
 
-    setUploads((prev) => {
-      const all = [...prev, ...newUploads];
-      // Inicia o upload com os objetos completos
-      newUploads.forEach((upload) => startUpload(upload));
-      return all;
-    });
+    setUploads((prev) => [...prev, ...newUploads]);
+    newUploads.forEach((upload) => startUpload(upload));
   };
 
   const startUpload = async (upload: UploadFile) => {
+    const { file, fileId, totalChunks } = upload;
+    let currentChunk = upload.currentChunk;
+    const token = getAccessToken();
+
     setUploads((prev) =>
       prev.map((u) =>
-        u.file.name === upload.file.name && u.file.size === upload.file.size
+        u.file.name === file.name && u.file.size === file.size
           ? { ...u, status: "uploading" }
           : u
       )
     );
-
-    const { file, fileId, totalChunks } = upload;
-    let currentChunk = upload.currentChunk;
-    const token = getAccessToken();
 
     while (currentChunk < totalChunks) {
       const chunkIndex = currentChunk;
@@ -96,6 +93,11 @@ export const UploadFilesProvider = ({ children }: { children: ReactNode }) => {
           token
         );
 
+        if (!activeRequests.current.has(fileId)) {
+          activeRequests.current.set(fileId, []);
+        }
+        activeRequests.current.get(fileId)!.push(xhr);
+
         setUploads((prev) =>
           prev.map((u) =>
             u.file.name === file.name && u.file.size === file.size
@@ -106,6 +108,7 @@ export const UploadFilesProvider = ({ children }: { children: ReactNode }) => {
     }
 
     await mergeChunks(fileId!, file.name);
+    activeRequests.current.delete(fileId);
     setUploads((prev) =>
       prev.map((u) =>
         u.file.name === file.name && u.file.size === file.size
@@ -143,7 +146,17 @@ export const UploadFilesProvider = ({ children }: { children: ReactNode }) => {
     const upload = uploads.find(
       (u) => u.file.name === file.name && u.file.size === file.size
     );
-    if (upload?.fileId) cancelUpload(upload.fileId);
+    if (!upload) return;
+
+    // Abort all active XHRs for this file
+    const requests = activeRequests.current.get(upload.fileId!);
+    if (requests) {
+      requests.forEach((xhr) => xhr.abort());
+      activeRequests.current.delete(upload.fileId!);
+    }
+
+    cancelUpload(upload.fileId!, upload.file.name);
+
     setUploads((prev) =>
       prev.filter(
         (u) => u.file.name !== file.name || u.file.size !== file.size

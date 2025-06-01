@@ -61,11 +61,11 @@ export const UploadAPI = () => {
     return await response.json();
   };
 
-  const cancelUpload = async (fileId: string) => {
+  const cancelUpload = async (fileId: string, fileName: string) => {
     await fetch(`${backendURL}cancel-upload`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ fileId }),
+      body: JSON.stringify({ fileId, fileName }),
     });
   };
 
