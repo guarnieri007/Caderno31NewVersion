@@ -65,7 +65,11 @@ export const FileItem = styled.div`
 
 export const ProgressBar = styled.div.withConfig({
   shouldForwardProp: (prop) => !['progress'].includes(prop),
-})<{ progress: number }>`
+}).attrs<{ progress: number }>((props) => ({
+  style: {
+    '--progress-width': `${props.progress}%`,
+  } as React.CSSProperties,
+}))`
   height: 8px;
   width: 100%;
   background: ${(prop) => prop.theme.colors.background_card};
@@ -77,7 +81,7 @@ export const ProgressBar = styled.div.withConfig({
     content: "";
     display: block;
     height: 100%;
-    width: ${({ progress }) => `${progress}%`};
+    width: var(--progress-width);
     background-color: ${(prop) => prop.theme.colors.primary};
     transition: width 0.3s ease;
   }

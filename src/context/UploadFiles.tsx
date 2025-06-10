@@ -21,33 +21,60 @@ export const UploadFilesProvider = ({ children }: { children: ReactNode }) => {
   const { uploadChunk, mergeChunks, cancelUpload } = UploadAPI();
   const chunkSize = 40 * 1024; // 40KB
   const activeRequests = useRef<Map<string, XMLHttpRequest[]>>(new Map());
+  const queue = useRef<UploadFile[]>([]);
+  const MAX_CONCURRENT_UPLOADS = 2;
+  const isProcessing = useRef(false);
 
   const addFiles = (files: File[]) => {
     const newUploads: UploadFile[] = files.map((file) => ({
       file,
       progress: 0,
-      status: "paused",
+      status: "waiting",
       fileId: uuidv4(),
       currentChunk: 0,
       totalChunks: Math.ceil(file.size / chunkSize),
     }));
 
-    setUploads((prev) => [...prev, ...newUploads]);
-    newUploads.forEach((upload) => startUpload(upload));
+    setUploads((prev) => {
+      const updated = [...prev, ...newUploads];
+      queue.current.push(...newUploads);
+      processUploadQueue(updated);
+      return updated;
+    });
+  };
+
+  const processUploadQueue = (currentUploads = uploads) => {
+    if (isProcessing.current) return;
+    isProcessing.current = true;
+
+    const uploadingCount = currentUploads.filter((u) => u.status === "uploading").length;
+    const availableSlots = MAX_CONCURRENT_UPLOADS - uploadingCount;
+
+    if (availableSlots <= 0 || queue.current.length === 0) {
+      isProcessing.current = false;
+      return;
+    }
+
+    if (availableSlots > 0) {
+      const toUpload = queue.current.splice(0, availableSlots);
+
+      toUpload.forEach((upload) => {
+        setUploads((prev) =>
+          prev.map((u) =>
+            u.file.name === upload.file.name && u.file.size === upload.file.size
+              ? { ...u, status: "uploading" as const }
+              : u
+          )
+        );
+        startUpload(upload);
+      });
+    }
   };
 
   const startUpload = async (upload: UploadFile) => {
     const { file, fileId, totalChunks } = upload;
     let currentChunk = upload.currentChunk;
     const token = getAccessToken();
-
-    setUploads((prev) =>
-      prev.map((u) =>
-        u.file.name === file.name && u.file.size === file.size
-          ? { ...u, status: "uploading" }
-          : u
-      )
-    );
 
     while (currentChunk < totalChunks) {
       const chunkIndex = currentChunk;
@@ -64,7 +91,7 @@ export const UploadFilesProvider = ({ children }: { children: ReactNode }) => {
             setUploads((prev) =>
               prev.map((u) =>
                 u.file.name === file.name && u.file.size === file.size
-                  ? { ...u, progress: Math.min(100, calculated) }
+                  ? { ...u, progress: Math.min(100, calculated), status: "uploading" as const }
                   : u
               )
             );
@@ -74,7 +101,8 @@ export const UploadFilesProvider = ({ children }: { children: ReactNode }) => {
             setUploads((prev) =>
               prev.map((u) =>
                 u.file.name === file.name && u.file.size === file.size
-                  ? { ...u, currentChunk } : u
+                  ? { ...u, currentChunk }
+                  : u
               )
             );
             resolve();
@@ -84,7 +112,7 @@ export const UploadFilesProvider = ({ children }: { children: ReactNode }) => {
             setUploads((prev) =>
               prev.map((u) =>
                 u.file.name === file.name && u.file.size === file.size
-                  ? { ...u, status: "error" }
+                  ? { ...u, status: "error" as const }
                   : u
               )
             );
@@ -100,8 +128,7 @@ export const UploadFilesProvider = ({ children }: { children: ReactNode }) => {
 
         setUploads((prev) =>
           prev.map((u) =>
-            u.file.name === file.name && u.file.size === file.size
-              ? { ...u, xhr } : u
+            u.file.name === file.name && u.file.size === file.size ? { ...u, xhr } : u
           )
         );
       });
@@ -109,59 +136,69 @@ export const UploadFilesProvider = ({ children }: { children: ReactNode }) => {
 
     await mergeChunks(fileId!, file.name);
     activeRequests.current.delete(fileId);
-    setUploads((prev) =>
-      prev.map((u) =>
+
+    setUploads((prev) => {
+      const updated = prev.map((u) =>
         u.file.name === file.name && u.file.size === file.size
-          ? { ...u, status: "done", progress: 100 }
+          ? { ...u, status: "done" as const, progress: 100 }
           : u
-      )
-    );
+      );
+      isProcessing.current = false;
+      processUploadQueue(updated);
+      return updated;
+    });
   };
 
   const pauseUpload = (file: File) => {
+    const upload = uploads.find((u) => u.file.name === file.name && u.file.size === file.size);
+    if (!upload) return;
+
+    activeRequests.current.get(upload.fileId)?.forEach((xhr) => xhr.abort());
+    activeRequests.current.delete(upload.fileId);
+
     setUploads((prev) =>
       prev.map((u) =>
         u.file.name === file.name && u.file.size === file.size
-          ? { ...u, status: "paused" }
+          ? { ...u, status: "paused", xhr: undefined }
           : u
       )
     );
   };
 
   const resumeUpload = (file: File) => {
-    const upload = uploads.find(
-      (u) => u.file.name === file.name && u.file.size === file.size
-    );
-    if (upload) startUpload(upload);
+    const upload = uploads.find((u) => u.file.name === file.name && u.file.size === file.size);
+    if (!upload) return;
+    queue.current.push(upload);
+    setUploads((prev) => {
+      const updated = prev.map((u) =>
+        u.file.name === file.name && u.file.size === file.size ? { ...u, status: "uploading" as const } : u
+      );
+      processUploadQueue(updated);
+      return updated;
+    });
   };
 
   const retryUpload = (file: File) => {
-    const upload = uploads.find(
-      (u) => u.file.name === file.name && u.file.size === file.size
-    );
-    if (upload) startUpload(upload);
+    resumeUpload(file);
   };
 
   const removeUpload = (file: File) => {
-    const upload = uploads.find(
-      (u) => u.file.name === file.name && u.file.size === file.size
-    );
+    const upload = uploads.find((u) => u.file.name === file.name && u.file.size === file.size);
     if (!upload) return;
 
-    // Abort all active XHRs for this file
-    const requests = activeRequests.current.get(upload.fileId!);
+    const requests = activeRequests.current.get(upload.fileId);
     if (requests) {
       requests.forEach((xhr) => xhr.abort());
-      activeRequests.current.delete(upload.fileId!);
+      activeRequests.current.delete(upload.fileId);
     }
 
-    cancelUpload(upload.fileId!, upload.file.name);
+    cancelUpload(upload.fileId, file.name);
 
-    setUploads((prev) =>
-      prev.filter(
-        (u) => u.file.name !== file.name || u.file.size !== file.size
-      )
-    );
+    setUploads((prev) => {
+      const updated = prev.filter((u) => u.file.name !== file.name || u.file.size !== file.size);
+      processUploadQueue(updated);
+      return updated;
+    });
   };
 
   return (

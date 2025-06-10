@@ -58,7 +58,7 @@ export const UploadAPI = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ fileId, fileName }),
     });
-    return await response.json();
+    return await response;
   };
 
   const cancelUpload = async (fileId: string, fileName: string) => {
