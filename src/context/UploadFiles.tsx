@@ -44,31 +44,29 @@ export const UploadFilesProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const processUploadQueue = (currentUploads = uploads) => {
-    if (isProcessing.current) return;
-    isProcessing.current = true;
-
     const uploadingCount = currentUploads.filter((u) => u.status === "uploading").length;
     const availableSlots = MAX_CONCURRENT_UPLOADS - uploadingCount;
+    if (isProcessing.current && (availableSlots <= 0)) return;
+    isProcessing.current = true;
+
 
     if (availableSlots <= 0 || queue.current.length === 0) {
       isProcessing.current = false;
       return;
     }
 
-    if (availableSlots > 0) {
-      const toUpload = queue.current.splice(0, availableSlots);
+    const toUpload = queue.current.splice(0, availableSlots);
 
-      toUpload.forEach((upload) => {
-        setUploads((prev) =>
-          prev.map((u) =>
-            u.file.name === upload.file.name && u.file.size === upload.file.size
-              ? { ...u, status: "uploading" as const }
-              : u
-          )
-        );
-        startUpload(upload);
-      });
-    }
+    toUpload.forEach((upload) => {
+      setUploads((prev) =>
+        prev.map((u) =>
+          u.file.name === upload.file.name && u.file.size === upload.file.size
+            ? { ...u, status: "uploading" as const }
+            : u
+        )
+      );
+      startUpload(upload);
+    });
   };
 
   const startUpload = async (upload: UploadFile) => {
