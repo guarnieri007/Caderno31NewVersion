@@ -169,7 +169,7 @@ export const UploadFilesProvider = ({ children }: { children: ReactNode }) => {
     queue.current.push(upload);
     setUploads((prev) => {
       const updated = prev.map((u) =>
-        u.file.name === file.name && u.file.size === file.size ? { ...u, status: "uploading" as const } : u
+        u.file.name === file.name && u.file.size === file.size ? { ...u, status: "waiting" as const } : u
       );
       processUploadQueue(updated);
       return updated;

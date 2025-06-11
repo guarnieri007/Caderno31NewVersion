@@ -83,10 +83,10 @@ export const UploadArea = () => {
           const type = upload.file.type.startsWith("image")
             ? "Image"
             : upload.file.type.startsWith("video")
-            ? "Video"
-            : upload.file.type.startsWith("audio")
-            ? "Audio"
-            : "Unknown";
+              ? "Video"
+              : upload.file.type.startsWith("audio")
+                ? "Audio"
+                : "Unknown";
 
           return (
             <FileItem key={upload.file.name + upload.file.size}>
@@ -117,16 +117,14 @@ export const UploadArea = () => {
 
               <div className="description" style={{ flex: 1 }}>
                 <strong>{type}</strong>
-                <p style={{ fontSize: "12px", padding: "0px", margin: "0px" }}>{upload.file.name}</p>
-                <p style={{ fontSize: "12px", padding: "0px", margin: "0px" }}>{formatFileSize(upload.file.size)}</p>
+                <p style={{ fontSize: "12px", padding: "0px", margin: "0px", }}>{upload.file.name}</p>
+                <p style={{ fontSize: "11px", padding: "0px", margin: "0px" }}>{formatFileSize(upload.file.size)}</p>
               </div>
 
               <div className="progress-actions-holder">
-                <ProgressBar progress={upload.progress} />
-
                 <div className="actions">
                   {upload.status === "uploading" && (
-                    <button onClick={() => pauseUpload(upload.file)}>⏸️</button>
+                    <Icon onClick={() => pauseUpload(upload.file)} icon={UIIcons.Book} style={{ maxHeight: "100%", maxWidth: "100%" }} size={22} />
                   )}
                   {(upload.status === "paused" || upload.status === "waiting") && (
                     <button onClick={() => resumeUpload(upload.file)}>▶️</button>
@@ -134,8 +132,11 @@ export const UploadArea = () => {
                   {upload.status === "error" && (
                     <button onClick={() => retryUpload(upload.file)}>🔁</button>
                   )}
-                  <button onClick={() => removeUpload(upload.file)}>❌</button>
+                  <Icon onClick={() => removeUpload(upload.file)} icon={UIIcons.Backspace} style={{ maxHeight: "100%", maxWidth: "100%" }} size={22} />
                 </div>
+
+                <ProgressBar progress={upload.progress} />
+
               </div>
             </FileItem>
           );

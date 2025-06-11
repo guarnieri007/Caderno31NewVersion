@@ -16,6 +16,8 @@ export const UploadWrapper = styled.div`
 
 export const FileItem = styled.div`
   display: grid;
+  max-width: 100%;
+  overflow: scroll;
   grid-template-columns: 1fr 3fr;
   grid-template-rows: auto auto auto;
   grid-template-areas:
@@ -44,20 +46,24 @@ export const FileItem = styled.div`
 
   .description {
     grid-area: description;
+    max-width: 100%;
+    height: auto;
+    width: 100%;
   }
 
   .progress-actions-holder {
     grid-area: progress-actions;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 8px;
+    padding: 8px;
 
     .actions {
       display: flex;
       gap: ${(prop) => prop.theme.spacings.small};
-      align-items: end;
-      justify-content: end;
-      align-self: end;
+      align-items: center;
+      justify-content: start;
+      align-self: normal;
     }
   }
 `;
