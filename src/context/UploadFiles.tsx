@@ -12,6 +12,7 @@ interface UploadFilesContextType {
   resumeUpload: (file: File) => void;
   retryUpload: (file: File) => void;
   removeUpload: (file: File) => void;
+  getCompletedUploads: () => UploadFile[];
 }
 
 const UploadFilesContext = createContext<UploadFilesContextType>({} as UploadFilesContextType);
@@ -68,6 +69,11 @@ export const UploadFilesProvider = ({ children }: { children: ReactNode }) => {
       startUpload(upload);
     });
   };
+
+  const getCompletedUploads = (): UploadFile[] => {
+    return uploads.filter((u) => u.status === "done");
+  };
+
 
   const startUpload = async (upload: UploadFile) => {
     const { file, fileId, totalChunks } = upload;
@@ -208,6 +214,7 @@ export const UploadFilesProvider = ({ children }: { children: ReactNode }) => {
         resumeUpload,
         retryUpload,
         removeUpload,
+        getCompletedUploads,
       }}
     >
       {children}
