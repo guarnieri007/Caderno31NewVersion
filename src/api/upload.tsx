@@ -1,3 +1,5 @@
+import { getAccessToken } from "../context/AuthTokenSingleton";
+
 // /src/api/upload.tsx
 export const UploadAPI = () => {
   const backendURL = `${import.meta.env.VITE_BACKEND_PROTOCOAL}://${import.meta.env.VITE_BACKEND_HOST}:${import.meta.env.VITE_BACKEND_PORT}/api/upload/`;
@@ -53,18 +55,20 @@ export const UploadAPI = () => {
   };
 
   const mergeChunks = async (fileId: string, fileName: string) => {
+    const token = await getAccessToken();
     const response = await fetch(`${backendURL}merge-chunks`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
       body: JSON.stringify({ fileId, fileName }),
     });
     return await response;
   };
 
   const cancelUpload = async (fileId: string, fileName: string) => {
+    const token =  getAccessToken();
     await fetch(`${backendURL}cancel-upload`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}`},
       body: JSON.stringify({ fileId, fileName }),
     });
   };
