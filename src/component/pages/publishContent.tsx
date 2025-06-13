@@ -8,6 +8,7 @@ import { z } from "zod";
 import { extractMinMaxLengths, validateFormData } from "../../helper/zod-helper";
 import { Button } from "../common/button";
 import { UploadArea } from "../common/uploadArea";
+import { useUploadFiles } from "../../context/UploadFiles";
 
 const categorySchema = z.object({
     ds_category: z.string(),      // Nome da categoria
@@ -27,6 +28,8 @@ const maxLengths = extractMinMaxLengths(publishContentSchema);
 type PublishContentForm = z.infer<typeof publishContentSchema>; // Inferir o tipo do esquema
 
 export const PublishContent = (): ReactElement => {
+    const { getCompletedUploads } = useUploadFiles();
+
     const [errors, setErrors] = useState<{ [key in keyof PublishContentForm]?: string[] }>({});
     const [loading, setLoading] = useState<boolean>(false);
 
@@ -35,6 +38,7 @@ export const PublishContent = (): ReactElement => {
         setLoading(true);
 
         const formData = new FormData(event.currentTarget);
+        const filesUploaded = await getCompletedUploads();
 
         let parsedCategories: CategoryProps[] = [];
 
@@ -48,6 +52,20 @@ export const PublishContent = (): ReactElement => {
             setErrors({ categories: ["Invalid categories format"] });
             setLoading(false);
             return;
+        }
+
+        try {
+            if(filesUploaded.length > 0) {
+                const filesWithError = filesUploaded.filter(file => file.status === "error");
+                console.log(filesUploaded);
+                if (filesWithError.length > 0) {
+                    setErrors({description: ["Files with error"]})
+                }
+            }            
+        }
+
+        catch(error) {
+            console.error("Failed to parse categories:", error);
         }
 
         const data = {
