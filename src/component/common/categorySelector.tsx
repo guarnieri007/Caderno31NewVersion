@@ -25,6 +25,10 @@ export const CategorySelector = (
     setTimeout(() => inputRef.current?.focus(), 0); // foca no input suavemente
   };
 
+  const closeDropdown = () => {
+    setIsOpen(false);
+  };
+
   const handleSelect = (category: CategoryProps) => {
     if (!selected.includes(category) && selected.length < max_selection) {
       setSelected([...selected, category]);
@@ -97,6 +101,7 @@ export const CategorySelector = (
             name={name}
             id={name}
             onFocus={openDropdown}
+            onBlur={closeDropdown}
             disabled={selected.length >= max_selection}
           />
           <span
@@ -125,7 +130,7 @@ export const CategorySelector = (
               transition={{ duration: 0.2 }}
             >
               {filteredOptions.map((cat) => (
-                <li key={cat.cd_category} onClick={() => handleSelect(cat)}>
+                <li key={cat.cd_category} onMouseDown={() => handleSelect(cat)}>
                   {cat.ds_category}
                 </li>
               ))}
