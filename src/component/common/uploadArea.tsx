@@ -124,15 +124,15 @@ export const UploadArea = () => {
               <div className="progress-actions-holder">
                 <div className="actions">
                   {upload.status === "uploading" && (
-                    <Icon onClick={() => pauseUpload(upload.file)} icon={UIIcons.Book} style={{ maxHeight: "100%", maxWidth: "100%" }} size={22} />
+                    <Icon onClick={() => pauseUpload(upload.file)} icon={UIIcons.Pause} size={22} />
                   )}
                   {(upload.status === "paused" || upload.status === "waiting") && (
-                    <button onClick={() => resumeUpload(upload.file)}>▶️</button>
+                    <Icon onClick={() => resumeUpload(upload.file)} icon={UIIcons.Play} size={22} />
                   )}
                   {upload.status === "error" && (
-                    <button onClick={() => retryUpload(upload.file)}>🔁</button>
+                    <Icon onClick={() => retryUpload(upload.file)} icon={UIIcons.RetryError} size={22} />
                   )}
-                  <Icon onClick={() => removeUpload(upload.file)} icon={UIIcons.Backspace} style={{ maxHeight: "100%", maxWidth: "100%" }} size={22} />
+                  <Icon onClick={() => removeUpload(upload.file)} icon={UIIcons.Trash} size={22} />
                 </div>
 
                 <ProgressBar progress={upload.progress} />
