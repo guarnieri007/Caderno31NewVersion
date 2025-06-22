@@ -12,8 +12,8 @@ export const UploadArea = () => {
   const {
     uploads,
     addFiles,
-    pauseUpload,
-    resumeUpload,
+    // pauseUpload,
+    // resumeUpload,
     retryUpload,
     removeUpload,
   } = useUploadFiles();
@@ -75,7 +75,7 @@ export const UploadArea = () => {
     <div style={{ width: "100%", height: "auto" }}>
       <UploadWrapper {...getRootProps()}>
         <input {...getInputProps()} />
-        <p>📁 Drag and drop or click here to send your files</p>
+        <p><Icon icon={UIIcons.Anexo} size={25} color="#FFF" />Drag and drop or click here to send your files</p>
       </UploadWrapper>
 
       <UploadItemsHolder>
@@ -116,26 +116,29 @@ export const UploadArea = () => {
               </div>
 
               <div className="description" style={{ flex: 1 }}>
-                <strong>{type}</strong>
+                <strong>{type} {upload.status}</strong>
                 <p style={{ fontSize: "12px", padding: "0px", margin: "0px", }}>{upload.file.name}</p>
                 <p style={{ fontSize: "11px", padding: "0px", margin: "0px" }}>{formatFileSize(upload.file.size)}</p>
               </div>
 
               <div className="progress-actions-holder">
                 <div className="actions">
-                  {upload.status === "uploading" && (
-                    <Icon onClick={() => pauseUpload(upload.file)} icon={UIIcons.Pause} size={22} />
+                  {/* {upload.status === "uploading" && (
+                    <Icon onClick={() => pauseUpload(upload.file)} icon={UIIcons.Pause} size={26} />
                   )}
                   {(upload.status === "paused" || upload.status === "waiting") && (
-                    <Icon onClick={() => resumeUpload(upload.file)} icon={UIIcons.Play} size={22} />
-                  )}
+                    <Icon onClick={() => resumeUpload(upload.file)} icon={UIIcons.Play} size={26} />
+                  )} */}
                   {upload.status === "error" && (
-                    <Icon onClick={() => retryUpload(upload.file)} icon={UIIcons.RetryError} size={22} />
+                    <Icon onClick={() => retryUpload(upload.file)} icon={UIIcons.RetryError} size={26} />
                   )}
-                  <Icon onClick={() => removeUpload(upload.file)} icon={UIIcons.Trash} size={22} />
+                  <Icon onClick={() => removeUpload(upload.file)} icon={UIIcons.Trash} size={26} />
                 </div>
+                <div>
 
-                <ProgressBar progress={upload.progress} />
+                  <p style={{ fontSize: "12px", padding: "0px", margin: "0px", textAlign: "center" }}>{upload.progress.toFixed(0)}%</p>
+                  <ProgressBar progress={upload.progress} />
+                </div>
 
               </div>
             </FileItem>
