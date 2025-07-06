@@ -44,16 +44,18 @@ export const UploadFilesProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
-  const processUploadQueue = (currentUploads = uploads) => {
+  const processUploadQueue = (currentUploads = uploads, forceStart: boolean = false) => {
     const uploadingCount = currentUploads.filter((u) => u.status === "uploading").length;
     const availableSlots = MAX_CONCURRENT_UPLOADS - uploadingCount;
-    if (isProcessing.current && (availableSlots <= 0)) return;
-    isProcessing.current = true;
 
+    if (!forceStart) {
+      if (isProcessing.current && (availableSlots <= 0)) return;
+      isProcessing.current = true;
 
-    if (availableSlots <= 0 || queue.current.length === 0) {
-      isProcessing.current = false;
-      return;
+      if (availableSlots <= 0 || queue.current.length === 0) {
+        isProcessing.current = false;
+        return;
+      }
     }
 
     const toUpload = queue.current.splice(0, availableSlots);
@@ -148,7 +150,7 @@ export const UploadFilesProvider = ({ children }: { children: ReactNode }) => {
           : u
       );
       isProcessing.current = false;
-      processUploadQueue(updated);
+      processUploadQueue(updated, true);
       return updated;
     });
   };
@@ -159,6 +161,8 @@ export const UploadFilesProvider = ({ children }: { children: ReactNode }) => {
 
     activeRequests.current.get(upload.fileId)?.forEach((xhr) => xhr.abort());
     activeRequests.current.delete(upload.fileId);
+
+    console.log(queue);
 
     setUploads((prev) =>
       prev.map((u) =>

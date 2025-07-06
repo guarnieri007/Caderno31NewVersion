@@ -87,7 +87,7 @@ export const Login_overlay = ({ onClose }: LoginOverlayProps): ReactElement => {
 
         if (validation.success) {
             setErrors({}); // Nenhum erro
-            handleLogin(validation.data.email, validation.data.password);
+            await handleLogin(validation.data.email, validation.data.password);
         }
         else {
             setErrors(validation.errors); // 🎯 Erros já formatados para exibir no frontend

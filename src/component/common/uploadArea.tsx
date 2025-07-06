@@ -21,6 +21,16 @@ export const UploadArea = () => {
   const [videoThumbs, setVideoThumbs] = useState<Record<string, string>>({});
   const generatedThumbs = useRef<Set<string>>(new Set());
 
+  const getFileType = (file: File): "Image" | "Video" | "Audio" | "Unknown" => {
+    return file.type.startsWith("image")
+      ? "Image" as const
+      : file.type.startsWith("video")
+        ? "Video" as const
+        : file.type.startsWith("audio")
+          ? "Audio" as const
+          : "Unknown" as const;
+  }
+
   const generateThumbnail = (file: File) => {
     return new Promise<string | null>((resolve) => {
       const video = document.createElement("video");
@@ -80,13 +90,7 @@ export const UploadArea = () => {
 
       <UploadItemsHolder>
         {uploads.map((upload) => {
-          const type = upload.file.type.startsWith("image")
-            ? "Image"
-            : upload.file.type.startsWith("video")
-              ? "Video"
-              : upload.file.type.startsWith("audio")
-                ? "Audio"
-                : "Unknown";
+          const type = getFileType(upload.file);
 
           return (
             <FileItem key={upload.file.name + upload.file.size}>

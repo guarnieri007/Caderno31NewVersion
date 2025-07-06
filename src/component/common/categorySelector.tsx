@@ -124,10 +124,10 @@ export const CategorySelector = (
           {isOpen && filteredOptions.length > 0 && (
             <motion.ul
               className="dropdown-list"
-              initial={{ opacity: 0, y: -10 }}
+              initial={{ opacity: 0, y: -50 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2 }}
+              exit={{ opacity: 0, y: -60 }}
+              transition={{ duration: 0.4 }}
             >
               {filteredOptions.map((cat) => (
                 <li key={cat.cd_category} onMouseDown={() => handleSelect(cat)}>
