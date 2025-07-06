@@ -14,8 +14,11 @@ export const AuthAPI = () => {
         withCredentials: true // Garantir que os cookies sejam enviados
       });
       return response.data?.accessToken;
-    } catch (error) {
-      console.error('Erro ao obter o CSRF token:', error);
+    } catch (err) {
+      if (err instanceof AxiosError && err.response) {
+        const msg = err.response?.data?.message ?? err.message;
+        throw new Error(msg);
+      }
     }
   }
 
@@ -30,7 +33,7 @@ export const AuthAPI = () => {
     catch (error) {
       if (error instanceof AxiosError && error.response) {
         const backendErrors = error.response.data?.errors;
-        
+
         if (!backendErrors) {
           console.error('Erro ao criar usuário:', error.response.data);
           return;
