@@ -14,7 +14,7 @@ const categorySchema = z.object({
     ds_category: z.string(),      // Nome da categoria
     cd_category: z.string(),      // Código numérico
     status: z.string(),           // Status (ex: "A")
-    price: z.number(),
+    price: z.number().nullable(),
 });
 
 const categoriesQuantity = 5;
@@ -59,7 +59,7 @@ export const PublishContent = (): ReactElement => {
         }
 
         try {
-            price = parseFloat(formData.get("price") as string);
+            price = Number.isNaN(parseFloat(formData.get("price") as string)) ? 0 : parseFloat(formData.get("price") as string);
         } catch (error) {
             console.error("Failed to parse price:", error);
             setErrors({ price: ["Invalid price format"] });
