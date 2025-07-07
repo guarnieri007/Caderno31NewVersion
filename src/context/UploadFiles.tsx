@@ -80,10 +80,10 @@ export const UploadFilesProvider = ({ children }: { children: ReactNode }) => {
   const startUpload = async (upload: UploadFile) => {
     const { file, fileId, totalChunks } = upload;
     let currentChunk = upload.currentChunk;
-    const token = getAccessToken();
 
     while (currentChunk < totalChunks) {
       const chunkIndex = currentChunk;
+      const token = getAccessToken();
 
       await new Promise<void>((resolve, reject) => {
         const xhr = uploadChunk(
