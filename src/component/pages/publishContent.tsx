@@ -14,16 +14,15 @@ const categorySchema = z.object({
     ds_category: z.string(),      // Nome da categoria
     cd_category: z.string(),      // Código numérico
     status: z.string(),           // Status (ex: "A")
-    price: z.number().nullable(),
 });
 
 const categoriesQuantity = 5;
 // Schema do formulário
 const publishContentSchema = z.object({
     description: z.string().max(300, "Description is too long"),
-    categories: z.array(categorySchema).max(categoriesQuantity, `You must select up to ${categoriesQuantity} categories`), // Array de categorias válidas
-    price: z.number().max(999999),
-
+    categories: z.array(categorySchema).max(categoriesQuantity, `You must select up to ${categoriesQuantity} categories`).nullable(), // Array de categorias válidas
+    price: z.number().max(999999).nullable(),
+    files: z.array(z.any()).nullable(), // Array de arquivos
 });
 
 // Extract max lengths using schema.innerType.shape.fieldName._def.checks
@@ -81,10 +80,11 @@ export const PublishContent = (): ReactElement => {
             console.error("Failed to parse categories:", error);
         }
 
+        const description = formData.get("description") as string;
         const data = {
-            description: formData.get("description") as string,
-            categories: parsedCategories,
+            description,
             price: price,
+            categories: parsedCategories,
             files: filesUploaded,
         };
         console.log(data);

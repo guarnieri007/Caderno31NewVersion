@@ -127,7 +127,7 @@ export const CategorySelector = (
               initial={{ opacity: 0, y: -50 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -60 }}
-              transition={{ duration: 0.4 }}
+              transition={{ duration: 0.2 }}
             >
               {filteredOptions.map((cat) => (
                 <li key={cat.cd_category} onMouseDown={() => handleSelect(cat)}>
@@ -143,7 +143,7 @@ export const CategorySelector = (
         {selected.map((cat) => (
           <div key={cat.cd_category} className="chip">
             {cat.ds_category}
-            <button onClick={() => removeCategory(cat)}>
+            <button onMouseDown={() => removeCategory(cat)}>
               <Icon icon={UIIcons.Backspace} size={14} />
             </button>
           </div>
