@@ -13,14 +13,16 @@ import { useUploadFiles } from "../../context/UploadFiles";
 const categorySchema = z.object({
     ds_category: z.string(),      // Nome da categoria
     cd_category: z.string(),      // Código numérico
-    status: z.string()            // Status (ex: "A")
+    status: z.string(),           // Status (ex: "A")
 });
 
 const categoriesQuantity = 5;
 // Schema do formulário
 const publishContentSchema = z.object({
     description: z.string().max(300, "Description is too long"),
-    categories: z.array(categorySchema).max(categoriesQuantity, `You must select up to ${categoriesQuantity} categories`) // Array de categorias válidas
+    categories: z.array(categorySchema).max(categoriesQuantity, `You must select up to ${categoriesQuantity} categories`).nullable(), // Array de categorias válidas
+    price: z.number().max(999999).nullable(),
+    files: z.array(z.any()).nullable(), // Array de arquivos
 });
 
 // Extract max lengths using schema.innerType.shape.fieldName._def.checks
@@ -41,6 +43,7 @@ export const PublishContent = (): ReactElement => {
         const filesUploaded = await getCompletedUploads();
 
         let parsedCategories: CategoryProps[] = [];
+        let price: number = 0;
 
         try {
             const raw = formData.get("categories");
@@ -50,6 +53,15 @@ export const PublishContent = (): ReactElement => {
         } catch (error) {
             console.error("Failed to parse categories:", error);
             setErrors({ categories: ["Invalid categories format"] });
+            setLoading(false);
+            return;
+        }
+
+        try {
+            price = Number.isNaN(parseFloat(formData.get("price") as string)) ? 0 : parseFloat(formData.get("price") as string);
+        } catch (error) {
+            console.error("Failed to parse price:", error);
+            setErrors({ price: ["Invalid price format"] });
             setLoading(false);
             return;
         }
@@ -68,10 +80,15 @@ export const PublishContent = (): ReactElement => {
             console.error("Failed to parse categories:", error);
         }
 
+        const description = formData.get("description") as string;
         const data = {
-            description: formData.get("description") as string,
+            description,
+            price: price,
             categories: parsedCategories,
+            files: filesUploaded,
         };
+        console.log(data);
+
 
         const validation = validateFormData(publishContentSchema, data);
 
@@ -101,6 +118,16 @@ export const PublishContent = (): ReactElement => {
                         type="text"
                         icon={UIIcons.Book}
                         errors={errors.description}
+                    />
+
+                    <InputFIeld
+                        label="Price"
+                        maxLength={maxLengths.price?.max ? maxLengths.price.max : 0}
+                        name="price"
+                        placeholder="Tokens"
+                        type="number"
+                        icon={UIIcons.Lock}
+                        errors={errors.price}
                     />
 
                     <CategorySelector

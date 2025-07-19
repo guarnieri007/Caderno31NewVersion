@@ -64,6 +64,12 @@ export const FileItem = styled.div`
       align-items: center;
       justify-content: start;
       align-self: normal;
+
+      svg {
+        max-height: "100%";
+        max-width: "100%";
+        cursor: pointer;
+      }
     }
   }
 `;

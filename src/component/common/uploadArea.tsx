@@ -12,14 +12,24 @@ export const UploadArea = () => {
   const {
     uploads,
     addFiles,
-    pauseUpload,
-    resumeUpload,
+    // pauseUpload,
+    // resumeUpload,
     retryUpload,
     removeUpload,
   } = useUploadFiles();
 
   const [videoThumbs, setVideoThumbs] = useState<Record<string, string>>({});
   const generatedThumbs = useRef<Set<string>>(new Set());
+
+  const getFileType = (file: File): "Image" | "Video" | "Audio" | "Unknown" => {
+    return file.type.startsWith("image")
+      ? "Image" as const
+      : file.type.startsWith("video")
+        ? "Video" as const
+        : file.type.startsWith("audio")
+          ? "Audio" as const
+          : "Unknown" as const;
+  }
 
   const generateThumbnail = (file: File) => {
     return new Promise<string | null>((resolve) => {
@@ -75,18 +85,12 @@ export const UploadArea = () => {
     <div style={{ width: "100%", height: "auto" }}>
       <UploadWrapper {...getRootProps()}>
         <input {...getInputProps()} />
-        <p>📁 Drag and drop or click here to send your files</p>
+        <p><Icon icon={UIIcons.Anexo} size={25} color="#FFF" />Drag and drop or click here to send your files</p>
       </UploadWrapper>
 
       <UploadItemsHolder>
         {uploads.map((upload) => {
-          const type = upload.file.type.startsWith("image")
-            ? "Image"
-            : upload.file.type.startsWith("video")
-              ? "Video"
-              : upload.file.type.startsWith("audio")
-                ? "Audio"
-                : "Unknown";
+          const type = getFileType(upload.file);
 
           return (
             <FileItem key={upload.file.name + upload.file.size}>
@@ -116,26 +120,29 @@ export const UploadArea = () => {
               </div>
 
               <div className="description" style={{ flex: 1 }}>
-                <strong>{type}</strong>
+                <strong>{type} {upload.status}</strong>
                 <p style={{ fontSize: "12px", padding: "0px", margin: "0px", }}>{upload.file.name}</p>
                 <p style={{ fontSize: "11px", padding: "0px", margin: "0px" }}>{formatFileSize(upload.file.size)}</p>
               </div>
 
               <div className="progress-actions-holder">
                 <div className="actions">
-                  {upload.status === "uploading" && (
-                    <Icon onClick={() => pauseUpload(upload.file)} icon={UIIcons.Book} style={{ maxHeight: "100%", maxWidth: "100%" }} size={22} />
+                  {/* {upload.status === "uploading" && (
+                    <Icon onClick={() => pauseUpload(upload.file)} icon={UIIcons.Pause} size={26} />
                   )}
                   {(upload.status === "paused" || upload.status === "waiting") && (
-                    <button onClick={() => resumeUpload(upload.file)}>▶️</button>
-                  )}
+                    <Icon onClick={() => resumeUpload(upload.file)} icon={UIIcons.Play} size={26} />
+                  )} */}
                   {upload.status === "error" && (
-                    <button onClick={() => retryUpload(upload.file)}>🔁</button>
+                    <Icon onClick={() => retryUpload(upload.file)} icon={UIIcons.RetryError} size={26} />
                   )}
-                  <Icon onClick={() => removeUpload(upload.file)} icon={UIIcons.Backspace} style={{ maxHeight: "100%", maxWidth: "100%" }} size={22} />
+                  <Icon onClick={() => removeUpload(upload.file)} icon={UIIcons.Trash} size={26} />
                 </div>
+                <div>
 
-                <ProgressBar progress={upload.progress} />
+                  <p style={{ fontSize: "12px", padding: "0px", margin: "0px", textAlign: "center" }}>{upload.progress.toFixed(0)}%</p>
+                  <ProgressBar progress={upload.progress} />
+                </div>
 
               </div>
             </FileItem>

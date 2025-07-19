@@ -124,9 +124,9 @@ export const CategorySelector = (
           {isOpen && filteredOptions.length > 0 && (
             <motion.ul
               className="dropdown-list"
-              initial={{ opacity: 0, y: -10 }}
+              initial={{ opacity: 0, y: -50 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
+              exit={{ opacity: 0, y: -60 }}
               transition={{ duration: 0.2 }}
             >
               {filteredOptions.map((cat) => (
@@ -143,7 +143,7 @@ export const CategorySelector = (
         {selected.map((cat) => (
           <div key={cat.cd_category} className="chip">
             {cat.ds_category}
-            <button onClick={() => removeCategory(cat)}>
+            <button onMouseDown={() => removeCategory(cat)}>
               <Icon icon={UIIcons.Backspace} size={14} />
             </button>
           </div>
