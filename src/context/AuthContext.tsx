@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
     } catch (error) {
       console.error('Login failed:', error);
-      throw error;
+      throw new Error(`${error}`);
     }
   }
 
@@ -57,7 +57,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
     }
     catch (error) {
-      console.error('Failed to refresh token:', error);
+      throw new Error(`Failed to refresh access token: ${error}`);
     }
   }
 
@@ -69,8 +69,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const userData: User = await requestUserData(tokenToUse);
       setUser(userData);
     } catch (error) {
-      console.error('Failed to fetch user:', error);
-      //await logout(); // Se deu erro (ex: token expirado), já faz logout seguro
+      throw new Error(`Failed to fetch user. Error: ${error}`);
     }
   }
 
@@ -78,7 +77,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       await requestLogout();
     } catch (error) {
-      console.error('Failed to logout on server:', error);
+      throw new Error(`Failed to logout on server: ${error}`);
     } finally {
       setAccessToken(null);
       setUser(null);
@@ -87,9 +86,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   async function createCredential(data: CreateNewCredentialProps) {
     try {
-      await CreateNewCredential(data);
+      const res = await CreateNewCredential(data);
+      console.log(res);
     } catch (error) {
-      console.error('Failed to create a new user on server:', error);
+      throw new Error(`Failed to create a new user on server: ${error}`);
     }
   }
 

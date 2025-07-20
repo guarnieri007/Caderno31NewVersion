@@ -24,6 +24,7 @@ export const AuthAPI = () => {
 
   const CreateNewCredential = async ({ data }: CreateNewCredentialProps) => {
     try {
+      console.log("entrou no create credential");
       await api.post(`${backendURL}credentials`, {
         email: data.email,
         username: data.username,
@@ -36,8 +37,9 @@ export const AuthAPI = () => {
 
         if (!backendErrors) {
           console.error('Erro ao criar usuário:', error.response.data);
-          return;
+          throw new Error(error.response.data.message);
         }
+        throw new Error(backendErrors);
       }
     }
   }
