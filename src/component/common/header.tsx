@@ -43,6 +43,7 @@ export const Header = (): ReactElement => {
           </NavLink>
           <NavLink to="/categories">Categories</NavLink>
           <NavLink to="/posts">Posts</NavLink>
+          <LanguageSwitcher />
         </div>
         <div className="right">
           {user ? (
@@ -63,7 +64,7 @@ export const Header = (): ReactElement => {
                 <Button color='primary' handleOnClick={GoToSignup}>sign up</Button>
               </>
             )}
-          <LanguageSwitcher />
+          
         </div>
       </HeaderComponent>
       {/* Se showLogin for true, renderiza o overlay */}

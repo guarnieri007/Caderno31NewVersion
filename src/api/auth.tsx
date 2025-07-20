@@ -24,7 +24,6 @@ export const AuthAPI = () => {
 
   const CreateNewCredential = async ({ data }: CreateNewCredentialProps) => {
     try {
-      console.log("entrou no create credential");
       await api.post(`${backendURL}credentials`, {
         email: data.email,
         username: data.username,

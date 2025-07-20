@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Icon from "../icons/icon";
 import { UIIcons } from "../icons";
 import { Label } from "./label";
-import { CategorySelectorProps, CategoryProps } from "../../interfaces";
+import { CategorySelectorProps, ResponseCategory } from "../../interfaces";
 
 export const CategorySelector = (
   {
@@ -15,7 +15,7 @@ export const CategorySelector = (
     placeHolder = "Select Categories"
   }: CategorySelectorProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState<CategoryProps[]>(selected_categories);
+  const [selected, setSelected] = useState<ResponseCategory[]>(selected_categories);
   const [search, setSearch] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -29,7 +29,7 @@ export const CategorySelector = (
     setIsOpen(false);
   };
 
-  const handleSelect = (category: CategoryProps) => {
+  const handleSelect = (category: ResponseCategory) => {
     if (!selected.includes(category) && selected.length < max_selection) {
       setSelected([...selected, category]);
     }
@@ -37,7 +37,7 @@ export const CategorySelector = (
     setSearch("");
   };
 
-  const removeCategory = (category: CategoryProps) => {
+  const removeCategory = (category: ResponseCategory) => {
     setSelected(selected.filter((c) => c !== category));
   };
 
