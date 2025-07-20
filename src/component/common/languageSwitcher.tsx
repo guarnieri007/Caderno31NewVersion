@@ -1,0 +1,18 @@
+import { ReactElement } from 'react';
+import { Button } from './button';
+import { useLanguage } from '../../context/Language';
+
+export const LanguageSwitcher = (): ReactElement => {
+  const { language, changeLanguage } = useLanguage();
+
+  return (
+    <div style={{ display: 'flex', gap: '8px' }}>
+      <Button color='secondary' handleOnClick={() => changeLanguage('en')} clicable={true}>
+        EN
+      </Button>
+      <Button color='secondary' handleOnClick={() => changeLanguage('pt-br')} clicable={true}>
+        PT
+      </Button>
+    </div>
+  );
+};
