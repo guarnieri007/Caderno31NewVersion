@@ -4,7 +4,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import Icon from "../icons/icon";
 import { UIIcons } from "../icons";
 import { Label } from "./label";
-import { CategorySelectorProps, CategoryProps } from "../../interfaces";
+import { CategorySelectorProps, ResponseCategory } from "../../interfaces";
+import { useLanguage } from "../../context/Language";
 
 export const CategorySelector = (
   {
@@ -12,13 +13,34 @@ export const CategorySelector = (
     selected_categories,
     max_selection,
     name,
+    languages,
     placeHolder = "Select Categories"
   }: CategorySelectorProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState<CategoryProps[]>(selected_categories);
+  const [selected, setSelected] = useState<ResponseCategory[]>(selected_categories);
   const [search, setSearch] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const { language } = useLanguage();
+  const [cd_language, setCd_language] = useState<number>();
+
+  console.log("All languages");
+  console.log(languages);
+
+  console.log("Cd language");
+  console.log(cd_language);
+  
+  const categoriesByLanguage = all_categories.map((category) => {
+    return {
+      ...category,
+      translations: category.translations.filter(translation => translation.cd_language === cd_language)
+    };
+  });
+  
+  console.log("All categories by language");
+  console.log(categoriesByLanguage);
+
+
 
   const openDropdown = () => {
     setIsOpen(true);
@@ -29,7 +51,7 @@ export const CategorySelector = (
     setIsOpen(false);
   };
 
-  const handleSelect = (category: CategoryProps) => {
+  const handleSelect = (category: ResponseCategory) => {
     if (!selected.includes(category) && selected.length < max_selection) {
       setSelected([...selected, category]);
     }
@@ -37,7 +59,7 @@ export const CategorySelector = (
     setSearch("");
   };
 
-  const removeCategory = (category: CategoryProps) => {
+  const removeCategory = (category: ResponseCategory) => {
     setSelected(selected.filter((c) => c !== category));
   };
 
@@ -66,10 +88,23 @@ export const CategorySelector = (
     };
   }, []);
 
+    useEffect(() => {
+    const newLang = languages.find(lang => lang.ds_language_short === language)?.cd_language;
+    if(newLang !== undefined) setCd_language(newLang)
+    
+  }, [language]);
+
+  const filteredByLanguage = all_categories.filter(cat => cat.translations.some(translation => translation.cd_language === cd_language));
+  console.log(filteredByLanguage);
+
   const filteredOptions = all_categories.filter(
     (cat) =>
-      cat.ds_category.toLowerCase().includes(search.toLowerCase()) &&
-      !selected.some((category) => category.ds_category.toLowerCase() === cat.ds_category.toLowerCase())
+      cat.translations.some(
+        (translation) =>
+          translation.cd_language === cd_language &&
+          translation.ds_category.toLowerCase().includes(search.toLowerCase())
+      ) &&
+      !selected.some((category) => category.cd_category === cat.cd_category)
   );
 
   return (
@@ -131,7 +166,7 @@ export const CategorySelector = (
             >
               {filteredOptions.map((cat) => (
                 <li key={cat.cd_category} onMouseDown={() => handleSelect(cat)}>
-                  {cat.ds_category}
+                  {cat.translations.find(translation => translation.cd_language === cd_language)?.ds_category}
                 </li>
               ))}
             </motion.ul>
@@ -142,7 +177,7 @@ export const CategorySelector = (
       <div className="chip-container">
         {selected.map((cat) => (
           <div key={cat.cd_category} className="chip">
-            {cat.ds_category}
+            {cat.translations.find(translation => translation.cd_language === cd_language)?.ds_category}
             <button onMouseDown={() => removeCategory(cat)}>
               <Icon icon={UIIcons.Backspace} size={14} />
             </button>

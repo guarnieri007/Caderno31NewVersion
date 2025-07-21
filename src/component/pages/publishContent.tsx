@@ -1,19 +1,24 @@
-import { ReactElement, useState } from "react"
+import { ReactElement, useEffect, useState } from "react"
 import { InputFIeld } from "../common/input-field";
 import { UIIcons } from "../icons";
 import { PublishContentStyle } from "../styles/pages/publishContent";
 import { CategorySelector } from "../common/categorySelector";
-import { CategoryProps } from "../../interfaces";
+import { ResponseCategory, ResponseLanguage } from "../../interfaces";
 import { z } from "zod";
 import { extractMinMaxLengths, validateFormData } from "../../helper/zod-helper";
 import { Button } from "../common/button";
 import { UploadArea } from "../common/uploadArea";
 import { useUploadFiles } from "../../context/UploadFiles";
+import { PublishContentAPI } from "../../api/publishContent";
 
 const categorySchema = z.object({
     ds_category: z.string(),      // Nome da categoria
     cd_category: z.string(),      // Código numérico
-    status: z.string(),           // Status (ex: "A")
+    translations: z.array(z.object({
+        cd_category: z.number(),
+        cd_language: z.number(),
+        ds_category: z.string(),
+    })),
 });
 
 const categoriesQuantity = 5;
@@ -31,9 +36,45 @@ type PublishContentForm = z.infer<typeof publishContentSchema>; // Inferir o tip
 
 export const PublishContent = (): ReactElement => {
     const { getCompletedUploads } = useUploadFiles();
+    const { ListCategories, ListLanguage } = PublishContentAPI();
 
     const [errors, setErrors] = useState<{ [key in keyof PublishContentForm]?: string[] }>({});
     const [loading, setLoading] = useState<boolean>(false);
+    const [languages, setLanguages] = useState<ResponseLanguage[]>([]);
+    const [categories, setCategories] = useState<ResponseCategory[]>([]);
+    //const postTypes = ListPostTypes();
+
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const cats = await ListCategories();
+                if (cats) setCategories(cats);
+            } catch (err) {
+                console.error('Failed to fetch publish content data:', err);
+            }
+        }
+
+        async function fetchLanguages() {
+            try {
+                const langs = await ListLanguage();
+                if (langs) setLanguages(langs);
+            } catch (err) {
+                console.log('Failed to fetch publish content data:', err);
+            }
+        }
+
+
+        fetchLanguages();
+        fetchData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    useEffect(() => {
+        console.log("langs");
+        console.log(languages);
+    }, [languages]
+    )
+
 
     async function sendForm(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -42,7 +83,7 @@ export const PublishContent = (): ReactElement => {
         const formData = new FormData(event.currentTarget);
         const filesUploaded = await getCompletedUploads();
 
-        let parsedCategories: CategoryProps[] = [];
+        let parsedCategories: ResponseCategory[] = [];
         let price: number = 0;
 
         try {
@@ -67,16 +108,16 @@ export const PublishContent = (): ReactElement => {
         }
 
         try {
-            if(filesUploaded.length > 0) {
+            if (filesUploaded.length > 0) {
                 const filesWithError = filesUploaded.filter(file => file.status === "error");
                 console.log(filesUploaded);
                 if (filesWithError.length > 0) {
-                    setErrors({description: ["Files with error"]})
+                    setErrors({ description: ["Files with error"] })
                 }
-            }            
+            }
         }
 
-        catch(error) {
+        catch (error) {
             console.error("Failed to parse categories:", error);
         }
 
@@ -135,46 +176,9 @@ export const PublishContent = (): ReactElement => {
                         max_selection={categoriesQuantity}
                         placeHolder="Select the desired categories"
                         selected_categories={[
-                            {
-                                cd_category: "1",
-                                ds_category: "Tech",
-                                status: "A"
-                            },
-                        ] as CategoryProps[]}
-                        all_categories={
-                            [
-                                {
-                                    cd_category: "1",
-                                    ds_category: "Tech",
-                                    status: "A"
-                                },
-                                {
-                                    cd_category: "2",
-                                    ds_category: "Religion",
-                                    status: "A"
-                                },
-                                {
-                                    cd_category: "3",
-                                    ds_category: "Food",
-                                    status: "A"
-                                },
-                                {
-                                    cd_category: "4",
-                                    ds_category: "Futebol",
-                                    status: "A"
-                                },
-                                {
-                                    cd_category: "5",
-                                    ds_category: "Dance",
-                                    status: "A"
-                                },
-                                {
-                                    cd_category: "6",
-                                    ds_category: "Computer",
-                                    status: "A"
-                                },
-
-                            ].sort((a, b) => a.ds_category.localeCompare(b.ds_category)) as CategoryProps[]}
+                        ] as ResponseCategory[]}
+                        all_categories={categories}
+                        languages={languages}
                     />
 
                     <UploadArea />

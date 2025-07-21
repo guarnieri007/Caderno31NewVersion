@@ -5,10 +5,10 @@ import { UIIcons } from "../icons";
 import { Button } from "../common/button";
 import signup_bg from "../../assets/images/signup_bg.png";
 import { z } from "zod";
-import { useAuth } from "../../context/AuthContext";
 import { extractMinMaxLengths, validateFormData } from "../../helper/zod-helper";
 import { useNavigate } from "react-router-dom";
 import { useLogin } from "../../hooks/useLogin";
+import { useCreateCredential } from "../../hooks/useCreateCredential";
 
 // Define o esquema de validação com Zod
 const signUpSchema = z.object({
@@ -31,14 +31,17 @@ type SignUpFormValues = z.infer<typeof signUpSchema>; // Inferir o tipo do esque
 
 export const SignUp = (): ReactElement => {
   const [errors, setErrors] = useState<{ [key in keyof SignUpFormValues]?: string[] }>({});
-  const [loading, setLoading] = useState<boolean>(false);
-  const { createCredential } = useAuth();
+  const {
+    successCreateCredential,
+    loadingCreateCredential,
+    handleCreateCredential,
+    errorCreateCredential,
+  } = useCreateCredential();
   const { handleLogin, successLogin } = useLogin();
   const navigate = useNavigate();
 
   async function sendForm(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setLoading(true);
 
     // Coletando os valores dos inputs
     const formData = new FormData(event.currentTarget);
@@ -55,15 +58,26 @@ export const SignUp = (): ReactElement => {
 
     if (validation.success) {
       setErrors({}); // Nenhum erro
+      
+      try {
 
-      await createCredential({ data: validation.data });
+        await handleCreateCredential({ data: validation.data });
+        console.log(`Verificando successCreateCredential status: ${successCreateCredential}`);
+        console.log(`se existir erros: ${errorCreateCredential}`);
+      }
+      catch (error) {
+        console.log(`Erro ao criar usuário: ${error}`);
+        console.log(`Verificando successCreateCredential status: ${successCreateCredential}`);
+      }
+      if(successCreateCredential) {
+        await handleLogin(validation.data.email, validation.data.password);
+        console.log(successLogin);
+        if (successLogin) navigate("/");
+      }
 
-      await handleLogin(validation.data.email, validation.data.password);
-      if (successLogin) navigate("/");
 
     } else {
       setErrors(validation.errors); // 🎯 Erros já formatados para exibir no frontend
-      setLoading(false);
     }
   }
 
@@ -135,7 +149,7 @@ export const SignUp = (): ReactElement => {
               {errors.termsAndConditions && <p className="error">{errors.termsAndConditions}</p>}
             </div>
 
-            <Button width={"100%"} color="primary" type="submit" clicable={!loading} loading={loading}>
+            <Button width={"100%"} color="primary" type="submit" clicable={!loadingCreateCredential} loading={loadingCreateCredential}>
               Get started
             </Button>
           </form>

@@ -112,18 +112,13 @@ export interface AuthContextType {
   createCredential: (data: CreateNewCredentialProps) => Promise<void>;
 }
 
-export interface CategoryProps {
-  ds_category: string;
-  cd_category: string;
-  status: string;
-}
-
 export interface CategorySelectorProps {
-  all_categories: CategoryProps[],
+  all_categories: ResponseCategory[],
   max_selection: number,
-  selected_categories: CategoryProps[],
+  selected_categories: ResponseCategory[],
   name: string,
   placeHolder?: string,
+  languages: ResponseLanguage[]
 }
 
 export interface UploadFile {
@@ -139,4 +134,41 @@ export interface UploadFile {
 export interface UploadFileProps {
   uploadFiles: UploadFile[];
   path: string;
+}
+
+export interface LanguageTranslation {
+  cd_language: number;
+  cd_translation_lang: number;
+  ds_language: string;
+}
+
+export interface ResponseLanguage {
+  cd_language: number;
+  ds_language_short: string;
+  slug: string;
+  nameTranslations: LanguageTranslation[];
+  languageTranslations: LanguageTranslation[];
+}
+
+export interface CategoryTranslation {
+  cd_category: number;
+  cd_language: number;
+  ds_category: string;
+}
+
+export interface ResponseCategory {
+  cd_category: number;
+  translations: CategoryTranslation[];
+}
+
+export interface PostTypeTranslation {
+  cd_post_type: number;
+  cd_language: number;
+  ds_post_type: string;
+}
+
+export interface ResponsePostType {
+  cd_post_type: number;
+  postTypeTranslations: PostTypeTranslation[];
+  slug: string;
 }

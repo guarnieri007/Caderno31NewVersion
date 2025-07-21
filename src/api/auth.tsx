@@ -36,8 +36,9 @@ export const AuthAPI = () => {
 
         if (!backendErrors) {
           console.error('Erro ao criar usuário:', error.response.data);
-          return;
+          throw new Error(error.response.data.message);
         }
+        throw new Error(backendErrors);
       }
     }
   }
