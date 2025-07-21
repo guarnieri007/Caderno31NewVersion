@@ -22,25 +22,7 @@ export const CategorySelector = (
   const dropdownRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const { language } = useLanguage();
-  const [cd_language, setCd_language] = useState<number>();
-
-  console.log("All languages");
-  console.log(languages);
-
-  console.log("Cd language");
-  console.log(cd_language);
-  
-  const categoriesByLanguage = all_categories.map((category) => {
-    return {
-      ...category,
-      translations: category.translations.filter(translation => translation.cd_language === cd_language)
-    };
-  });
-  
-  console.log("All categories by language");
-  console.log(categoriesByLanguage);
-
-
+  const [cd_language, setCd_language] = useState<number>(1);
 
   const openDropdown = () => {
     setIsOpen(true);
