@@ -3,7 +3,7 @@ import { Button } from './button';
 import { useLanguage } from '../../context/Language';
 
 export const LanguageSwitcher = (): ReactElement => {
-  const { language, changeLanguage } = useLanguage();
+  const { changeLanguage } = useLanguage();
 
   return (
     <div style={{ display: 'flex', gap: '8px' }}>

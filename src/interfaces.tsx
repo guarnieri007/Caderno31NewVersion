@@ -118,6 +118,7 @@ export interface CategorySelectorProps {
   selected_categories: ResponseCategory[],
   name: string,
   placeHolder?: string,
+  languages: ResponseLanguage[]
 }
 
 export interface UploadFile {
@@ -157,7 +158,7 @@ export interface CategoryTranslation {
 
 export interface ResponseCategory {
   cd_category: number;
-  categoryTranslations: CategoryTranslation[];
+  translations: CategoryTranslation[];
 }
 
 export interface PostTypeTranslation {
