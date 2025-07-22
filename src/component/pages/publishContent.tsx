@@ -10,6 +10,7 @@ import { Button } from "../common/button";
 import { UploadArea } from "../common/uploadArea";
 import { useUploadFiles } from "../../context/UploadFiles";
 import { PublishContentAPI } from "../../api/publishContent";
+import { Spinner } from "../styles/common/common-styles";
 
 const categorySchema = z.object({
     ds_category: z.string(),      // Nome da categoria
@@ -163,15 +164,20 @@ export const PublishContent = (): ReactElement => {
                         errors={errors.price}
                     />
 
-                    <CategorySelector
-                        name="categories"
-                        max_selection={categoriesQuantity}
-                        placeHolder="Select the desired categories"
-                        selected_categories={[
-                        ] as ResponseCategory[]}
-                        all_categories={categories}
-                        languages={languages}
-                    />
+                    {(categoriesQuantity > 0 && categories.length > 0 && languages.length > 0 ) ? (
+
+                        <CategorySelector
+                            name="categories"
+                            max_selection={categoriesQuantity}
+                            placeHolder="Select the desired categories"
+                            selected_categories={[
+                            ] as ResponseCategory[]}
+                            all_categories={categories}
+                            languages={languages}
+                        />
+                    ): (
+                        <p style={{display: "flex", justifyContent: "center", alignItems: "center", width: "100%"}}><Spinner/></p>
+                    )}
 
                     <UploadArea />
 

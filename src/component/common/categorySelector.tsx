@@ -23,7 +23,6 @@ export const CategorySelector = (
   const inputRef = useRef<HTMLInputElement>(null);
   const { language, getLanguage } = useLanguage();
   const [cd_language, setCd_language] = useState<number | undefined>(languages.find((lang) => lang.ds_language_short === getLanguage())?.cd_language);
-  console.log(cd_language);
 
   const openDropdown = () => {
     setIsOpen(true);
@@ -76,9 +75,6 @@ export const CategorySelector = (
     if(newLang !== undefined) setCd_language(newLang)
     
   }, [language]);
-
-  const filteredByLanguage = all_categories.filter(cat => cat.translations.some(translation => translation.cd_language === cd_language));
-  console.log(filteredByLanguage);
 
   const filteredOptions = all_categories.filter(
     (cat) =>
