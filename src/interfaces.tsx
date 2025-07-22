@@ -118,7 +118,7 @@ export interface CategorySelectorProps {
   selected_categories: ResponseCategory[],
   name: string,
   placeHolder?: string,
-  languages: ResponseLanguage[]
+  languages: ResponseLanguage[],
 }
 
 export interface UploadFile {
