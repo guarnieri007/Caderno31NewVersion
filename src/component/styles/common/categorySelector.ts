@@ -100,12 +100,14 @@ export const CategorySelectorStyle = styled.div.withConfig({
   .chip {
     background-color: #4e5767;
     color: #fff;
-    padding: 0.4rem 0.8rem;
+    padding: 0.2rem 0.5rem;
+    padding-right: 0.3rem;
     border-radius: 9999px;
     display: flex;
     align-items: center;
     font-size: 0.875rem;
-    gap: ${(prop) => prop.theme.spacings.small};
+    text-align: right;
+    gap: 2px;
 
 
     button {
@@ -114,7 +116,6 @@ export const CategorySelectorStyle = styled.div.withConfig({
       justify-content: center;
       background: none;
       border: none;
-      color: #fff;
       margin-left: 0rem;
       cursor: pointer;
       font-weight: bold;
