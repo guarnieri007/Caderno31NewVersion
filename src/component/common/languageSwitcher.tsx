@@ -13,6 +13,9 @@ export const LanguageSwitcher = (): ReactElement => {
       <Button color='secondary' handleOnClick={() => changeLanguage('pt')} clicable={true}>
         PT
       </Button>
+      <Button color='secondary' handleOnClick={() => changeLanguage('es')} clicable={true}>
+        ESP
+      </Button>
     </div>
   );
 };
