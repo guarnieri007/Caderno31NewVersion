@@ -3,6 +3,7 @@ import { createContext, ReactNode, useContext, useEffect, useState } from 'react
 interface LanguageContextProps {
   language: string;
   changeLanguage: (lang: string) => void;
+  getLanguage: () => string;
 }
 
 const LanguageContext = createContext<LanguageContextProps>({} as LanguageContextProps);
@@ -21,8 +22,12 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
     setLanguage(lang);
   };
 
+  const getLanguage = () => {
+    return language;
+  };
+
   return (
-    <LanguageContext.Provider value={{ language, changeLanguage }}>
+    <LanguageContext.Provider value={{ language, changeLanguage, getLanguage }}>
       {children}
     </LanguageContext.Provider>
   );

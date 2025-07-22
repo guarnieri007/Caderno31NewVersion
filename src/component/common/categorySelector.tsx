@@ -21,8 +21,9 @@ export const CategorySelector = (
   const [search, setSearch] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const { language } = useLanguage();
-  const [cd_language, setCd_language] = useState<number>(1);
+  const { language, getLanguage } = useLanguage();
+  const [cd_language, setCd_language] = useState<number | undefined>(languages.find((lang) => lang.ds_language_short === getLanguage())?.cd_language);
+  console.log(cd_language);
 
   const openDropdown = () => {
     setIsOpen(true);

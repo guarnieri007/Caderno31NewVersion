@@ -69,13 +69,6 @@ export const PublishContent = (): ReactElement => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    useEffect(() => {
-        console.log("langs");
-        console.log(languages);
-    }, [languages]
-    )
-
-
     async function sendForm(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         setLoading(true);
@@ -110,7 +103,6 @@ export const PublishContent = (): ReactElement => {
         try {
             if (filesUploaded.length > 0) {
                 const filesWithError = filesUploaded.filter(file => file.status === "error");
-                console.log(filesUploaded);
                 if (filesWithError.length > 0) {
                     setErrors({ description: ["Files with error"] })
                 }
