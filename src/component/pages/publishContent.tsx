@@ -162,6 +162,7 @@ export const PublishContent = (): ReactElement => {
                         type="number"
                         icon={UIIcons.Lock}
                         errors={errors.price}
+                        instructions={["Max value 999999 tokens"]}
                     />
 
                     {(categoriesQuantity > 0 && categories.length > 0 && languages.length > 0 ) ? (

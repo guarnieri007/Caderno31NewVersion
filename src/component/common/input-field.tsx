@@ -49,12 +49,17 @@ export const InputFIeld = (
                     maxLength={maxLength}
                     is_focused={isFocused}
                     forInput={name}
+                    counting={type === "number" ? false : true}
                 />
                 <div className="input-holder">
                     <input
                         name={`${name}`}
                         id={`${name}`}
                         type={type !== undefined ? type : "text"}
+                        min={type === "number" ? "1" : undefined}
+                        max={type === "number" ? "999999" : undefined}
+                        step={type === "number" ? "1" : undefined}
+
                         placeholder={placeholder}
                         onFocus={handleFocus}  // Chama a função ao focar
                         onBlur={handleBlur}    // Chama a função ao desfocar
