@@ -99,6 +99,7 @@ export interface LabelProps {
   maxLength: number;
   is_focused: boolean;
   forInput: string;
+  counting?: boolean;
 }
 
 export interface AuthContextType {

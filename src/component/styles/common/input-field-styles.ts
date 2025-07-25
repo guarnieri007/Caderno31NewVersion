@@ -23,7 +23,7 @@ export const InputFieldContent = styled.div.withConfig({
         width: 100%;
         z-index: 2;
         
-        input[type="text"], input[type="password"] {
+        input[type="text"], input[type="password"], input[type="email"], input[type="number"] {
             height: 48px;
             width: calc(100% - 64px);
             border: 2px solid ${(prop) => prop.theme.colors.button_text};
