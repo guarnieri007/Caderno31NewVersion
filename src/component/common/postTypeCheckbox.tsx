@@ -32,6 +32,20 @@ export const PostTypeCheckbox = ({
     if (newLang !== undefined) setCdLanguage(newLang);
   }, [language, languages]);
 
+  useEffect(() => {
+    if (selected.length > 0 && selected.find((s) => s.cd_post_type === 1)) {
+      if (inactiveOptionsIds.length > 0) inactiveOptionsIds.splice(0, 1)
+      inactiveOptionsIds.push(2);
+      inactiveOptionsIds.push(3);
+    }
+    if (selected.length > 0 && (selected.find((s) => s.cd_post_type === 2) || selected.find((s) => s.cd_post_type === 3))) {
+      if (inactiveOptionsIds.length > 0) inactiveOptionsIds.splice(0, 1)
+      inactiveOptionsIds.push(1);
+    }
+    console.log("selected options", selected);
+    console.log("inactive options", inactiveOptionsIds)
+  }, [selected]);
+
   const toggleOption = (opt: ResponsePostType) => {
     const exists = selected.some((s) => s.cd_post_type === opt.cd_post_type);
     if (exists) {
@@ -41,7 +55,6 @@ export const PostTypeCheckbox = ({
     }
   };
 
-  const isInactive = (opt: ResponsePostType) => inactiveOptionsIds.includes(opt.cd_post_type);
 
   return (
     <PostTypeCheckboxStyle>
@@ -50,9 +63,9 @@ export const PostTypeCheckbox = ({
       <div className="options">
         {options.map((opt) => {
           const checked = selected.some((s) => s.cd_post_type === opt.cd_post_type);
-          const inactive = isInactive(opt);
+          const inactive = inactiveOptionsIds.includes(opt.cd_post_type);
           const translation =
-            opt.postTypeTranslations.find((t) => t.cd_language === cdLanguage)?.ds_post_type || opt.slug;
+            opt.translations.find((t) => t.cd_language === cdLanguage)?.ds_post_type || opt.slug;
           return (
             <label
               key={opt.cd_post_type}
