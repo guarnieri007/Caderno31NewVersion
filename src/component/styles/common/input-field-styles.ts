@@ -78,11 +78,13 @@ export const InputFieldContent = styled.div.withConfig({
         border: solid 2px ${(prop) => prop.is_focused ? prop.theme.colors.button_text : "transparent"};
         margin-top: ${(prop) => prop.is_focused ? prop.theme.spacings.small : "0px"};
         
-        tr {
+        ul {
             display: block;
             width: 100%;
             padding: ${(prop) => prop.theme.spacings.small} ${(prop) => prop.theme.spacings.normal};
             box-sizing: border-box;
+            margin: 0px;
+            list-style: disc;
             background-color: ${(prop) => prop.theme.colors.background_primary};
             li {
                 padding: 0px 8px;
