@@ -160,7 +160,7 @@ export const PublishContent = (): ReactElement => {
                         name="price"
                         placeholder="Tokens"
                         type="number"
-                        icon={UIIcons.Lock}
+                        icon={UIIcons.Key}
                         errors={errors.price}
                         instructions={["Max value 999999 tokens"]}
                     />
