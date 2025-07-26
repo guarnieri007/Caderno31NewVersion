@@ -6,7 +6,6 @@ import { Label } from "./label";
 
 export const InputFIeld = (
     {
-
         icon,
         label,
         placeholder,
@@ -78,20 +77,20 @@ export const InputFIeld = (
                 </div>
                 {instructions !== null && instructions !== undefined && (
                     <div className="instructions expand">
-                        <tr>
+                        <ul>
                             {instructions?.map((instruction) => {
-                                return <li>{instruction}</li>
+                                return <li key={instruction}>{instruction}</li>
                             })}
-                        </tr>
+                        </ul>
                     </div>
                 )}
                 {hasErrors && (
                     <div>
-                        <tr className="instructions errors">
+                        <ul className="instructions errors">
                             {errors?.map((error) => {
-                                return <li><span>{error}</span></li>
+                                return <li key={error}><span>{error}</span></li>
                             })}
-                        </tr>
+                        </ul>
                     </div>
                 )}
             </div>
