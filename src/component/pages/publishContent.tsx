@@ -3,7 +3,7 @@ import { InputFIeld } from "../common/input-field";
 import { UIIcons } from "../icons";
 import { PublishContentStyle } from "../styles/pages/publishContent";
 import { CategorySelector } from "../common/categorySelector";
-import { ResponseCategory, ResponseLanguage } from "../../interfaces";
+import { ResponseCategory, ResponseLanguage, ResponsePostType } from "../../interfaces";
 import { z } from "zod";
 import { extractMinMaxLengths, validateFormData } from "../../helper/zod-helper";
 import { Button } from "../common/button";
@@ -37,13 +37,13 @@ type PublishContentForm = z.infer<typeof publishContentSchema>; // Inferir o tip
 
 export const PublishContent = (): ReactElement => {
     const { getCompletedUploads } = useUploadFiles();
-    const { ListCategories, ListLanguage } = PublishContentAPI();
+    const { ListCategories, ListLanguage, ListPostTypes } = PublishContentAPI();
 
     const [errors, setErrors] = useState<{ [key in keyof PublishContentForm]?: string[] }>({});
     const [loading, setLoading] = useState<boolean>(false);
     const [languages, setLanguages] = useState<ResponseLanguage[]>([]);
     const [categories, setCategories] = useState<ResponseCategory[]>([]);
-    //const postTypes = ListPostTypes();
+    const [postTypes, setPostTypes] = useState<ResponsePostType[]>([]);
 
     useEffect(() => {
         async function fetchData() {
@@ -64,11 +64,24 @@ export const PublishContent = (): ReactElement => {
             }
         }
 
+        async function fetchPostTypes() {
+            try {
+                const types = await ListPostTypes();
+                if (types) setPostTypes(types);
+            } catch (err) {
+                console.log('Failed to fetch publish content data:', err);
+            }
+        }
 
+        fetchPostTypes()
         fetchLanguages();
         fetchData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    useEffect(() => {
+        console.log("postTypes:", postTypes);
+    }, [postTypes])
 
     async function sendForm(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -166,7 +179,7 @@ export const PublishContent = (): ReactElement => {
                     />
 
                     {(categoriesQuantity > 0 && categories.length > 0 && languages.length > 0 ) ? (
-
+                        
                         <CategorySelector
                             name="categories"
                             max_selection={categoriesQuantity}
