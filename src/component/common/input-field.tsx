@@ -80,7 +80,7 @@ export const InputFIeld = (
                     <div className="instructions expand">
                         <tr>
                             {instructions?.map((instruction) => {
-                                return <li>{instruction}</li>
+                                return <li key={instruction}>{instruction}</li>
                             })}
                         </tr>
                     </div>
@@ -89,7 +89,7 @@ export const InputFIeld = (
                     <div>
                         <tr className="instructions errors">
                             {errors?.map((error) => {
-                                return <li><span>{error}</span></li>
+                                return <li key={error}><span>{error}</span></li>
                             })}
                         </tr>
                     </div>
