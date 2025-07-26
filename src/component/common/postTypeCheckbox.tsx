@@ -26,6 +26,7 @@ export const PostTypeCheckbox = ({
     languages.find((lang) => lang.ds_language_short === getLanguage())?.cd_language
   );
   const [selected, setSelected] = useState<ResponsePostType[]>(selectedOptions);
+  const [inactiveIds, setInactiveIds] = useState<number[]>(inactiveOptionsIds);
 
   useEffect(() => {
     const newLang = languages.find((lang) => lang.ds_language_short === language)?.cd_language;
@@ -33,18 +34,20 @@ export const PostTypeCheckbox = ({
   }, [language, languages]);
 
   useEffect(() => {
-    if (selected.length > 0 && selected.find((s) => s.cd_post_type === 1)) {
-      if (inactiveOptionsIds.length > 0) inactiveOptionsIds.splice(0, 1)
-      inactiveOptionsIds.push(2);
-      inactiveOptionsIds.push(3);
+    let computed: number[] = [];
+
+    if (selected.some((s) => s.cd_post_type === 1)) {
+      computed = [2, 3];
+    } else if (
+      selected.some((s) => s.cd_post_type === 2) ||
+      selected.some((s) => s.cd_post_type === 3)
+    ) {
+      computed = [1];
     }
-    if (selected.length > 0 && (selected.find((s) => s.cd_post_type === 2) || selected.find((s) => s.cd_post_type === 3))) {
-      if (inactiveOptionsIds.length > 0) inactiveOptionsIds.splice(0, 1)
-      inactiveOptionsIds.push(1);
-    }
-    console.log("selected options", selected);
-    console.log("inactive options", inactiveOptionsIds)
-  }, [selected]);
+
+    const merged = Array.from(new Set([...inactiveOptionsIds, ...computed]));
+    setInactiveIds(merged);
+  }, [selected, inactiveOptionsIds]);
 
   const toggleOption = (opt: ResponsePostType) => {
     const exists = selected.some((s) => s.cd_post_type === opt.cd_post_type);
@@ -63,7 +66,7 @@ export const PostTypeCheckbox = ({
       <div className="options">
         {options.map((opt) => {
           const checked = selected.some((s) => s.cd_post_type === opt.cd_post_type);
-          const inactive = inactiveOptionsIds.includes(opt.cd_post_type);
+          const inactive = inactiveIds.includes(opt.cd_post_type);
           const translation =
             opt.translations.find((t) => t.cd_language === cdLanguage)?.ds_post_type || opt.slug;
           return (
