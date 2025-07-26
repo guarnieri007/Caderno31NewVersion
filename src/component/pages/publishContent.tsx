@@ -11,6 +11,7 @@ import { UploadArea } from "../common/uploadArea";
 import { useUploadFiles } from "../../context/UploadFiles";
 import { PublishContentAPI } from "../../api/publishContent";
 import { Spinner } from "../styles/common/common-styles";
+import { PostTypeCheckbox } from "../common/postTypeCheckbox";
 
 const categorySchema = z.object({
     ds_category: z.string(),      // Nome da categoria
@@ -177,6 +178,18 @@ export const PublishContent = (): ReactElement => {
                         errors={errors.price}
                         instructions={["Max value 999999 tokens"]}
                     />
+
+                    {(postTypes.length > 0 && languages.length > 0) ? (
+                        <PostTypeCheckbox
+                        label="Post Type"
+                        languages={languages}
+                        name="postTypes"
+                        options={postTypes}
+                        />
+                    ):
+                    (
+                        <p style={{display: "flex", justifyContent: "center", alignItems: "center", width: "100%"}}><Spinner/></p>                        
+                    )}
 
                     {(categoriesQuantity > 0 && categories.length > 0 && languages.length > 0 ) ? (
                         
