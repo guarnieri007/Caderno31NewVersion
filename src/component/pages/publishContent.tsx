@@ -15,7 +15,6 @@ import { Spinner } from "../styles/common/common-styles";
 import { PostTypeCheckbox } from "../common/postTypeCheckbox";
 
 const categorySchema = z.object({
-    ds_category: z.string(),      // Nome da categoria
     cd_category: z.string(),      // Código numérico
     translations: z.array(z.object({
         cd_category: z.number(),
@@ -95,6 +94,7 @@ export const PublishContent = (): ReactElement => {
 
         let parsedCategories: ResponseCategory[] = [];
         let price: number = 0;
+        let categoryTypes: number[] = [];
 
         try {
             const raw = formData.get("categories");
@@ -106,6 +106,15 @@ export const PublishContent = (): ReactElement => {
             setErrors({ categories: ["Invalid categories format"] });
             setLoading(false);
             return;
+        }
+        try {
+            const raw = formData.get("postTypes");
+            if (typeof raw === "string") {
+                categoryTypes = JSON.parse(raw);
+            }
+        }
+        catch (error) {
+            console.error("Failed to parse categories:", error);
         }
 
         try {
@@ -133,6 +142,7 @@ export const PublishContent = (): ReactElement => {
         const description = formData.get("description") as string;
         const data = {
             description,
+            postTypes: categoryTypes,
             price: price,
             categories: parsedCategories,
             files: filesUploaded,
