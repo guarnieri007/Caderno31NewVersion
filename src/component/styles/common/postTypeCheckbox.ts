@@ -6,6 +6,7 @@ export const PostTypeCheckboxStyle = styled.div`
 
   .options {
     display: flex;
+    padding: 0px ${(prop) => prop.theme.spacings.normal};
     flex-wrap: wrap;
     gap: ${(prop) => prop.theme.spacings.small};
   }

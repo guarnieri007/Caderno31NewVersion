@@ -168,6 +168,18 @@ export const PublishContent = (): ReactElement => {
                         errors={errors.description}
                     />
 
+                    {(postTypes.length > 0 && languages.length > 0) ? (
+                        <PostTypeCheckbox
+                            label="Post Type"
+                            languages={languages}
+                            name="postTypes"
+                            options={postTypes}
+                        />
+                    ) :
+                        (
+                            <p style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%" }}><Spinner /></p>
+                        )}
+
                     <InputFIeld
                         label="Price"
                         maxLength={maxLengths.price?.max ? maxLengths.price.max : 0}
@@ -179,20 +191,9 @@ export const PublishContent = (): ReactElement => {
                         instructions={["Max value 999999 tokens"]}
                     />
 
-                    {(postTypes.length > 0 && languages.length > 0) ? (
-                        <PostTypeCheckbox
-                        label="Post Type"
-                        languages={languages}
-                        name="postTypes"
-                        options={postTypes}
-                        />
-                    ):
-                    (
-                        <p style={{display: "flex", justifyContent: "center", alignItems: "center", width: "100%"}}><Spinner/></p>                        
-                    )}
 
-                    {(categoriesQuantity > 0 && categories.length > 0 && languages.length > 0 ) ? (
-                        
+                    {(categoriesQuantity > 0 && categories.length > 0 && languages.length > 0) ? (
+
                         <CategorySelector
                             name="categories"
                             max_selection={categoriesQuantity}
@@ -202,8 +203,8 @@ export const PublishContent = (): ReactElement => {
                             all_categories={categories}
                             languages={languages}
                         />
-                    ): (
-                        <p style={{display: "flex", justifyContent: "center", alignItems: "center", width: "100%"}}><Spinner/></p>
+                    ) : (
+                        <p style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%" }}><Spinner /></p>
                     )}
 
                     <UploadArea />
