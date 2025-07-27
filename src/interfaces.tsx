@@ -170,6 +170,6 @@ export interface PostTypeTranslation {
 
 export interface ResponsePostType {
   cd_post_type: number;
-  postTypeTranslations: PostTypeTranslation[];
+  translations: PostTypeTranslation[];
   slug: string;
 }
