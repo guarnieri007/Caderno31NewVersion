@@ -55,7 +55,7 @@ export const PostTypeCheckbox = ({
 
     const merged = Array.from(new Set([...inactiveOptionsIds, ...computed]));
     setInactiveIds(merged);
-  }, [selected, inactiveOptionsIds]);
+  }, [selected]);
 
   const toggleOption = (opt: ResponsePostType) => {
     const exists = selected.some((s) => s.cd_post_type === opt.cd_post_type);
