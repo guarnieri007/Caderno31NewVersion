@@ -1,4 +1,5 @@
 import { ReactElement, useEffect, useState } from "react"
+import { AnimatePresence, motion } from "framer-motion"
 import { InputFIeld } from "../common/input-field";
 import { UIIcons } from "../icons";
 import { PublishContentStyle } from "../styles/pages/publishContent";
@@ -45,6 +46,7 @@ export const PublishContent = (): ReactElement => {
     const [languages, setLanguages] = useState<ResponseLanguage[]>([]);
     const [categories, setCategories] = useState<ResponseCategory[]>([]);
     const [postTypes, setPostTypes] = useState<ResponsePostType[]>([]);
+    const [selectedPostTypes, setSelectedPostTypes] = useState<ResponsePostType[]>([]);
 
     useEffect(() => {
         async function fetchData() {
@@ -174,22 +176,36 @@ export const PublishContent = (): ReactElement => {
                             languages={languages}
                             name="postTypes"
                             options={postTypes}
+                            onChange={setSelectedPostTypes}
                         />
                     ) :
                         (
                             <p style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%" }}><Spinner /></p>
                         )}
 
-                    <InputFIeld
-                        label="Price"
-                        maxLength={maxLengths.price?.max ? maxLengths.price.max : 0}
-                        name="price"
-                        placeholder="Tokens"
-                        type="number"
-                        icon={UIIcons.Key}
-                        errors={errors.price}
-                        instructions={["Max value 999999 tokens"]}
-                    />
+                    <AnimatePresence mode="wait">
+                        {selectedPostTypes.some(pt => pt.cd_post_type === 2) && (
+                            <motion.div
+                                key="price-field"
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: 'auto' }}
+                                exit={{ opacity: 0, height: 0 }}
+                                transition={{ duration: 0.2 }}
+                                style={{ width: '100%' }}
+                            >
+                                <InputFIeld
+                                    label="Price"
+                                    maxLength={maxLengths.price?.max ? maxLengths.price.max : 0}
+                                    name="price"
+                                    placeholder="Tokens"
+                                    type="number"
+                                    icon={UIIcons.Key}
+                                    errors={errors.price}
+                                    instructions={["Max value 999999 tokens"]}
+                                />
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
 
 
                     {(categoriesQuantity > 0 && categories.length > 0 && languages.length > 0) ? (
