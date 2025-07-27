@@ -11,6 +11,7 @@ interface PostTypeCheckboxProps {
   languages: ResponseLanguage[];
   selectedOptions?: ResponsePostType[];
   inactiveOptionsIds?: number[];
+  onChange?: (selected: ResponsePostType[]) => void;
 }
 
 export const PostTypeCheckbox = ({
@@ -20,6 +21,7 @@ export const PostTypeCheckbox = ({
   languages,
   selectedOptions = [],
   inactiveOptionsIds = [],
+  onChange,
 }: PostTypeCheckboxProps) => {
   const { language, getLanguage } = useLanguage();
   const [cdLanguage, setCdLanguage] = useState<number | undefined>(
@@ -27,6 +29,12 @@ export const PostTypeCheckbox = ({
   );
   const [selected, setSelected] = useState<ResponsePostType[]>(selectedOptions);
   const [inactiveIds, setInactiveIds] = useState<number[]>(inactiveOptionsIds);
+
+  useEffect(() => {
+    if (onChange) {
+      onChange(selected);
+    }
+  }, [selected, onChange]);
 
   useEffect(() => {
     const newLang = languages.find((lang) => lang.ds_language_short === language)?.cd_language;
