@@ -16,11 +16,6 @@ import { PostTypeCheckbox } from "../common/postTypeCheckbox";
 
 const categorySchema = z.object({
     cd_category: z.string(),      // Código numérico
-    translations: z.array(z.object({
-        cd_category: z.number(),
-        cd_language: z.number(),
-        ds_category: z.string(),
-    })),
 });
 
 const categoriesQuantity = 5;
