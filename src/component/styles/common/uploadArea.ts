@@ -9,8 +9,9 @@ export const UploadWrapper = styled.div`
   border-radius: 12px;
   background-color: ${(prop) => prop.theme.colors.background_primary};
   transition: background-color 0.2s;
+  color: ${(prop) => prop.theme.colors.text_hover};
   &:hover {
-    background-color: ${(prop) => prop.theme.colors.background_secondary};
+    background-color: ${(prop) => prop.theme.colors.button_text};
   }
 `;
 

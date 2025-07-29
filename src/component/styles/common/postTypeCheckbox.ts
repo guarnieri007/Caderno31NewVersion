@@ -19,9 +19,11 @@ export const PostTypeCheckboxStyle = styled.div`
     padding: ${(prop) => prop.theme.spacings.min} ${(prop) => prop.theme.spacings.small};
     border-radius: ${(prop) => prop.theme.spacings.small};
     cursor: pointer;
+    border: 1px solid transparent;
 
     &.selected {
-      background-color: ${(prop) => prop.theme.colors.background_secondary};
+      background-color: ${(prop) => prop.theme.colors.background_primary};
+      border: ${(prop) => prop.theme.colors.button_text_hover} 1px solid;
     }
 
     &.inactive {
@@ -36,6 +38,11 @@ export const PostTypeCheckboxStyle = styled.div`
       margin: 0;
       margin-right: ${(prop) => prop.theme.spacings.min};
       cursor: pointer;
+      accent-color: ${(prop) => prop.theme.colors.primary};
+
+      &:hover {
+      accent-color: ${(prop) => prop.theme.colors.primary_hover};
+      }
     }
   }
 `;

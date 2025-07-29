@@ -13,7 +13,7 @@ export const darkTheme = {
       "button_text": "#030303cc",
       "button_text_hover": "#030303",
       "button_background": "#B9BECC",
-      "placeHolder": "#aaa",
+      "placeHolder": "#aaaaaa",
       "placeHolder_focus": "#aa9",
       "error": "#FF3030",
       "success": "#A4FFB5",

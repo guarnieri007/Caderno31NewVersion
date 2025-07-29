@@ -26,7 +26,7 @@ export const InputFieldContent = styled.div.withConfig({
         input[type="text"], input[type="password"], input[type="email"], input[type="number"] {
             height: 48px;
             width: calc(100% - 64px);
-            border: 2px solid ${(prop) => prop.theme.colors.button_text};
+            border: 1px solid ${(prop) => prop.theme.colors.button_text};
             box-sizing: content-box;
             background-color: ${(prop) => prop.theme.colors.background_primary};
             color: ${(prop) => prop.theme.colors.text_hover};
