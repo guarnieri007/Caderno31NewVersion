@@ -45,6 +45,7 @@ const publishContentSchema = z.object({
     message: "Price is required when Post Type 2 is selected",
 }).refine((data) => {
     const otherFields = (
+
         (typeof data.description === "string" && data.description.trim() !== "") ||
         (Array.isArray(data.categories) && data.categories.length > 0) ||
         (typeof data.price === "number") ||
@@ -206,6 +207,8 @@ export const PublishContent = (): ReactElement => {
                             name="postTypes"
                             options={postTypes}
                             onChange={setSelectedPostTypes}
+                            errors={errors.postTypes}
+
                         />
                     ) :
                         (
