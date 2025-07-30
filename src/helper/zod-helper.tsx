@@ -15,7 +15,21 @@ export function extractMinMaxLengths<T extends z.ZodRawShape>(schema: z.ZodTypeA
     const result: { [K in keyof T]?: { min?: number; max?: number } } = {};
 
     for (const key in realSchema.shape as Record<keyof T, unknown>) {
-        const field = realSchema.shape[key];
+        let field = (realSchema.shape as Record<string, z.ZodTypeAny>)[key];
+
+        while (
+            field instanceof z.ZodEffects ||
+            field instanceof z.ZodOptional ||
+            field instanceof z.ZodNullable ||
+            field instanceof z.ZodDefault ||
+            field instanceof z.ZodCatch
+        ) {
+            if (field instanceof z.ZodEffects) {
+                field = field._def.schema;
+            } else {
+                field = field._def.innerType;
+            }
+        }
 
         if (field instanceof z.ZodString) {
             const checks = field._def.checks as { kind: string; value: number }[];

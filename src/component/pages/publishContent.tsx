@@ -45,10 +45,11 @@ const publishContentSchema = z.object({
     message: "Price is required when Post Type 2 is selected",
 }).refine((data) => {
     const otherFields = (
-        (data.description && data.description.trim() !== "") ||
-        (data.categories && data.categories.length > 0) ||
+
+        (typeof data.description === "string" && data.description.trim() !== "") ||
+        (Array.isArray(data.categories) && data.categories.length > 0) ||
         (typeof data.price === "number") ||
-        (data.files && data.files.length > 0)
+        (Array.isArray(data.files) && data.files.length > 0)
     );
     return otherFields;
 }, {
