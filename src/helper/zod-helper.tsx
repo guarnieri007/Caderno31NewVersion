@@ -2,8 +2,11 @@ import { z } from "zod";
 
 
 export function extractMinMaxLengths<T extends z.ZodRawShape>(schema: z.ZodTypeAny) {
-    // Se for um ZodEffects (por ter .refine() ou .transform()), extrai o schema interno
-    const realSchema = (schema instanceof z.ZodEffects) ? schema._def.schema : schema;
+    // Se houver refinamentos encadeados, precisamos extrair recursivamente o schema interno
+    let realSchema = schema;
+    while (realSchema instanceof z.ZodEffects) {
+        realSchema = realSchema._def.schema;
+    }
 
     if (!(realSchema instanceof z.ZodObject)) {
         throw new Error("Schema fornecido não é um ZodObject");
