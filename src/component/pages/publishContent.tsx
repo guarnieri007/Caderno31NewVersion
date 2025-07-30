@@ -206,6 +206,8 @@ export const PublishContent = (): ReactElement => {
                             name="postTypes"
                             options={postTypes}
                             onChange={setSelectedPostTypes}
+                            errors={errors.postTypes}
+
                         />
                     ) :
                         (

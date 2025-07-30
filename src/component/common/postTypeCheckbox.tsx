@@ -12,6 +12,7 @@ interface PostTypeCheckboxProps {
   selectedOptions?: ResponsePostType[];
   inactiveOptionsIds?: number[];
   onChange?: (selected: ResponsePostType[]) => void;
+  errors?: string[];
 }
 
 export const PostTypeCheckbox = ({
@@ -22,6 +23,7 @@ export const PostTypeCheckbox = ({
   selectedOptions = [],
   inactiveOptionsIds = [],
   onChange,
+  errors,
 }: PostTypeCheckboxProps) => {
   const { language, getLanguage } = useLanguage();
   const [cdLanguage, setCdLanguage] = useState<number | undefined>(
@@ -93,6 +95,14 @@ export const PostTypeCheckbox = ({
           );
         })}
       </div>
+      {errors && errors.length > 0 && (
+
+      <div className="errors">
+        {errors.map((error, index) => (
+          <p key={index}>{error}</p>
+        ))}
+      </div>
+      )}
     </PostTypeCheckboxStyle>
   );
 };
