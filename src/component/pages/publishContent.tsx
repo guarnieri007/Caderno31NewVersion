@@ -15,16 +15,45 @@ import { Spinner } from "../styles/common/common-styles";
 import { PostTypeCheckbox } from "../common/postTypeCheckbox";
 
 const categorySchema = z.object({
-    cd_category: z.string(),      // Código numérico
-});
+    cd_category: z.number(),      // Código numérico
+}).passthrough();
+
+const postTypeSchema = z.object({
+    cd_post_type: z.number(),
+}).passthrough();
 
 const categoriesQuantity = 5;
 // Schema do formulário
 const publishContentSchema = z.object({
-    description: z.string().max(300, "Description is too long"),
-    categories: z.array(categorySchema).max(categoriesQuantity, `You must select up to ${categoriesQuantity} categories`).nullable(), // Array de categorias válidas
-    price: z.number().max(999999).nullable(),
-    files: z.array(z.any()).nullable(), // Array de arquivos
+    description: z.string().max(300, "Description is too long").nullable(),
+    categories: z.array(categorySchema).max(categoriesQuantity, `You must select up to ${categoriesQuantity} categories`).nullable(),
+    postTypes: z.array(postTypeSchema).min(1, "At least one post type is required"),
+    price: z.preprocess((val) => {
+        if (val === "" || val === undefined || val === null) return null;
+        if (typeof val === "number") return val;
+        if (typeof val === "string" && /^\d+$/.test(val)) return parseInt(val, 10);
+        return NaN;
+    }, z.number().int().max(999999).nullable()),
+    files: z.array(z.any()).nullable(),
+}).refine((data) => {
+    if (data.postTypes.some((pt) => pt.cd_post_type === 2)) {
+        return typeof data.price === "number" && !Number.isNaN(data.price);
+    }
+    return true;
+}, {
+    path: ["price"],
+    message: "Price is required when Post Type 2 is selected",
+}).refine((data) => {
+    const otherFields = (
+        (typeof data.description === "string" && data.description.trim() !== "") ||
+        (Array.isArray(data.categories) && data.categories.length > 0) ||
+        (typeof data.price === "number") ||
+        (Array.isArray(data.files) && data.files.length > 0)
+    );
+    return otherFields;
+}, {
+    path: ["postTypes"],
+    message: "Provide at least one additional field besides Post Types",
 });
 
 // Extract max lengths using schema.innerType.shape.fieldName._def.checks
@@ -88,8 +117,8 @@ export const PublishContent = (): ReactElement => {
         const filesUploaded = await getCompletedUploads();
 
         let parsedCategories: ResponseCategory[] = [];
-        let price: number = 0;
-        let categoryTypes: number[] = [];
+        let price: string | null = null;
+        let parsedPostTypes: unknown[] = [];
 
         try {
             const raw = formData.get("categories");
@@ -105,20 +134,15 @@ export const PublishContent = (): ReactElement => {
         try {
             const raw = formData.get("postTypes");
             if (typeof raw === "string") {
-                categoryTypes = JSON.parse(raw);
+                parsedPostTypes = JSON.parse(raw);
             }
-        }
-        catch (error) {
-            console.error("Failed to parse categories:", error);
+        } catch (error) {
+            console.error("Failed to parse post types:", error);
         }
 
-        try {
-            price = Number.isNaN(parseFloat(formData.get("price") as string)) ? 0 : parseFloat(formData.get("price") as string);
-        } catch (error) {
-            console.error("Failed to parse price:", error);
-            setErrors({ price: ["Invalid price format"] });
-            setLoading(false);
-            return;
+        const priceRaw = formData.get("price");
+        if (typeof priceRaw === "string" && priceRaw.trim() !== "") {
+            price = priceRaw;
         }
 
         try {
@@ -134,11 +158,11 @@ export const PublishContent = (): ReactElement => {
             console.error("Failed to parse categories:", error);
         }
 
-        const description = formData.get("description") as string;
+        const description = (formData.get("description") as string) || null;
         const data = {
             description,
-            postTypes: categoryTypes,
-            price: price,
+            postTypes: parsedPostTypes,
+            price,
             categories: parsedCategories,
             files: filesUploaded,
         };
