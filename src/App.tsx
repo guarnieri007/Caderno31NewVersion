@@ -1,15 +1,15 @@
 import { Header } from './component/common/header'
 import { MainContent } from './component/common/mainContent'
 import { Footer } from './component/common/footer'
-import { Home } from './component/pages/home'
+import { Home } from './pages/home'
 import { ThemeProvider } from 'styled-components'
 import { darkTheme } from './component/styles/darkTheme'
 import { GlobalStyles } from './globalStyle'
 import { MainContainer } from './AppStyled'
 import { Route, Routes } from 'react-router-dom'
-import { SignUp } from './component/pages/signup'
-import { NotFound404 } from './component/pages/notFound404'
-import { PublishContent } from './component/pages/publishContent'
+import { SignUp } from './pages/signup'
+import { NotFound404 } from './pages/notFound404'
+import { PublishContent } from './pages/publishContent'
 
 function App() {
 

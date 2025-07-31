@@ -1,14 +1,14 @@
 import { ReactElement, useState } from "react";
-import { SignUpPage } from "../styles/pages/signup";
-import { InputFIeld } from "../common/input-field";
-import { UIIcons } from "../icons";
-import { Button } from "../common/button";
-import signup_bg from "../../assets/images/signup_bg.png";
+import { SignUpPage } from "../component/styles/pages/signup";
+import { InputFIeld } from "../component/common/input-field";
+import { UIIcons } from "../component/icons";
+import { Button } from "../component/common/button";
+import signup_bg from "../assets/images/signup_bg.png";
 import { z } from "zod";
-import { extractMinMaxLengths, validateFormData } from "../../helper/zod-helper";
+import { extractMinMaxLengths, validateFormData } from "../helper/zod-helper";
 import { useNavigate } from "react-router-dom";
-import { useLogin } from "../../hooks/useLogin";
-import { useCreateCredential } from "../../hooks/useCreateCredential";
+import { useLogin } from "../hooks/useLogin";
+import { useCreateCredential } from "../hooks/useCreateCredential";
 
 // Define o esquema de validação com Zod
 const signUpSchema = z.object({

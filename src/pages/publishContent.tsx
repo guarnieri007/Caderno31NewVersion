@@ -1,18 +1,18 @@
 import { ReactElement, useEffect, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
-import { InputFIeld } from "../common/input-field";
-import { UIIcons } from "../icons";
-import { PublishContentStyle } from "../styles/pages/publishContent";
-import { CategorySelector } from "../common/categorySelector";
-import { ResponseCategory, ResponseLanguage, ResponsePostType } from "../../interfaces";
+import { InputFIeld } from "../component/common/input-field";
+import { UIIcons } from "../component/icons";
+import { PublishContentStyle } from "../component/styles/pages/publishContent";
+import { CategorySelector } from "../component/common/categorySelector";
+import { ResponseCategory, ResponseLanguage, ResponsePostType } from "../interfaces";
 import { z } from "zod";
-import { extractMinMaxLengths, validateFormData } from "../../helper/zod-helper";
-import { Button } from "../common/button";
-import { UploadArea } from "../common/uploadArea";
-import { useUploadFiles } from "../../context/UploadFiles";
-import { PublishContentAPI } from "../../api/publishContent";
-import { Spinner } from "../styles/common/common-styles";
-import { PostTypeCheckbox } from "../common/postTypeCheckbox";
+import { extractMinMaxLengths, validateFormData } from "../helper/zod-helper";
+import { Button } from "../component/common/button";
+import { UploadArea } from "../component/common/uploadArea";
+import { useUploadFiles } from "../context/UploadFiles";
+import { PublishContentAPI } from "../api/publishContent";
+import { Spinner } from "../component/styles/common/common-styles";
+import { PostTypeCheckbox } from "../component/common/postTypeCheckbox";
 
 const categorySchema = z.object({
     cd_category: z.number(),      // Código numérico
@@ -47,14 +47,14 @@ const publishContentSchema = z.object({
     const otherFields = (
 
         (typeof data.description === "string" && data.description.trim() !== "") ||
-        (Array.isArray(data.categories) && data.categories.length > 0) ||
+        // (Array.isArray(data.categories) && data.categories.length > 0) ||
         (typeof data.price === "number") ||
         (Array.isArray(data.files) && data.files.length > 0)
     );
     return otherFields;
 }, {
     path: ["postTypes"],
-    message: "Provide at least one additional field besides Post Types",
+    message: "Provide at least one additional field besides Post Types and/or Categories",
 });
 
 // Extract max lengths using schema.innerType.shape.fieldName._def.checks

@@ -1,8 +1,8 @@
 import { ReactElement } from "react";
-import littleMonkey from "../../assets/images/notFound/macaquito.png";
+import littleMonkey from "../assets/images/notFound/macaquito.png";
 import { useTheme } from "styled-components";
 import { DefaultTheme } from "styled-components/dist/types";
-import { Button } from "../common/button";
+import { Button } from "../component/common/button";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 

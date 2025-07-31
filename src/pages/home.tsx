@@ -1,14 +1,14 @@
 import { ReactElement, ReactNode, useEffect, useState } from "react";
-import { Hero } from "../common/hero";
-import { ItemsColections } from "../common/items-colections";
-import { HomeApi } from "../../api/backendApi";
-import { BannerProps, CreatorChipProps, HeroProps, ItemAsCardProps } from "../../interfaces";
-import { Carrousel } from "../common/carrousel";
-import { ContentCreatorDiv } from "../styles/common/common-styles";
-import { ItemAsCard } from "../common/itemAsCard";
-import { CreatorChip } from "../common/creator-chip";
-import { Banner } from "../common/banner";
-import { MiniBannerLayout } from "../common/miniBannerLayout";
+import { Hero } from "../component/common/hero";
+import { ItemsColections } from "../component/common/items-colections";
+import { HomeApi } from "../api/backendApi";
+import { BannerProps, CreatorChipProps, HeroProps, ItemAsCardProps } from "../interfaces";
+import { Carrousel } from "../component/common/carrousel";
+import { ContentCreatorDiv } from "../component/styles/common/common-styles";
+import { ItemAsCard } from "../component/common/itemAsCard";
+import { CreatorChip } from "../component/common/creator-chip";
+import { Banner } from "../component/common/banner";
+import { MiniBannerLayout } from "../component/common/miniBannerLayout";
 
 export const Home = (): ReactElement => {
     const [dataBestOfTheMonth, setDataBestOfTheMonth] = useState<React.JSX.Element>();
