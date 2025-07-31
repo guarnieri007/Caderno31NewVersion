@@ -1,18 +1,19 @@
-import { ReactElement, useEffect, useState } from "react"
-import { AnimatePresence, motion } from "framer-motion"
-import { InputFIeld } from "../component/common/input-field";
-import { UIIcons } from "../component/icons";
-import { PublishContentStyle } from "../component/styles/pages/publishContent";
-import { CategorySelector } from "../component/common/categorySelector";
-import { ResponseCategory, ResponseLanguage, ResponsePostType } from "../interfaces";
-import { z } from "zod";
-import { extractMinMaxLengths, publishContentSchemaZOD, validateFormData, categoriesQuantity } from "../helper/zod-helper";
-import { Button } from "../component/common/button";
-import { UploadArea } from "../component/common/uploadArea";
-import { useUploadFiles } from "../context/UploadFiles";
-import { PublishContentAPI } from "../api/publishContent";
-import { Spinner } from "../component/styles/common/common-styles";
-import { PostTypeCheckbox } from "../component/common/postTypeCheckbox";
+import { ReactElement, useEffect, useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { z } from 'zod'
+
+import { PublishContentAPI } from '../api/publishContent'
+import { Button } from '../component/common/button'
+import { CategorySelector } from '../component/common/categorySelector'
+import { InputFIeld } from '../component/common/input-field'
+import { PostTypeCheckbox } from '../component/common/postTypeCheckbox'
+import { UIIcons } from '../component/icons'
+import { PublishContentStyle } from '../component/styles/pages/publishContent'
+import { Spinner } from '../component/styles/common/common-styles'
+import { useUploadFiles } from '../context/UploadFiles'
+import { extractMinMaxLengths, publishContentSchemaZOD, validateFormData, categoriesQuantity } from '../helper/zod-helper'
+import { ResponseCategory, ResponseLanguage, ResponsePostType } from '../interfaces'
+import { UploadArea } from '../component/common/uploadArea'
 
 // Schema do formulário
 const publishContentSchema = publishContentSchemaZOD();
@@ -20,6 +21,19 @@ const publishContentSchema = publishContentSchemaZOD();
 // Extract max lengths using schema.innerType.shape.fieldName._def.checks
 const maxLengths = extractMinMaxLengths(publishContentSchema);
 type PublishContentForm = z.infer<typeof publishContentSchema>; // Inferir o tipo do esquema
+
+function parseJSON<T>(value: FormDataEntryValue | null): T | null {
+    if (typeof value !== 'string') return null
+    try {
+        return JSON.parse(value) as T
+    } catch {
+        return null
+    }
+}
+
+function parseOptionalString(value: FormDataEntryValue | null): string | null {
+    return typeof value === 'string' && value.trim() !== '' ? value : null
+}
 
 export const PublishContent = (): ReactElement => {
     const { getCompletedUploads } = useUploadFiles();
@@ -35,99 +49,52 @@ export const PublishContent = (): ReactElement => {
     useEffect(() => {
         async function fetchData() {
             try {
-                const cats = await ListCategories();
-                if (cats) setCategories(cats);
+                const [cats, langs, types] = await Promise.all([
+                    ListCategories(),
+                    ListLanguage(),
+                    ListPostTypes(),
+                ])
+                if (cats) setCategories(cats)
+                if (langs) setLanguages(langs)
+                if (types) setPostTypes(types)
             } catch (err) {
-                console.error('Failed to fetch publish content data:', err);
+                console.error('Failed to fetch publish content data:', err)
             }
         }
 
-        async function fetchLanguages() {
-            try {
-                const langs = await ListLanguage();
-                if (langs) setLanguages(langs);
-            } catch (err) {
-                console.log('Failed to fetch publish content data:', err);
-            }
-        }
-
-        async function fetchPostTypes() {
-            try {
-                const types = await ListPostTypes();
-                if (types) setPostTypes(types);
-            } catch (err) {
-                console.log('Failed to fetch publish content data:', err);
-            }
-        }
-
-        fetchPostTypes()
-        fetchLanguages();
-        fetchData();
+        fetchData()
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    useEffect(() => {
-        console.log("postTypes:", postTypes);
-    }, [postTypes])
+    }, [])
 
     async function sendForm(event: React.FormEvent<HTMLFormElement>) {
-        event.preventDefault();
-        setLoading(true);
+        event.preventDefault()
+        setLoading(true)
 
-        const formData = new FormData(event.currentTarget);
-        const filesUploaded = await getCompletedUploads();
+        const formData = new FormData(event.currentTarget)
+        const filesUploaded = await getCompletedUploads()
 
-        let parsedCategories: ResponseCategory[] = [];
-        let price: string | null = null;
-        let parsedPostTypes: unknown[] = [];
-
-        try {
-            const raw = formData.get("categories");
-            if (typeof raw === "string") {
-                parsedCategories = JSON.parse(raw);
-            }
-        } catch (error) {
-            console.error("Failed to parse categories:", error);
-            setErrors({ categories: ["Invalid categories format"] });
-            setLoading(false);
-            return;
-        }
-        try {
-            const raw = formData.get("postTypes");
-            if (typeof raw === "string") {
-                parsedPostTypes = JSON.parse(raw);
-            }
-        } catch (error) {
-            console.error("Failed to parse post types:", error);
+        const parsedCategories = parseJSON<ResponseCategory[]>(formData.get('categories'))
+        if (formData.get('categories') && !parsedCategories) {
+            setErrors({ categories: ['Invalid categories format'] })
+            setLoading(false)
+            return
         }
 
-        const priceRaw = formData.get("price");
-        if (typeof priceRaw === "string" && priceRaw.trim() !== "") {
-            price = priceRaw;
+        const parsedPostTypes = parseJSON<unknown[]>(formData.get('postTypes')) ?? []
+        const price = parseOptionalString(formData.get('price'))
+
+        if (filesUploaded.some(file => file.status === 'error')) {
+            setErrors({ description: ['Files with error'] })
         }
 
-        try {
-            if (filesUploaded.length > 0) {
-                const filesWithError = filesUploaded.filter(file => file.status === "error");
-                if (filesWithError.length > 0) {
-                    setErrors({ description: ["Files with error"] })
-                }
-            }
-        }
-
-        catch (error) {
-            console.error("Failed to parse categories:", error);
-        }
-
-        const description = (formData.get("description") as string) || null;
         const data = {
-            description,
+            description: parseOptionalString(formData.get('description')),
             postTypes: parsedPostTypes,
             price,
-            categories: parsedCategories,
+            categories: parsedCategories ?? [],
             files: filesUploaded,
-        };
-        console.log(data);
+        }
+        console.log(data)
 
 
         const validation = validateFormData(publishContentSchema, data);
@@ -231,3 +198,4 @@ export const PublishContent = (): ReactElement => {
         </PublishContentStyle>
     )
 }
+
