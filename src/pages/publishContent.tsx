@@ -6,7 +6,7 @@ import { PublishContentStyle } from "../component/styles/pages/publishContent";
 import { CategorySelector } from "../component/common/categorySelector";
 import { ResponseCategory, ResponseLanguage, ResponsePostType } from "../interfaces";
 import { z } from "zod";
-import { extractMinMaxLengths, validateFormData } from "../helper/zod-helper";
+import { extractMinMaxLengths, publishContentSchemaZOD, validateFormData, categoriesQuantity } from "../helper/zod-helper";
 import { Button } from "../component/common/button";
 import { UploadArea } from "../component/common/uploadArea";
 import { useUploadFiles } from "../context/UploadFiles";
@@ -14,48 +14,8 @@ import { PublishContentAPI } from "../api/publishContent";
 import { Spinner } from "../component/styles/common/common-styles";
 import { PostTypeCheckbox } from "../component/common/postTypeCheckbox";
 
-const categorySchema = z.object({
-    cd_category: z.number(),      // Código numérico
-}).passthrough();
-
-const postTypeSchema = z.object({
-    cd_post_type: z.number(),
-}).passthrough();
-
-const categoriesQuantity = 5;
 // Schema do formulário
-const publishContentSchema = z.object({
-    description: z.string().max(300, "Description is too long").nullable(),
-    categories: z.array(categorySchema).max(categoriesQuantity, `You must select up to ${categoriesQuantity} categories`).nullable(),
-    postTypes: z.array(postTypeSchema).min(1, "At least one post type is required"),
-    price: z.preprocess((val) => {
-        if (val === "" || val === undefined || val === null) return null;
-        if (typeof val === "number") return val;
-        if (typeof val === "string" && /^\d+$/.test(val)) return parseInt(val, 10);
-        return NaN;
-    }, z.number().int().max(999999).nullable()),
-    files: z.array(z.any()).nullable(),
-}).refine((data) => {
-    if (data.postTypes.some((pt) => pt.cd_post_type === 2)) {
-        return typeof data.price === "number" && !Number.isNaN(data.price);
-    }
-    return true;
-}, {
-    path: ["price"],
-    message: "Price is required when Post Type 2 is selected",
-}).refine((data) => {
-    const otherFields = (
-
-        (typeof data.description === "string" && data.description.trim() !== "") ||
-        // (Array.isArray(data.categories) && data.categories.length > 0) ||
-        (typeof data.price === "number") ||
-        (Array.isArray(data.files) && data.files.length > 0)
-    );
-    return otherFields;
-}, {
-    path: ["postTypes"],
-    message: "Provide at least one additional field besides Post Types and/or Categories",
-});
+const publishContentSchema = publishContentSchemaZOD();
 
 // Extract max lengths using schema.innerType.shape.fieldName._def.checks
 const maxLengths = extractMinMaxLengths(publishContentSchema);
