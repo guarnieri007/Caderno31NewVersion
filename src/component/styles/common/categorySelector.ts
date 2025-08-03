@@ -19,7 +19,7 @@ export const CategorySelectorStyle = styled.div.withConfig({
   .dropdown-header {
   background-color: ${(prop) => prop.is_focused ? prop.theme.colors.background_secondary : prop.theme.colors.background_primary};
   padding: 0rem ${(prop) => prop.theme.spacings.normal};
-  border: 1px solid ${(prop) => prop.is_focused ? prop.theme.colors.text_hover : prop.theme.colors.button_text};
+  border: ${(prop) => prop.is_focused ? "2px" : "1px"} solid ${(prop) => prop.is_focused ? prop.theme.colors.text_hover : prop.theme.colors.button_text};
   border-radius: 8px;
   color: #fff;
   display: flex;

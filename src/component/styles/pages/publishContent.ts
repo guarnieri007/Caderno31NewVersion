@@ -40,4 +40,12 @@ export const PublishContentStyle = styled.div`
     align-items: start;
     gap: ${({ theme }) => theme.spacings.normal};
   }
+
+  .input-descriptions {
+    width: 100%;
+    & > button {
+      display: block;
+      margin-left: auto;
+    }
+  }
 `;

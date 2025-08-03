@@ -117,15 +117,18 @@ export const PublishContent = (): ReactElement => {
             <div className="card_style">
                 <h1 className="title_style">Post a new content</h1>
                 <form onSubmit={sendForm}>
-                    <InputFIeld
-                        label="Description"
-                        maxLength={maxLengths.description?.max ? maxLengths.description.max : 0}
-                        name="description"
-                        placeholder="Put here the description of your content"
-                        type="text"
-                        icon={UIIcons.Book}
-                        errors={errors.description}
-                    />
+                    <div className='input-descriptions'>
+                        <Button type='button' color='secondary' children='Add Lang'  />
+                        <InputFIeld
+                            label="Description"
+                            maxLength={maxLengths.description?.max ? maxLengths.description.max : 0}
+                            name="description"
+                            placeholder="Put here the description of your content"
+                            type="text"
+                            icon={UIIcons.Book}
+                            errors={errors.description}
+                        />
+                    </div>
 
                     {(postTypes.length > 0 && languages.length > 0) ? (
                         <PostTypeCheckbox

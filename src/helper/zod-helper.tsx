@@ -112,7 +112,7 @@ export function publishContentSchemaZOD() {
     
             (typeof data.description === "string" && data.description.trim() !== "") ||
             // (Array.isArray(data.categories) && data.categories.length > 0) ||
-            (typeof data.price === "number") ||
+            // (typeof data.price === "number") ||
             (Array.isArray(data.files) && data.files.length > 0)
         );
         return otherFields;
