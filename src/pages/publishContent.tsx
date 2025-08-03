@@ -179,8 +179,8 @@ export const PublishContent = (): ReactElement => {
                         <Button
                             type='button'
                             color='secondary'
-                            onClick={addDescriptionField}
-                            disabled={remainingLangs.length === 0}
+                            handleOnClick={addDescriptionField}
+                            clicable={!(remainingLangs.length === 0)}
                         >
                             Add Lang
                         </Button>
