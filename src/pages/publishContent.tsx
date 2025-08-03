@@ -7,6 +7,7 @@ import { Button } from '../component/common/button'
 import { CategorySelector } from '../component/common/categorySelector'
 import { InputFIeld } from '../component/common/input-field'
 import { PostTypeCheckbox } from '../component/common/postTypeCheckbox'
+import Icon from '../component/icons/icon'
 import { UIIcons } from '../component/icons'
 import { PublishContentStyle } from '../component/styles/pages/publishContent'
 import { Spinner } from '../component/styles/common/common-styles'
@@ -14,12 +15,14 @@ import { useUploadFiles } from '../context/UploadFiles'
 import { extractMinMaxLengths, publishContentSchemaZOD, validateFormData, categoriesQuantity } from '../helper/zod-helper'
 import { ResponseCategory, ResponseLanguage, ResponsePostType } from '../interfaces'
 import { UploadArea } from '../component/common/uploadArea'
+import { useLanguage } from '../context/Language'
 
 // Schema do formulário
 const publishContentSchema = publishContentSchemaZOD();
 
 // Extract max lengths using schema.innerType.shape.fieldName._def.checks
 const maxLengths = extractMinMaxLengths(publishContentSchema);
+const maxDescriptionLength = 300;
 type PublishContentForm = z.infer<typeof publishContentSchema>; // Inferir o tipo do esquema
 
 function parseJSON<T>(value: FormDataEntryValue | null): T | null {
@@ -38,6 +41,7 @@ function parseOptionalString(value: FormDataEntryValue | null): string | null {
 export const PublishContent = (): ReactElement => {
     const { getCompletedUploads } = useUploadFiles();
     const { ListCategories, ListLanguage, ListPostTypes } = PublishContentAPI();
+    const { language } = useLanguage();
 
     const [errors, setErrors] = useState<{ [key in keyof PublishContentForm]?: string[] }>({});
     const [loading, setLoading] = useState<boolean>(false);
@@ -45,6 +49,8 @@ export const PublishContent = (): ReactElement => {
     const [categories, setCategories] = useState<ResponseCategory[]>([]);
     const [postTypes, setPostTypes] = useState<ResponsePostType[]>([]);
     const [selectedPostTypes, setSelectedPostTypes] = useState<ResponsePostType[]>([]);
+    interface DescriptionField { id: number; language: number | null }
+    const [descriptionFields, setDescriptionFields] = useState<DescriptionField[]>([]);
 
     useEffect(() => {
         async function fetchData() {
@@ -66,6 +72,51 @@ export const PublishContent = (): ReactElement => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
+    useEffect(() => {
+        if (languages.length === 0) return
+        const currentLang = languages.find(l => l.slug === language)
+        setDescriptionFields(prev => {
+            if (prev.length === 0) {
+                return [{ id: Date.now(), language: currentLang?.cd_language ?? null }]
+            }
+            return prev.map((field, index) => ({
+                ...field,
+                language: index === 0 ? currentLang?.cd_language ?? null : null,
+            }))
+        })
+    }, [language, languages])
+
+    const handleLangChange = (index: number, value: string) => {
+        setDescriptionFields(fields =>
+            fields.map((field, i) => i === index ? { ...field, language: value ? parseInt(value, 10) : null } : field)
+        )
+    }
+
+    const addDescriptionField = () => {
+        const usedLangs = descriptionFields.map(f => f.language).filter((l): l is number => l !== null)
+        const available = languages
+            .filter(l => !usedLangs.includes(l.cd_language))
+            .sort((a, b) => a.ds_language_short.localeCompare(b.ds_language_short))
+        if (available.length === 0) return
+        setDescriptionFields([...descriptionFields, { id: Date.now(), language: available[0].cd_language }])
+    }
+
+    const removeDescriptionField = (index: number) => {
+        if (index === 0) return
+        setDescriptionFields(fields => fields.filter((_, i) => i !== index))
+    }
+
+    const getAvailableLanguages = (index: number) => {
+        const selected = descriptionFields
+            .map((f, i) => (i === index ? null : f.language))
+            .filter((l): l is number => l !== null)
+        return languages
+            .filter(l => !selected.includes(l.cd_language))
+            .sort((a, b) => a.ds_language_short.localeCompare(b.ds_language_short))
+    }
+
+    const remainingLangs = languages.filter(l => !descriptionFields.some(df => df.language === l.cd_language))
+
     async function sendForm(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault()
         setLoading(true)
@@ -84,11 +135,25 @@ export const PublishContent = (): ReactElement => {
         const price = parseOptionalString(formData.get('price'))
 
         if (filesUploaded.some(file => file.status === 'error')) {
-            setErrors({ description: ['Files with error'] })
+            setErrors({ translations: ['Files with error'] })
+        }
+
+        const translations: { cd_language: number; ds_post: string }[] = []
+        for (let i = 0; i < descriptionFields.length; i++) {
+            const text = parseOptionalString(formData.get(`description-${i}`))
+            const langVal = formData.get(`description-lang-${i}`)
+            const lang = typeof langVal === 'string' && langVal !== '' ? parseInt(langVal, 10) : null
+            if (text && lang !== null) {
+                translations.push({ cd_language: lang, ds_post: text })
+            } else if (text || lang !== null) {
+                setErrors({ translations: ['Language and description must be provided together'] })
+                setLoading(false)
+                return
+            }
         }
 
         const data = {
-            description: parseOptionalString(formData.get('description')),
+            translations,
             postTypes: parsedPostTypes,
             price,
             categories: parsedCategories ?? [],
@@ -96,20 +161,19 @@ export const PublishContent = (): ReactElement => {
         }
         console.log(data)
 
-
-        const validation = validateFormData(publishContentSchema, data);
+        const validation = validateFormData(publishContentSchema, data)
 
         if (!validation.success) {
-            setErrors(validation.errors); // Agora sim
-            setLoading(false);
-            console.log("Form is not valid", validation.errors)
-            return;
+            setErrors(validation.errors)
+            setLoading(false)
+            console.log('Form is not valid', validation.errors)
+            return
         }
 
         // Se passou na validação
-        setErrors({});
-        setLoading(false);
-        console.log("Form is valid", data);
+        setErrors({})
+        setLoading(false)
+        console.log('Form is valid', data)
     }
 
     return (
@@ -118,21 +182,52 @@ export const PublishContent = (): ReactElement => {
                 <h1 className="title_style">Post a new content</h1>
                 <form onSubmit={sendForm}>
                     <div className='input-descriptions'>
-                        <Button type='button' color='secondary' children='Add Lang' />
+                        <Button
+                            type='button'
+                            color='secondary'
+                            onClick={addDescriptionField}
+                            disabled={remainingLangs.length === 0}
+                        >
+                            Add Lang
+                        </Button>
                         <div className='description-inputs'>
-                            <div className='input-item'>
-                            <InputFIeld
-                                label="Description"
-                                maxLength={maxLengths.description?.max ? maxLengths.description.max : 0}
-                                name="description"
-                                placeholder="Put here the description of your content"
-                                type="text"
-                                icon={UIIcons.Book}
-                                errors={errors.description}
-                            />
-                            
-                            </div>
-
+                            {descriptionFields.map((field, index) => (
+                                <div className='description-item' key={field.id}>
+                                    <div className='lang-selector'>
+                                        <label htmlFor={`description-lang-${index}`}>Lang</label>
+                                        <select
+                                            id={`description-lang-${index}`}
+                                            name={`description-lang-${index}`}
+                                            value={field.language ?? ''}
+                                            onChange={(e) => handleLangChange(index, e.target.value)}
+                                        >
+                                            <option value="" disabled hidden>Select</option>
+                                            {getAvailableLanguages(index).map(lang => (
+                                                <option key={lang.cd_language} value={lang.cd_language}>{lang.ds_language_short}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div className='input-item'>
+                                        <InputFIeld
+                                            label="Description"
+                                            maxLength={maxDescriptionLength}
+                                            name={`description-${index}`}
+                                            placeholder="Put here the description of your content"
+                                            type="text"
+                                            icon={UIIcons.Book}
+                                            errors={errors.translations}
+                                        />
+                                    </div>
+                                    <button
+                                        type='button'
+                                        className='remove-description'
+                                        onClick={() => removeDescriptionField(index)}
+                                        disabled={index === 0}
+                                    >
+                                        <Icon icon={UIIcons.Trash} size={20} />
+                                    </button>
+                                </div>
+                            ))}
                         </div>
                     </div>
 
