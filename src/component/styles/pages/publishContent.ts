@@ -47,5 +47,29 @@ export const PublishContentStyle = styled.div`
       display: block;
       margin-left: auto;
     }
+    .description-inputs {
+      display: flex;
+      flex-direction: column;
+      gap: ${({ theme }) => theme.spacings.small};
+      margin-top: ${({ theme }) => theme.spacings.small};
+    }
+    .description-item {
+      display: flex;
+      gap: ${({ theme }) => theme.spacings.small};
+      align-items: flex-start;
+    }
+    .lang-selector {
+      display: flex;
+      flex-direction: column;
+      label {
+        margin-bottom: ${({ theme }) => theme.spacings.xsmall};
+      }
+      select {
+        padding: ${({ theme }) => theme.spacings.xsmall};
+      }
+    }
+    .input-item {
+      flex: 1;
+    }
   }
 `;
