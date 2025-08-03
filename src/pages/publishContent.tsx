@@ -7,6 +7,7 @@ import { Button } from '../component/common/button'
 import { CategorySelector } from '../component/common/categorySelector'
 import { InputFIeld } from '../component/common/input-field'
 import { PostTypeCheckbox } from '../component/common/postTypeCheckbox'
+import Icon from '../component/icons/icon'
 import { UIIcons } from '../component/icons'
 import { PublishContentStyle } from '../component/styles/pages/publishContent'
 import { Spinner } from '../component/styles/common/common-styles'
@@ -98,6 +99,11 @@ export const PublishContent = (): ReactElement => {
             .sort((a, b) => a.ds_language_short.localeCompare(b.ds_language_short))
         if (available.length === 0) return
         setDescriptionFields([...descriptionFields, { id: Date.now(), language: available[0].cd_language }])
+    }
+
+    const removeDescriptionField = (index: number) => {
+        if (index === 0) return
+        setDescriptionFields(fields => fields.filter((_, i) => i !== index))
     }
 
     const getAvailableLanguages = (index: number) => {
@@ -212,6 +218,16 @@ export const PublishContent = (): ReactElement => {
                                             errors={errors.translations}
                                         />
                                     </div>
+
+                                    <button
+                                        type='button'
+                                        className='remove-description'
+                                        onClick={() => removeDescriptionField(index)}
+                                        disabled={index === 0}
+                                    >
+                                        <Icon icon={UIIcons.Trash} size={20} />
+                                    </button>
+
                                 </div>
                             ))}
                         </div>

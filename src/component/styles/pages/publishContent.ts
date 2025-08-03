@@ -58,6 +58,20 @@ export const PublishContentStyle = styled.div`
       gap: ${({ theme }) => theme.spacings.small};
       align-items: flex-start;
     }
+
+    .remove-description {
+      background: none;
+      border: none;
+      margin-top: ${({ theme }) => theme.spacings.big};
+      cursor: pointer;
+      padding: 0;
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+
     .lang-selector {
       display: flex;
       flex-direction: column;
