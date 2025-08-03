@@ -185,8 +185,8 @@ export const PublishContent = (): ReactElement => {
                         <Button
                             type='button'
                             color='secondary'
-                            onClick={addDescriptionField}
-                            disabled={remainingLangs.length === 0}
+                            handleOnClick={addDescriptionField}
+                            clicable={!(remainingLangs.length === 0)}
                         >
                             Add Lang
                         </Button>
@@ -218,6 +218,7 @@ export const PublishContent = (): ReactElement => {
                                             errors={errors.translations}
                                         />
                                     </div>
+
                                     <button
                                         type='button'
                                         className='remove-description'
@@ -226,6 +227,7 @@ export const PublishContent = (): ReactElement => {
                                     >
                                         <Icon icon={UIIcons.Trash} size={20} />
                                     </button>
+
                                 </div>
                             ))}
                         </div>
