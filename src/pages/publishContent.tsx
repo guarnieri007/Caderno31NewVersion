@@ -16,6 +16,7 @@ import { extractMinMaxLengths, publishContentSchemaZOD, validateFormData, catego
 import { ResponseCategory, ResponseLanguage, ResponsePostType } from '../interfaces'
 import { UploadArea } from '../component/common/uploadArea'
 import { useLanguage } from '../context/Language'
+import { Label } from '../component/common/label'
 
 // Schema do formulário
 const publishContentSchema = publishContentSchemaZOD();
@@ -84,7 +85,7 @@ export const PublishContent = (): ReactElement => {
                 language: index === 0 ? currentLang?.cd_language ?? null : null,
             }))
         })
-    }, [language, languages])
+    }, [languages])
 
     const handleLangChange = (index: number, value: string) => {
         setDescriptionFields(fields =>
@@ -194,7 +195,13 @@ export const PublishContent = (): ReactElement => {
                             {descriptionFields.map((field, index) => (
                                 <div className='description-item' key={field.id}>
                                     <div className='lang-selector'>
-                                        <label htmlFor={`description-lang-${index}`}>Lang</label>
+                                        <Label 
+                                        forInput={`description-lang-${index}`}
+                                        label='Lang'
+                                        counting={false}
+                                        length={0}
+                                        maxLength={0}
+                                        />
                                         <select
                                             id={`description-lang-${index}`}
                                             name={`description-lang-${index}`}

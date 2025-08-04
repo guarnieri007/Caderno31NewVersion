@@ -111,7 +111,7 @@ export function publishContentSchemaZOD() {
         return true;
     }, {
         path: ["price"],
-        message: "Price is required when Post Type 2 is selected",
+        message: "Price is required when paid is selected",
     }).refine((data) => {
         const otherFields = (
             (Array.isArray(data.translations) && data.translations.length > 0) ||

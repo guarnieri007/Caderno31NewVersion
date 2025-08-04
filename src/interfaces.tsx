@@ -97,7 +97,7 @@ export interface LabelProps {
   label: string;
   length: number;
   maxLength: number;
-  is_focused: boolean;
+  is_focused?: boolean;
   forInput: string;
   counting?: boolean;
 }
