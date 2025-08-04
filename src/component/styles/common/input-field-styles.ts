@@ -33,12 +33,13 @@ export const InputFieldContent = styled.div.withConfig({
             font-size: 16px;
             outline: none;
             border-radius: 8px;
-            padding: 0px 48px 0px 16px;
+            padding: 1px 49px 1px 15px;
             
             &:focus {
                 background-color: ${(prop) => prop.theme.colors.background_secondary};
                 border: solid 2px ${(prop) => prop.theme.colors.text_hover};
                 color: ${(prop) => prop.theme.colors.text_hover};
+                padding: 0px 48px 0px 14px;
             }
     
             &::placeholder {

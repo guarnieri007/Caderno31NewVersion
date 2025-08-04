@@ -62,9 +62,10 @@ export const PublishContentStyle = styled.div`
     .remove-description {
       background: none;
       border: none;
+      height: 48px;
       margin-top: ${({ theme }) => theme.spacings.big};
       cursor: pointer;
-      padding: 0;
+      padding: 45px 0px;
 
       &:disabled {
         opacity: 0.5;
@@ -75,11 +76,21 @@ export const PublishContentStyle = styled.div`
     .lang-selector {
       display: flex;
       flex-direction: column;
-      label {
-        margin-bottom: ${({ theme }) => theme.spacings.xsmall};
-      }
+      padding: 16px 0px;
+      box-sizing: border-box;
+      color: ${({theme}) => theme.colors.text_hover};
+      gap: ${( {theme} ) => theme.spacings.small};
+
       select {
-        padding: ${({ theme }) => theme.spacings.xsmall};
+        height: 48px;
+        width: min-content;
+        border: 1px solid ${({theme}) => theme.colors.button_text};
+        box-sizing: content-box;
+        background-color: ${({theme}) => theme.colors.background_primary};
+        color: ${({theme}) => theme.colors.text_hover};
+        outline: none;
+        border-radius: 8px;
+        padding: 1px 10px 1px 15px;
       }
     }
     .input-item {
