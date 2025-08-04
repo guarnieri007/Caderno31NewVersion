@@ -13,10 +13,11 @@ import { PublishContentStyle } from '../component/styles/pages/publishContent'
 import { Spinner } from '../component/styles/common/common-styles'
 import { useUploadFiles } from '../context/UploadFiles'
 import { extractMinMaxLengths, publishContentSchemaZOD, validateFormData, categoriesQuantity } from '../helper/zod-helper'
-import { ResponseCategory, ResponseLanguage, ResponsePostType } from '../interfaces'
+import { ResponseCategory, ResponseLanguage, ResponsePostType, CreatePostProps } from '../interfaces'
 import { UploadArea } from '../component/common/uploadArea'
 import { useLanguage } from '../context/Language'
 import { Label } from '../component/common/label'
+import { useCreatePost } from '../hooks/useCreatePost'
 
 // Schema do formulário
 const publishContentSchema = publishContentSchemaZOD();
@@ -43,6 +44,7 @@ export const PublishContent = (): ReactElement => {
     const { getCompletedUploads } = useUploadFiles();
     const { ListCategories, ListLanguage, ListPostTypes } = PublishContentAPI();
     const { language } = useLanguage();
+    const { handleCreatePost } = useCreatePost();
 
     const [errors, setErrors] = useState<{ [key in keyof PublishContentForm]?: string[] }>({});
     const [loading, setLoading] = useState<boolean>(false);
@@ -142,8 +144,9 @@ export const PublishContent = (): ReactElement => {
             return
         }
 
-        const parsedPostTypes = parseJSON<unknown[]>(formData.get('postTypes')) ?? []
-        const price = parseOptionalString(formData.get('price'))
+        const parsedPostTypes = parseJSON<ResponsePostType[]>(formData.get('postTypes')) ?? []
+        const priceStr = parseOptionalString(formData.get('price'))
+        const price = priceStr !== null ? parseInt(priceStr, 10) : null
 
         const newErrors: { [key in keyof PublishContentForm]?: string[] } = {}
         if (filesUploaded.some(file => file.status === 'error')) {
@@ -170,7 +173,7 @@ export const PublishContent = (): ReactElement => {
         }
         setTranslationErrors(newTranslationErrors)
 
-        const data = {
+        const data: CreatePostProps = {
             translations,
             postTypes: parsedPostTypes,
             price,
@@ -187,11 +190,15 @@ export const PublishContent = (): ReactElement => {
             console.log('Form is not valid', validation.errors)
             return
         }
-
+        
         // Se passou na validação
         setErrors(newErrors)
-        setLoading(false)
-        console.log('Form is valid', data)
+        try {
+            await handleCreatePost(data)
+            console.log('Form is valid', data)
+        } finally {
+            setLoading(false)
+        }
     }
 
     return (
