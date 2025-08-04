@@ -88,8 +88,13 @@ export function validateFormData<T extends z.ZodTypeAny>(
 }
 
 export function publishContentSchemaZOD() {
+    const translationSchema = z.object({
+        cd_language: z.number(),
+        ds_post: z.string().max(300, "Description is too long"),
+    })
+
     return (z.object({
-        description: z.string().max(300, "Description is too long").nullable(),
+        translations: z.array(translationSchema).min(1, "At least one description is required"),
         categories: z.array(categorySchema).max(categoriesQuantity, `You must select up to ${categoriesQuantity} categories`).nullable(),
         postTypes: z.array(postTypeSchema).min(1, "At least one post type is required"),
         price: z.preprocess((val) => {
@@ -106,13 +111,10 @@ export function publishContentSchemaZOD() {
         return true;
     }, {
         path: ["price"],
-        message: "Price is required when Post Type 2 is selected",
+        message: "Price is required when paid is selected",
     }).refine((data) => {
         const otherFields = (
-    
-            (typeof data.description === "string" && data.description.trim() !== "") ||
-            // (Array.isArray(data.categories) && data.categories.length > 0) ||
-            (typeof data.price === "number") ||
+            (Array.isArray(data.translations) && data.translations.length > 0) ||
             (Array.isArray(data.files) && data.files.length > 0)
         );
         return otherFields;

@@ -40,4 +40,61 @@ export const PublishContentStyle = styled.div`
     align-items: start;
     gap: ${({ theme }) => theme.spacings.normal};
   }
+
+  .input-descriptions {
+    width: 100%;
+    & > button {
+      display: block;
+      margin-left: auto;
+    }
+    .description-inputs {
+      display: flex;
+      flex-direction: column;
+      gap: ${({ theme }) => theme.spacings.small};
+      margin-top: ${({ theme }) => theme.spacings.small};
+    }
+    .description-item {
+      display: flex;
+      gap: ${({ theme }) => theme.spacings.small};
+      align-items: flex-start;
+    }
+
+    .remove-description {
+      background: none;
+      border: none;
+      height: 48px;
+      margin-top: ${({ theme }) => theme.spacings.big};
+      cursor: pointer;
+      padding: 45px 0px;
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+
+    .lang-selector {
+      display: flex;
+      flex-direction: column;
+      padding: 16px 0px;
+      box-sizing: border-box;
+      color: ${({theme}) => theme.colors.text_hover};
+      gap: ${( {theme} ) => theme.spacings.small};
+
+      select {
+        height: 48px;
+        width: min-content;
+        border: 1px solid ${({theme}) => theme.colors.button_text};
+        box-sizing: content-box;
+        background-color: ${({theme}) => theme.colors.background_primary};
+        color: ${({theme}) => theme.colors.text_hover};
+        outline: none;
+        border-radius: 8px;
+        padding: 1px 10px 1px 15px;
+      }
+    }
+    .input-item {
+      flex: 1;
+    }
+  }
 `;
