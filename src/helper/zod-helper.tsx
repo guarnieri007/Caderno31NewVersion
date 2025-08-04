@@ -94,7 +94,7 @@ export function publishContentSchemaZOD() {
     })
 
     return (z.object({
-        translations: z.array(translationSchema).min(1, "At least one description is required"),
+        translations: z.array(translationSchema),
         categories: z.array(categorySchema).max(categoriesQuantity, `You must select up to ${categoriesQuantity} categories`).nullable(),
         postTypes: z.array(postTypeSchema).min(1, "At least one post type is required"),
         price: z.preprocess((val) => {

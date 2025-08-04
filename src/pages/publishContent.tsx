@@ -52,6 +52,7 @@ export const PublishContent = (): ReactElement => {
     const [selectedPostTypes, setSelectedPostTypes] = useState<ResponsePostType[]>([]);
     interface DescriptionField { id: number; language: number | null }
     const [descriptionFields, setDescriptionFields] = useState<DescriptionField[]>([]);
+    const [translationErrors, setTranslationErrors] = useState<(string[] | undefined)[]>([]);
 
     useEffect(() => {
         async function fetchData() {
@@ -85,6 +86,12 @@ export const PublishContent = (): ReactElement => {
                 language: index === 0 ? currentLang?.cd_language ?? null : null,
             }))
         })
+        setTranslationErrors(prev => {
+            if (prev.length === 0) {
+                return [undefined]
+            }
+            return prev
+        })
     }, [languages])
 
     const handleLangChange = (index: number, value: string) => {
@@ -100,11 +107,13 @@ export const PublishContent = (): ReactElement => {
             .sort((a, b) => a.ds_language_short.localeCompare(b.ds_language_short))
         if (available.length === 0) return
         setDescriptionFields([...descriptionFields, { id: Date.now(), language: available[0].cd_language }])
+        setTranslationErrors(prev => [...prev, undefined])
     }
 
     const removeDescriptionField = (index: number) => {
         if (index === 0) return
         setDescriptionFields(fields => fields.filter((_, i) => i !== index))
+        setTranslationErrors(errors => errors.filter((_, i) => i !== index))
     }
 
     const getAvailableLanguages = (index: number) => {
@@ -121,6 +130,7 @@ export const PublishContent = (): ReactElement => {
     async function sendForm(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault()
         setLoading(true)
+        setTranslationErrors([])
 
         const formData = new FormData(event.currentTarget)
         const filesUploaded = await getCompletedUploads()
@@ -135,11 +145,13 @@ export const PublishContent = (): ReactElement => {
         const parsedPostTypes = parseJSON<unknown[]>(formData.get('postTypes')) ?? []
         const price = parseOptionalString(formData.get('price'))
 
+        const newErrors: { [key in keyof PublishContentForm]?: string[] } = {}
         if (filesUploaded.some(file => file.status === 'error')) {
-            setErrors({ translations: ['Files with error'] })
+            newErrors.translations = ['Files with error']
         }
 
         const translations: { cd_language: number; ds_post: string }[] = []
+        const newTranslationErrors: (string[] | undefined)[] = Array.from({ length: descriptionFields.length }, () => undefined)
         for (let i = 0; i < descriptionFields.length; i++) {
             const text = parseOptionalString(formData.get(`description-${i}`))
             const langVal = formData.get(`description-lang-${i}`)
@@ -147,11 +159,16 @@ export const PublishContent = (): ReactElement => {
             if (text && lang !== null) {
                 translations.push({ cd_language: lang, ds_post: text })
             } else if (text || lang !== null) {
-                setErrors({ translations: ['Language and description must be provided together'] })
-                setLoading(false)
-                return
+                newTranslationErrors[i] = ['Language and description must be provided together']
             }
         }
+        if (newTranslationErrors.some(err => err !== undefined)) {
+            setTranslationErrors(newTranslationErrors)
+            setErrors(newErrors)
+            setLoading(false)
+            return
+        }
+        setTranslationErrors(newTranslationErrors)
 
         const data = {
             translations,
@@ -165,14 +182,14 @@ export const PublishContent = (): ReactElement => {
         const validation = validateFormData(publishContentSchema, data)
 
         if (!validation.success) {
-            setErrors(validation.errors)
+            setErrors({ ...newErrors, ...validation.errors })
             setLoading(false)
             console.log('Form is not valid', validation.errors)
             return
         }
 
         // Se passou na validação
-        setErrors({})
+        setErrors(newErrors)
         setLoading(false)
         console.log('Form is valid', data)
     }
@@ -222,7 +239,7 @@ export const PublishContent = (): ReactElement => {
                                             placeholder="Put here the description of your content"
                                             type="text"
                                             icon={UIIcons.Book}
-                                            errors={errors.translations}
+                                            errors={translationErrors[index] ?? errors.translations}
                                         />
                                     </div>
 
