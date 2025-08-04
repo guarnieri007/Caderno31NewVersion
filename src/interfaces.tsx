@@ -173,3 +173,34 @@ export interface ResponsePostType {
   translations: PostTypeTranslation[];
   slug: string;
 }
+
+export interface PostTranslation {
+  cd_language: number;
+  ds_post: string;
+}
+
+export interface Post {
+  cd_post: number;
+  translations: PostTranslation[];
+  categories: ResponseCategory[];
+  postTypes: ResponsePostType[];
+  price: number | null;
+  files: UploadFile[] | null;
+}
+
+export interface CreatePostProps {
+  translations: PostTranslation[];
+  categories: ResponseCategory[];
+  postTypes: ResponsePostType[];
+  price: number | null;
+  files: UploadFile[] | null;
+}
+
+export interface PostContextType {
+  posts: Post[];
+  listPosts: () => Promise<void>;
+  getPost: (cd_post: number) => Promise<Post | null>;
+  createPost: (data: CreatePostProps) => Promise<Post | undefined>;
+  updatePost: (cd_post: number, data: CreatePostProps) => Promise<Post | undefined>;
+  deletePost: (cd_post: number) => Promise<void>;
+}

@@ -17,6 +17,7 @@ import { ResponseCategory, ResponseLanguage, ResponsePostType } from '../interfa
 import { UploadArea } from '../component/common/uploadArea'
 import { useLanguage } from '../context/Language'
 import { Label } from '../component/common/label'
+import { useCreatePost } from '../hooks/useCreatePost'
 
 // Schema do formulário
 const publishContentSchema = publishContentSchemaZOD();
@@ -43,6 +44,7 @@ export const PublishContent = (): ReactElement => {
     const { getCompletedUploads } = useUploadFiles();
     const { ListCategories, ListLanguage, ListPostTypes } = PublishContentAPI();
     const { language } = useLanguage();
+    const { handleCreatePost } = useCreatePost();
 
     const [errors, setErrors] = useState<{ [key in keyof PublishContentForm]?: string[] }>({});
     const [loading, setLoading] = useState<boolean>(false);
@@ -187,11 +189,15 @@ export const PublishContent = (): ReactElement => {
             console.log('Form is not valid', validation.errors)
             return
         }
-
+        
         // Se passou na validação
         setErrors(newErrors)
-        setLoading(false)
-        console.log('Form is valid', data)
+        try {
+            await handleCreatePost(data)
+            console.log('Form is valid', data)
+        } finally {
+            setLoading(false)
+        }
     }
 
     return (

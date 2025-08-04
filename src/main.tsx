@@ -5,6 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext.tsx';
 import { UploadFilesProvider } from './context/UploadFiles.tsx'
 import { LanguageProvider } from './context/Language.tsx';
+import { PostsProvider } from './context/Posts.tsx';
 
 
 createRoot(document.getElementById('root')!).render(
@@ -12,9 +13,11 @@ createRoot(document.getElementById('root')!).render(
     <LanguageProvider>
       <UploadFilesProvider>
         <AuthProvider>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
+          <PostsProvider>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+          </PostsProvider>
         </AuthProvider>
       </UploadFilesProvider>
     </LanguageProvider>
