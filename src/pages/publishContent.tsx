@@ -13,7 +13,7 @@ import { PublishContentStyle } from '../component/styles/pages/publishContent'
 import { Spinner } from '../component/styles/common/common-styles'
 import { useUploadFiles } from '../context/UploadFiles'
 import { extractMinMaxLengths, publishContentSchemaZOD, validateFormData, categoriesQuantity } from '../helper/zod-helper'
-import { ResponseCategory, ResponseLanguage, ResponsePostType } from '../interfaces'
+import { ResponseCategory, ResponseLanguage, ResponsePostType, CreatePostProps } from '../interfaces'
 import { UploadArea } from '../component/common/uploadArea'
 import { useLanguage } from '../context/Language'
 import { Label } from '../component/common/label'
@@ -144,8 +144,9 @@ export const PublishContent = (): ReactElement => {
             return
         }
 
-        const parsedPostTypes = parseJSON<unknown[]>(formData.get('postTypes')) ?? []
-        const price = parseOptionalString(formData.get('price'))
+        const parsedPostTypes = parseJSON<ResponsePostType[]>(formData.get('postTypes')) ?? []
+        const priceStr = parseOptionalString(formData.get('price'))
+        const price = priceStr !== null ? parseInt(priceStr, 10) : null
 
         const newErrors: { [key in keyof PublishContentForm]?: string[] } = {}
         if (filesUploaded.some(file => file.status === 'error')) {
@@ -172,7 +173,7 @@ export const PublishContent = (): ReactElement => {
         }
         setTranslationErrors(newTranslationErrors)
 
-        const data = {
+        const data: CreatePostProps = {
             translations,
             postTypes: parsedPostTypes,
             price,
