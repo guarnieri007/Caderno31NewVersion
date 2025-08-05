@@ -21,6 +21,7 @@ export const ButtonStyled = styled.button.withConfig({
   align-items: center;
   width: ${({ width }) => width || "auto"};
   justify-content: center;
+  border-radius: ${({ theme }) => theme.spacings.min};
   
   font-weight: 500;
   line-height: 18px;
