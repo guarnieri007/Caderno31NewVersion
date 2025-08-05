@@ -12,7 +12,7 @@ export const MainContainer = styled.div`
 
 export const ContentContainer = styled.main`
 
-    font-family: "Gelasio";
+    
     flex-grow: 1;
     line-height: 150%;
     width: 100%;
@@ -55,7 +55,7 @@ export const FooterContainer = styled.div`
                 h1 {
                     color: ${(prop) => prop.theme.colors.text_hover};
                     font-size: 20px;
-                    font-family: "Gelasio";
+                    
                     font-weight: 500;
                     line-height: 30px;
                     margin: 0px;
@@ -66,7 +66,7 @@ export const FooterContainer = styled.div`
                     align-self: center;
                     color: ${(prop) => prop.theme.colors.text};
                     font-size: 12px;
-                    font-family: "Gelasio";
+                    
                     font-weight: 300;
                     line-height: 16px;
                     margin: 0px;
@@ -84,7 +84,7 @@ export const FooterContainer = styled.div`
                     display: block;
                     color: ${(prop) => prop.theme.colors.text};
                     font-size: 12px;
-                    font-family: "Gelasio";
+                    
                     font-weight: 300;
                     line-height: ${(prop) => prop.theme.spacings.normal};
                     padding: ${(prop) => prop.theme.spacings.min} 0px;
@@ -104,7 +104,7 @@ export const FooterContainer = styled.div`
             a {
                 color: ${(prop) => prop.theme.colors.button_background};
                 font-size: 12px;
-                font-family: "Gelasio";
+                
                 font-weight: 500;
                 line-height: 16px;
                 text-align: right;
@@ -177,7 +177,7 @@ export const HeaderComponent = styled.header`
             .title {
                 color: ${(prop) => prop.theme.colors.text};
                 font-size: 20px;
-                font-family: "Gelasio";
+                
                 font-weight: 800;
                 line-height: 26px;
             }
@@ -191,7 +191,7 @@ export const HeaderComponent = styled.header`
         a {
             color: ${(prop) => prop.theme.colors.text};
             font-size: 16px;
-            font-family: "Gelasio";
+            
             font-weight: 500;
             line-height: 22px;
             position: relative;

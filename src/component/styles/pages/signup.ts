@@ -41,7 +41,7 @@ export const SignUpPage = styled.div<BannerDivProps>`
         h2 {
             color: ${(prop) => prop.theme.colors.text_hover};
             font-size: 14px;
-            font-family: "Roboto";
+            
             line-height: 18px;
             text-align: center;
             padding: 0px;

@@ -142,7 +142,7 @@ export const ItemsColectionsDiv = styled.div`
   h2 {
     color: ${(prop) => prop.theme.colors.text_hover};
     font-size: 24px;
-    font-family: "Gelasio";
+    
     font-weight: 800;
     line-height: 32px;
   }

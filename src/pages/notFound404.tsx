@@ -26,7 +26,6 @@ export const NotFound404 = (): ReactElement => {
     const title: React.CSSProperties = {
         color: theme.colors.text_hover,
         fontSize: '20px',
-        fontFamily: 'Roboto',
         fontWeight: 700,
         lineHeight: '24px',
         textAlign: 'center',
@@ -35,7 +34,6 @@ export const NotFound404 = (): ReactElement => {
     const litleText: React.CSSProperties = {
         color: '#ffffff',
         fontSize: '16px',
-        fontFamily: 'Roboto',
         lineHeight: '19px',
         textAlign: 'center',
     }

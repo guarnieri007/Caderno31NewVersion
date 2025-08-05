@@ -3,7 +3,7 @@ import { createGlobalStyle } from "styled-components";
 export const GlobalStyles = createGlobalStyle`
 :root {
 
-    font-family: Gelasio, 'Courier New', Courier, monospace;
+    font-family: Consolas, 'Courier New', Courier, monospace;
     line-height: 1.4;
     font-weight: 400;
   
@@ -34,7 +34,7 @@ body
     background-image: radial-gradient(circle, rgba(100, 100, 100, 0.15) 1px, transparent 1px);/* for the background dots */
     background-size: 4px 4px; /* for the background dots */
     * {
-        font-family: "Gelasio";
+        
     }
 }
 
