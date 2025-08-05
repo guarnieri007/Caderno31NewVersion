@@ -18,6 +18,7 @@ import { UploadArea } from '../component/common/uploadArea'
 import { useLanguage } from '../context/Language'
 import { Label } from '../component/common/label'
 import { useCreatePost } from '../hooks/useCreatePost'
+import { useNavigate } from 'react-router-dom'
 
 // Schema do formulário
 const publishContentSchema = publishContentSchemaZOD();
@@ -55,6 +56,7 @@ export const PublishContent = (): ReactElement => {
     interface DescriptionField { id: number; language: number | null }
     const [descriptionFields, setDescriptionFields] = useState<DescriptionField[]>([]);
     const [translationErrors, setTranslationErrors] = useState<(string[] | undefined)[]>([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         async function fetchData() {
@@ -199,6 +201,9 @@ export const PublishContent = (): ReactElement => {
         } finally {
             setLoading(false)
         }
+
+        // Redireciona para a página inicial após o envio
+        navigate('/');
     }
 
     return (
