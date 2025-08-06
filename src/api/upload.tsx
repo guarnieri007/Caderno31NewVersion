@@ -1,9 +1,37 @@
 // src/api/upload.tsx
 import { getAccessToken, setAccessToken } from "../context/AuthTokenSingleton";
 import { AuthAPI } from "./auth";
+import { isAuthError } from './authError';
 
 export const UploadAPI = () => {
   const backendURL = `${import.meta.env.VITE_BACKEND_PROTOCOAL}://${import.meta.env.VITE_BACKEND_HOST}:${import.meta.env.VITE_BACKEND_PORT}/api/upload/`;
+
+  const fetchWithAuthRetry = async (
+    request: (token: string) => Promise<Response>,
+    retry = false
+  ): Promise<Response> => {
+    const token = getAccessToken() || '';
+    const response = await request(token);
+
+    let backendMessage: string | undefined;
+    try {
+      const json = await response.clone().json();
+      backendMessage = json?.message;
+    } catch {
+      /* ignore */
+    }
+
+    if (!retry && isAuthError(response.status, backendMessage)) {
+      const { requestAccessTokenRefresh } = AuthAPI();
+      const newToken = await requestAccessTokenRefresh();
+      if (newToken) {
+        setAccessToken(newToken);
+        return fetchWithAuthRetry(request, true);
+      }
+    }
+
+    return response;
+  };
 
   const uploadChunk = (
     file: File,
@@ -51,13 +79,9 @@ export const UploadAPI = () => {
             return;
           }
 
-          const isAuthError = !retry && (
-            xhr.status === 403 ||
-            backendMessage === 'Token inválido ou expirado' ||
-            backendMessage === 'Token não fornecido'
-          );
+          const authError = !retry && isAuthError(xhr.status, backendMessage);
 
-          if (isAuthError) {
+          if (authError) {
             // token expirado ou inválido
             try {
               const { requestAccessTokenRefresh } = AuthAPI();
@@ -96,45 +120,29 @@ export const UploadAPI = () => {
   };
 
   const mergeChunks = async (fileId: string, fileName: string) => {
-    const token = getAccessToken();
-    const response = await fetch(`${backendURL}merge-chunks`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ fileId, fileName }),
-    });
-
-    if (response.status === 401 || response.status === 403) {
-      const { requestAccessTokenRefresh } = AuthAPI();
-      const newToken = await requestAccessTokenRefresh();
-      if (newToken) {
-        setAccessToken(newToken);
-        return fetch(`${backendURL}merge-chunks`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${newToken}`,
-          },
-          body: JSON.stringify({ fileId, fileName }),
-        });
-      }
-    }
-
-    return response;
+    return fetchWithAuthRetry((token) =>
+      fetch(`${backendURL}merge-chunks`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ fileId, fileName }),
+      })
+    );
   };
 
   const cancelUpload = async (fileId: string, fileName: string) => {
-    const token = getAccessToken();
-    await fetch(`${backendURL}cancel-upload`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ fileId, fileName }),
-    });
+    await fetchWithAuthRetry((token) =>
+      fetch(`${backendURL}cancel-upload`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ fileId, fileName }),
+      })
+    );
   };
 
   return {
