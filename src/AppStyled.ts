@@ -160,12 +160,14 @@ export const HeaderComponent = styled.header`
         flex-direction: inherit;
         align-items: inherit;
         gap: inherit;
+        height: 100%;
 
         .logo {
             display: flex;
             flex-direction: row;
             gap: 8px;
             align-items: center;
+            height: 100%;
 
             svg {
                 fill: ${(prop) => prop.theme.colors.text};
@@ -191,11 +193,13 @@ export const HeaderComponent = styled.header`
         a {
             color: ${(prop) => prop.theme.colors.text};
             font-size: 16px;
-            
             font-weight: 500;
             line-height: 22px;
             position: relative;
             text-decoration: none;
+            height: 100%;
+            display: flex;
+            align-items: center;
 
             &:focus {
                 outline: none;
