@@ -160,12 +160,15 @@ export const HeaderComponent = styled.header`
         flex-direction: inherit;
         align-items: inherit;
         gap: inherit;
+        height: 100%;
+        width: 100%;
 
         .logo {
             display: flex;
             flex-direction: row;
             gap: 8px;
             align-items: center;
+            height: 100%;
 
             svg {
                 fill: ${(prop) => prop.theme.colors.text};
@@ -191,11 +194,13 @@ export const HeaderComponent = styled.header`
         a {
             color: ${(prop) => prop.theme.colors.text};
             font-size: 16px;
-            
             font-weight: 500;
             line-height: 22px;
             position: relative;
             text-decoration: none;
+            height: 100%;
+            display: flex;
+            align-items: center;
 
             &:focus {
                 outline: none;
@@ -226,8 +231,8 @@ export const HeaderComponent = styled.header`
         display: inherit;
         flex-direction: inherit;
         align-items: inherit;
-        gap: inherit;
-        flex-grow: 1;
+        gap: ${({theme}) => theme.spacings.small};
+        width: inherit;
         @media (min-width: 768px) {
 
             :first-child {
