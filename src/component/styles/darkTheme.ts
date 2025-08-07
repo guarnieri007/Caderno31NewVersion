@@ -4,7 +4,7 @@ export const darkTheme = {
   ...baseUnits,
     colors: {
       "primary": "#00B2FF",
-      "primary_hover": "#535bf2",
+      "primary_hover": "#3a91a5",
       "background_primary": "#21252B",
       "background_secondary": "#242C33",
       "background_card": "#2f343d",
