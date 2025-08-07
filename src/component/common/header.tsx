@@ -8,10 +8,11 @@ import { useAuth } from "../../context/AuthContext";
 import { Login_overlay } from "../common/login-overlay";
 import { useLogout } from "../../hooks/useLogout";
 import { LanguageSwitcher } from "./languageSwitcher";
+import { Spinner } from "../styles/common/common-styles";
 
 export const Header = (): ReactElement => {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, firstFetching } = useAuth();
   const { handleLogout, loadingLogout } = useLogout();
   const [showLogin, setShowLogin] = useState(false); // 🔥 controla se o overlay aparece
 
@@ -46,25 +47,28 @@ export const Header = (): ReactElement => {
           <LanguageSwitcher />
         </div>
         <div className="right">
-          {user ? (
-            <>
-              {user && (
-                <>
-                  <a >{user.username}</a>
-                  <Button color="secondary" handleOnClick={handleLogout} loading={loadingLogout} clicable={!loadingLogout}>Logout</Button>
-                  <Button color="primary" handleOnClick={GoToPostContent} >Post a new content</Button>
-                </>
-              )}
-            </>
-          )
-            :
-            (
+          {firstFetching ? (
+            <div><Spinner /></div>
+          ) :
+            (user ? (
               <>
-                <Button color='secondary' handleOnClick={OpenLoginForm} >log in</Button>
-                <Button color='primary' handleOnClick={GoToSignup}>sign up</Button>
+                {user && (
+                  <>
+                    <a >{user.username}</a>
+                    <Button color="secondary" handleOnClick={handleLogout} loading={loadingLogout} clicable={!loadingLogout}>Logout</Button>
+                    <Button color="primary" handleOnClick={GoToPostContent} >Post a new content</Button>
+                  </>
+                )}
               </>
-            )}
-          
+            )
+              :
+              (
+                <>
+                  <Button color='secondary' handleOnClick={OpenLoginForm} >log in</Button>
+                  <Button color='primary' handleOnClick={GoToSignup}>sign up</Button>
+                </>
+              ))}
+
         </div>
       </HeaderComponent>
       {/* Se showLogin for true, renderiza o overlay */}

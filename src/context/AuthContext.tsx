@@ -7,6 +7,7 @@ const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [firstFetching, setFirstFetching] = useState<boolean>(true);
   const {
     getJWTToken,
     requestAccessTokenRefresh,
@@ -27,6 +28,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       } catch (error) {
         console.log('No active session found.', error);
+      }
+      finally {
+        setFirstFetching(false);
       }
     }
 
@@ -102,7 +106,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       logout,
       setAccessToken,
       accessTokenRefresh,
-      createCredential
+      createCredential,
+      firstFetching,
     }}>
       {children}
     </AuthContext.Provider>

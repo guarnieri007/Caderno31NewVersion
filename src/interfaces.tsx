@@ -111,6 +111,7 @@ export interface AuthContextType {
   accessTokenRefresh: () => Promise<void>;
   getUserData: (token?: string) => Promise<User | undefined>;
   createCredential: (data: CreateNewCredentialProps) => Promise<void>;
+  firstFetching: boolean;
 }
 
 export interface CategorySelectorProps {
