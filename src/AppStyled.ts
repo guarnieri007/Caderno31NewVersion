@@ -161,6 +161,7 @@ export const HeaderComponent = styled.header`
         align-items: inherit;
         gap: inherit;
         height: 100%;
+        width: 100%;
 
         .logo {
             display: flex;
@@ -230,8 +231,8 @@ export const HeaderComponent = styled.header`
         display: inherit;
         flex-direction: inherit;
         align-items: inherit;
-        gap: inherit;
-        flex-grow: 1;
+        gap: ${({theme}) => theme.spacings.small};
+        width: inherit;
         @media (min-width: 768px) {
 
             :first-child {

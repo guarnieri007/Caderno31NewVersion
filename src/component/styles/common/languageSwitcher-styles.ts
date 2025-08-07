@@ -5,7 +5,7 @@ export const LanguageSwitcherStyles = styled.div`
     display: flex;
     gap: 8px;
     height: 100%;
-    align-items: center;
+    width: 100%;
 
     @media (max-width: 768px) {
         justify-content: center;
