@@ -30,6 +30,7 @@ export const LabelStyle = styled.div.withConfig({
                 color: ${(prop) => prop.is_focused ? prop.theme.colors.text_hover : prop.theme.colors.text};
                 display: block;
                 width: 100%;
+                text-wrap-mode: nowrap;
             }
         }
         
