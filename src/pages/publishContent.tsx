@@ -42,7 +42,14 @@ function parseOptionalString(value: FormDataEntryValue | null): string | null {
 }
 
 export const PublishContent = (): ReactElement => {
-    const { getCompletedUploads } = useUploadFiles();
+    const {
+        getCompletedUploads,
+        uploads,
+        addFiles,
+        retryUpload,
+        removeUpload,
+        clearUploadsWhenFinished
+    } = useUploadFiles();
     const { ListCategories, ListLanguage, ListPostTypes } = PublishContentAPI();
     const { language } = useLanguage();
     const { handleCreatePost } = useCreatePost();
@@ -151,9 +158,7 @@ export const PublishContent = (): ReactElement => {
         const price = priceStr !== null ? parseInt(priceStr, 10) : null
 
         const newErrors: { [key in keyof PublishContentForm]?: string[] } = {}
-        if (filesUploaded.some(file => file.status === 'error')) {
-            newErrors.translations = ['Files with error']
-        }
+
 
         const translations: { cd_language: number; ds_post: string }[] = []
         const newTranslationErrors: (string[] | undefined)[] = Array.from({ length: descriptionFields.length }, () => undefined)
@@ -192,7 +197,7 @@ export const PublishContent = (): ReactElement => {
             console.log('Form is not valid', validation.errors)
             return
         }
-        
+
         // Se passou na validação
         setErrors(newErrors)
         try {
@@ -202,6 +207,7 @@ export const PublishContent = (): ReactElement => {
             setLoading(false)
         }
 
+        clearUploadsWhenFinished(); // Limpa os uploads após o envio
         // Redireciona para a página inicial após o envio
         navigate('/');
     }
@@ -224,12 +230,12 @@ export const PublishContent = (): ReactElement => {
                             {descriptionFields.map((field, index) => (
                                 <div className='description-item' key={field.id}>
                                     <div className='lang-selector'>
-                                        <Label 
-                                        forInput={`description-lang-${index}`}
-                                        label='Lang'
-                                        counting={false}
-                                        length={0}
-                                        maxLength={0}
+                                        <Label
+                                            forInput={`description-lang-${index}`}
+                                            label='Lang'
+                                            counting={false}
+                                            length={0}
+                                            maxLength={0}
                                         />
                                         <select
                                             id={`description-lang-${index}`}
@@ -324,7 +330,12 @@ export const PublishContent = (): ReactElement => {
                         <p style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%" }}><Spinner /></p>
                     )}
 
-                    <UploadArea />
+                    <UploadArea
+                        addFiles={addFiles}
+                        uploads={uploads}
+                        retryUpload={retryUpload}
+                        removeUpload={removeUpload}
+                    />
 
                     <Button
                         color="primary"

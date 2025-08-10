@@ -133,6 +133,12 @@ export interface UploadFile {
   xhr?: XMLHttpRequest;
 }
 
+export interface UploadFilePayload {
+  url: string;
+  type: string;
+  size: number;
+}
+
 export interface UploadFileProps {
   uploadFiles: UploadFile[];
   path: string;
@@ -194,7 +200,7 @@ export interface CreatePostProps {
   categories: ResponseCategory[];
   postTypes: ResponsePostType[];
   price: number | null;
-  files: UploadFile[] | null;
+  files: UploadFilePayload[] | null;
 }
 
 export interface PostContextType {
@@ -204,4 +210,11 @@ export interface PostContextType {
   createPost: (data: CreatePostProps) => Promise<Post | undefined>;
   updatePost: (cd_post: number, data: CreatePostProps) => Promise<Post | undefined>;
   deletePost: (cd_post: number) => Promise<void>;
+}
+
+export interface UploadAreaProps {
+  uploads: UploadFile[];
+  addFiles: (files: File[]) => void;
+  retryUpload: (file: File) => void;
+  removeUpload: (file: File) => void;
 }

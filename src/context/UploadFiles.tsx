@@ -1,6 +1,6 @@
 // src/context/UploadFiles.tsx
 import { createContext, useContext, useState, useRef, ReactNode } from "react";
-import { UploadFile } from "../interfaces";
+import { UploadFile, UploadFilePayload } from "../interfaces";
 import { UploadAPI } from "../api/upload";
 import { v4 as uuidv4 } from "uuid";
 import { getAccessToken } from "./AuthTokenSingleton";
@@ -12,7 +12,8 @@ interface UploadFilesContextType {
   resumeUpload: (file: File) => void;
   retryUpload: (file: File) => void;
   removeUpload: (file: File) => void;
-  getCompletedUploads: () => UploadFile[];
+  getCompletedUploads: () => UploadFilePayload[];
+  clearUploadsWhenFinished: () => void;
 }
 
 const UploadFilesContext = createContext<UploadFilesContextType>({} as UploadFilesContextType);
@@ -72,8 +73,14 @@ export const UploadFilesProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
-  const getCompletedUploads = (): UploadFile[] => {
-    return uploads.filter((u) => u.status === "done");
+  const getCompletedUploads = (): UploadFilePayload[] => {
+    return uploads.filter((u) => u.status === "done").map((payloadFile) => {
+      return {
+        url: payloadFile.fileId,
+        type: payloadFile.file.type,
+        size: payloadFile.file.size,
+      }
+    });
   };
 
 
@@ -209,6 +216,13 @@ export const UploadFilesProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
+  const clearUploadsWhenFinished = () => {
+    setUploads([]);
+    queue.current = [];
+    isProcessing.current = false;
+    activeRequests.current.clear();
+  }
+
   return (
     <UploadFilesContext.Provider
       value={{
@@ -219,6 +233,7 @@ export const UploadFilesProvider = ({ children }: { children: ReactNode }) => {
         retryUpload,
         removeUpload,
         getCompletedUploads,
+        clearUploadsWhenFinished,
       }}
     >
       {children}

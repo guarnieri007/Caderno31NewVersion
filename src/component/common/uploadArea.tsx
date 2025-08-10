@@ -5,18 +5,10 @@ import { FileItem, ProgressBar, UploadWrapper } from "../styles/common/uploadAre
 import Icon from "../icons/icon";
 import { UIIcons } from "../icons";
 import { formatFileSize } from "../../helper/file-size-convertions";
-import { useUploadFiles } from "../../context/UploadFiles";
 import { UploadItemsHolder } from "../styles/common/upload-styles";
+import { UploadAreaProps } from "../../interfaces";
 
-export const UploadArea = () => {
-  const {
-    uploads,
-    addFiles,
-    // pauseUpload,
-    // resumeUpload,
-    retryUpload,
-    removeUpload,
-  } = useUploadFiles();
+export const UploadArea = ({ uploads, addFiles, retryUpload, removeUpload }: UploadAreaProps) => {
 
   const [videoThumbs, setVideoThumbs] = useState<Record<string, string>>({});
   const generatedThumbs = useRef<Set<string>>(new Set());
