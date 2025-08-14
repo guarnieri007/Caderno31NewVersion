@@ -53,8 +53,8 @@ export const NotFound404 = (): ReactElement => {
     return (
         <NotFoundContainer>
             <img src={littleMonkey} style={imageProps} />
-            <p style={title}>All of our best specialists are working hard to understand what happened.</p>
-            <p style={litleText}>Try to get back or go to the home page.</p>
+            <p style={title}>Our top specialists are working hard to understand what happened</p>
+            <p style={litleText}>Try going back to the previous page or accessing the homepage</p>
             <div style={{ display: "block", margin: "0 auto", width: "fit-content" }}>
                 <div style={{ display: "inline-flex", gap: "16px" }}>
 
