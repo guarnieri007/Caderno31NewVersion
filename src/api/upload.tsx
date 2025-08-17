@@ -119,7 +119,7 @@ export const UploadAPI = () => {
     return sendChunk(token || getAccessToken());
   };
 
-  const mergeChunks = async (fileId: string, fileName: string) => {
+  const mergeChunks = async (fileId: string, fileName: string, format: string) => {
     return fetchWithAuthRetry((token) =>
       fetch(`${backendURL}merge-chunks`, {
         method: 'POST',
@@ -127,12 +127,12 @@ export const UploadAPI = () => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ fileId, fileName }),
+        body: JSON.stringify({ fileId, fileName, format }),
       })
     );
   };
 
-  const cancelUpload = async (fileId: string, fileName: string) => {
+  const cancelUpload = async (fileId: string, format: string = "") => {
     await fetchWithAuthRetry((token) =>
       fetch(`${backendURL}cancel-upload`, {
         method: 'POST',
@@ -140,7 +140,7 @@ export const UploadAPI = () => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ fileId, fileName }),
+        body: JSON.stringify({ fileId, format }),
       })
     );
   };

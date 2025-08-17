@@ -4,6 +4,7 @@ import { UploadFile, UploadFilePayload } from "../interfaces";
 import { UploadAPI } from "../api/upload";
 import { v4 as uuidv4 } from "uuid";
 import { getAccessToken } from "./AuthTokenSingleton";
+import { file } from "zod/v4";
 
 interface UploadFilesContextType {
   uploads: UploadFile[];
@@ -75,11 +76,17 @@ export const UploadFilesProvider = ({ children }: { children: ReactNode }) => {
 
   const getCompletedUploads = (): UploadFilePayload[] => {
     return uploads.filter((u) => u.status === "done").map((payloadFile) => {
-      return {
-        url: payloadFile.fileId,
-        type: payloadFile.file.type,
+      const fileFormat = payloadFile.file.name.split('.').pop();
+      if (!fileFormat) {
+        throw new Error("File format not found");
+      }
+      const result = {
+        url: `${payloadFile.fileId}.${fileFormat}`,
+        type: fileFormat,
         size: payloadFile.file.size,
       }
+      console.log("File to upload", result);
+      return result;
     });
   };
 
@@ -147,7 +154,11 @@ export const UploadFilesProvider = ({ children }: { children: ReactNode }) => {
       });
     }
 
-    await mergeChunks(fileId!, file.name);
+    const fileFormet = file.name.split('.').pop();
+    if (!fileFormet) {
+      throw new Error("File format not found");
+    }
+    await mergeChunks(fileId!, file.name, fileFormet);
     activeRequests.current.delete(fileId);
 
     setUploads((prev) => {
@@ -207,7 +218,11 @@ export const UploadFilesProvider = ({ children }: { children: ReactNode }) => {
       activeRequests.current.delete(upload.fileId);
     }
 
-    cancelUpload(upload.fileId, file.name);
+    const FileType = upload.file.name.split('.').pop();
+    if (!FileType) {
+      throw new Error("File format not found");
+    }
+    cancelUpload(upload.fileId, FileType);
 
     setUploads((prev) => {
       const updated = prev.filter((u) => u.file.name !== file.name || u.file.size !== file.size);
