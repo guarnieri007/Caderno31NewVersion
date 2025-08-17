@@ -43,17 +43,22 @@ export const Login_overlay = ({ onClose }: LoginOverlayProps): ReactElement => {
       }
 
       const closeButton:React.CSSProperties = {
-        position: "absolute",
-        top: "52px",
-        right: "32px",
         background: "transparent",
         border: "1px solid #fff",
         borderRadius: "5px",
         padding: "5px 10px",
+        marginLeft: "auto",
+        display: "block",
         fontSize: "18px",
         cursor: "pointer",
         color: theme.colors.text,
         lineHeight: "18px",
+      }
+
+      const formStyle: React.CSSProperties = {
+        display: "flex",
+        flexDirection: "column",
+        gap: "20px",
       }
 
     const signUpSchema = z.object({
@@ -99,8 +104,8 @@ export const Login_overlay = ({ onClose }: LoginOverlayProps): ReactElement => {
         <div style={loginOverlay}>
             <div style={loginBox}>
                 <button style={closeButton} onClick={onClose}>X Fechar</button>
-                <h2>Login</h2>
-                <form onSubmit={handleLoginComponent}>
+                <h2 style={{textAlign:"center"}}>Login</h2>
+                <form onSubmit={handleLoginComponent} style={formStyle}>
                     <InputFIeld
                         key={"Email"}
                         icon={UIIcons.Letter}
