@@ -4,7 +4,6 @@ import { UploadFile, UploadFilePayload } from "../interfaces";
 import { UploadAPI } from "../api/upload";
 import { v4 as uuidv4 } from "uuid";
 import { getAccessToken } from "./AuthTokenSingleton";
-import { file } from "zod/v4";
 
 interface UploadFilesContextType {
   uploads: UploadFile[];
