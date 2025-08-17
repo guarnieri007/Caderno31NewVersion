@@ -14,11 +14,12 @@ export const InputFIeld = (
         name,
         type,
         errors,
-        value = "",
+        value,
+        onChange,
 
     }: InputFIeldProps): ReactNode => {
     const hasErrors: boolean = errors !== undefined && errors.length > 0;
-    const [inputValue, setInputValue] = useState<HTMLInputElement["value"]>(value as string);
+    const [inputValue, setInputValue] = useState<string>((value ?? "") as string);
 
     // Estado para controlar o foco do input
     const [isFocused, setIsFocused] = useState(false);
@@ -35,7 +36,11 @@ export const InputFIeld = (
 
     const setValue = (event: React.ChangeEvent<HTMLInputElement>) => {
         event.preventDefault();
-        setInputValue(event.target.value);
+        if (onChange) {
+            onChange(event);
+        } else {
+            setInputValue(event.target.value);
+        }
     }
 
 
@@ -44,7 +49,7 @@ export const InputFIeld = (
             <div className="holder">
                 <Label
                     label={label}
-                    length={inputValue.length}
+                    length={(value !== undefined ? String(value).length : inputValue.length)}
                     maxLength={maxLength}
                     is_focused={isFocused}
                     forInput={name}
@@ -60,10 +65,10 @@ export const InputFIeld = (
                         step={type === "number" ? "1" : undefined}
 
                         placeholder={placeholder}
-                        onFocus={handleFocus}  // Chama a função ao focar
-                        onBlur={handleBlur}    // Chama a função ao desfocar
+                        onFocus={handleFocus}
+                        onBlur={handleBlur}
                         onChange={(e) => setValue(e)}
-                        value={inputValue}
+                        value={value !== undefined ? value : inputValue}
                         maxLength={maxLength}
                     />
 

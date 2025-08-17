@@ -62,6 +62,7 @@ export const PublishContent = (): ReactElement => {
     const [selectedPostTypes, setSelectedPostTypes] = useState<ResponsePostType[]>([]);
     interface DescriptionField { id: number; language: number | null }
     const [descriptionFields, setDescriptionFields] = useState<DescriptionField[]>([]);
+    const [descriptionTexts, setDescriptionTexts] = useState<string[]>([]);
     const [translationErrors, setTranslationErrors] = useState<(string[] | undefined)[]>([]);
     const navigate = useNavigate();
 
@@ -97,6 +98,12 @@ export const PublishContent = (): ReactElement => {
                 language: index === 0 ? currentLang?.cd_language ?? null : null,
             }))
         })
+        setDescriptionTexts(prev => {
+            if (prev.length === 0) {
+                return [""]
+            }
+            return prev
+        })
         setTranslationErrors(prev => {
             if (prev.length === 0) {
                 return [undefined]
@@ -118,13 +125,30 @@ export const PublishContent = (): ReactElement => {
             .sort((a, b) => a.ds_language_short.localeCompare(b.ds_language_short))
         if (available.length === 0) return
         setDescriptionFields([...descriptionFields, { id: Date.now(), language: available[0].cd_language }])
+        setDescriptionTexts(prev => [...prev, ""])
         setTranslationErrors(prev => [...prev, undefined])
     }
 
     const removeDescriptionField = (index: number) => {
-        if (index === 0) return
+        if (index === 0) {
+            setDescriptionFields(fields =>
+                fields.map((field, i) => i === 0 ? { ...field, language: null } : field)
+            )
+            setDescriptionTexts(texts => texts.map((t, i) => i === 0 ? "" : t))
+            setTranslationErrors(errs => errs.map((e, i) => i === 0 ? undefined : e))
+            return
+        }
         setDescriptionFields(fields => fields.filter((_, i) => i !== index))
+        setDescriptionTexts(texts => texts.filter((_, i) => i !== index))
         setTranslationErrors(errors => errors.filter((_, i) => i !== index))
+    }
+
+    const handleDescriptionTextChange = (index: number, value: string) => {
+        setDescriptionTexts(texts => {
+            const updated = [...texts]
+            updated[index] = value
+            return updated
+        })
     }
 
     const getAvailableLanguages = (index: number) => {
@@ -258,13 +282,15 @@ export const PublishContent = (): ReactElement => {
                                             type="text"
                                             icon={UIIcons.Book}
                                             errors={translationErrors[index] ?? errors.translations}
+                                            value={descriptionTexts[index] ?? ''}
+                                            onChange={(e) => handleDescriptionTextChange(index, e.target.value)}
                                         />
                                     </div>
                                     <div className='remove-description'>
                                         <Button
                                             type='button'
                                             handleOnClick={() => removeDescriptionField(index)}
-                                            clicable={index !== 0}
+                                            clicable={index === 0 ? (descriptionFields[0].language !== null || (descriptionTexts[0] ?? '').trim() !== '') : true}
                                             color={"secondary"}
                                         >
                                             <Icon icon={UIIcons.Trash} size={24} color='#000' />

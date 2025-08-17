@@ -31,6 +31,13 @@ type SignUpFormValues = z.infer<typeof signUpSchema>; // Inferir o tipo do esque
 
 export const SignUp = (): ReactElement => {
   const [errors, setErrors] = useState<{ [key in keyof SignUpFormValues]?: string[] }>({});
+  const [formValues, setFormValues] = useState({
+    nickname: "",
+    email: "",
+    username: "",
+    password: "",
+    confirmPassword: "",
+  });
   const {
     successCreateCredential,
     loadingCreateCredential,
@@ -40,17 +47,21 @@ export const SignUp = (): ReactElement => {
   const { handleLogin, successLogin } = useLogin();
   const navigate = useNavigate();
 
+  const handleInputChange = (field: keyof typeof formValues, value: string) => {
+    setFormValues(prev => ({ ...prev, [field]: value }));
+  };
+
   async function sendForm(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     // Coletando os valores dos inputs
     const formData = new FormData(event.currentTarget);
     const data = {
-      nickname: formData.get("nickname") as string,
-      email: formData.get("email") as string,
-      username: formData.get("username") as string,
-      password: formData.get("password") as string,
-      confirmPassword: formData.get("confirmPassword") as string,
+      nickname: formValues.nickname,
+      email: formValues.email,
+      username: formValues.username,
+      password: formValues.password,
+      confirmPassword: formValues.confirmPassword,
       termsAndConditions: formData.get("termsAndConditions") === "on" ? true : false,
     };
 
@@ -100,6 +111,8 @@ export const SignUp = (): ReactElement => {
               instructions={["Must be a unique nickname", "should have up to 60 characters"]}
               maxLength={maxLengths.nickname?.max ?? 0}
               errors={errors.nickname}
+              value={formValues.nickname}
+              onChange={(e) => handleInputChange("nickname", e.target.value)}
             />
             <InputFIeld
               key={"Email"}
@@ -109,6 +122,8 @@ export const SignUp = (): ReactElement => {
               placeholder="Enter your email"
               maxLength={maxLengths.email?.max ?? 0}
               errors={errors.email}
+              value={formValues.email}
+              onChange={(e) => handleInputChange("email", e.target.value)}
             />
             <InputFIeld
               key={"Username"}
@@ -118,6 +133,8 @@ export const SignUp = (): ReactElement => {
               placeholder="Create your username"
               maxLength={maxLengths.username?.max ?? 0}
               errors={errors.username}
+              value={formValues.username}
+              onChange={(e) => handleInputChange("username", e.target.value)}
             />
             <InputFIeld
               key={"Create your password"}
@@ -128,6 +145,8 @@ export const SignUp = (): ReactElement => {
               maxLength={maxLengths.password?.max ?? 0}
               type="password"
               errors={errors.password}
+              value={formValues.password}
+              onChange={(e) => handleInputChange("password", e.target.value)}
             />
             <InputFIeld
               key={"Confirm password"}
@@ -138,6 +157,8 @@ export const SignUp = (): ReactElement => {
               maxLength={maxLengths.confirmPassword?.max ?? 0}
               type="password"
               errors={errors.confirmPassword}
+              value={formValues.confirmPassword}
+              onChange={(e) => handleInputChange("confirmPassword", e.target.value)}
             />
             <div className="termsContainer">
               <div>
