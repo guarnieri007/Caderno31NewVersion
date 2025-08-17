@@ -260,15 +260,17 @@ export const PublishContent = (): ReactElement => {
                                             errors={translationErrors[index] ?? errors.translations}
                                         />
                                     </div>
+                                    <div className='remove-description'>
+                                        <Button
+                                            type='button'
+                                            handleOnClick={() => removeDescriptionField(index)}
+                                            clicable={index !== 0}
+                                            color={"secondary"}
+                                        >
+                                            <Icon icon={UIIcons.Trash} size={24} color='#000' />
+                                        </Button>
+                                    </div>
 
-                                    <button
-                                        type='button'
-                                        className='remove-description'
-                                        onClick={() => removeDescriptionField(index)}
-                                        disabled={index === 0}
-                                    >
-                                        <Icon icon={UIIcons.Trash} size={20} />
-                                    </button>
 
                                 </div>
                             ))}

@@ -50,7 +50,7 @@ export const PublishContentStyle = styled.div`
     .description-inputs {
       display: flex;
       flex-direction: column;
-      gap: ${({ theme }) => theme.spacings.small};
+      gap: ${({ theme }) => theme.spacings.normal};
       margin-top: ${({ theme }) => theme.spacings.small};
     }
     .description-item {
@@ -62,39 +62,64 @@ export const PublishContentStyle = styled.div`
     .remove-description {
       background: none;
       border: none;
-      height: 48px;
-      margin-top: ${({ theme }) => theme.spacings.big};
+      margin: 0px auto;
+      margin-top: 40px;
       cursor: pointer;
-      padding: 45px 0px;
+      padding: 0px;
+      position: relative;
+      height: 40px;
+      display: flex;
 
-      &:disabled {
-        opacity: 0.5;
+      & button {
+        self-align: center;
+        display: flex;
+        & span {
+        display: flex;
+        align-items: center;
+        }
+      }
+
+      & button[disabled] {
+        opacity: 0.6;
         cursor: not-allowed;
       }
     }
 
     .lang-selector {
       display: flex;
+      padding: 0px;      
+      height: auto;
       flex-direction: column;
-      padding: 16px 0px;
+      margin: 0px;
       box-sizing: border-box;
-      color: ${({theme}) => theme.colors.text_hover};
-      gap: ${( {theme} ) => theme.spacings.small};
+      color: ${({ theme }) => theme.colors.text_hover};
+      gap: 0px;
+      
+      & label {      
+         line-height: 200%;
+      }
+
+      & > div {
+      gap: 0px;
+      }
 
       select {
         height: 48px;
         width: min-content;
-        border: 1px solid ${({theme}) => theme.colors.button_text};
+        border: 1px solid ${({ theme }) => theme.colors.button_text};
         box-sizing: content-box;
-        background-color: ${({theme}) => theme.colors.background_primary};
-        color: ${({theme}) => theme.colors.text_hover};
+        background-color: ${({ theme }) => theme.colors.background_primary};
+        color: ${({ theme }) => theme.colors.text_hover};
         outline: none;
         border-radius: 8px;
-        padding: 1px 10px 1px 15px;
+        padding: 1px 4px 1px 8px;
       }
     }
     .input-item {
       flex: 1;
+      & * {
+      padding: 0px;
+      }
     }
   }
 `;
