@@ -117,9 +117,15 @@ export const PublishContentStyle = styled.div`
     }
     .input-item {
       flex: 1;
-      & * {
+      & .input-holder, p, label, .characters, > div {
       padding: 0px;
       }
+      & p {
+        margin: 0px;
+        }
+        & label {
+          padding-bottom: 4px;
+          }
     }
   }
 `;
