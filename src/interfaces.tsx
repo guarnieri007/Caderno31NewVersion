@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, ChangeEvent } from "react";
 import { UIIcons } from "./component/icons";
 
 export interface HeroProps {
@@ -70,7 +70,8 @@ export interface InputFIeldProps {
   errors?: string[];
   maxLength: number;
   type?: string;
-  value?: unknown;
+  value?: string | number;
+  onChange?: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
 export interface AcessTokenResponse {
