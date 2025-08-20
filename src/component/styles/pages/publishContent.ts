@@ -12,6 +12,7 @@ export const PublishContentStyle = styled.div`
     left: 220px;
     width: 1000px;
     height: auto;
+    min-height: 400px;
     max-width: 90%;
     background-color: ${(prop) => prop.theme.colors.background_card};
     border-radius: 14px;

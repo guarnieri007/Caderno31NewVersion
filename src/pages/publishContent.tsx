@@ -239,143 +239,140 @@ export const PublishContent = (): ReactElement => {
     return (
         <PublishContentStyle>
             <div className="card_style">
-                <h1 className="title_style">Post a new content</h1>
-                <form onSubmit={sendForm}>
-                    <div className='input-descriptions'>
-                        <Button
-                            type='button'
-                            color='secondary'
-                            handleOnClick={addDescriptionField}
-                            clicable={!(remainingLangs.length === 0)}
-                        >
-                            Add Lang
-                        </Button>
-                        <div className='description-inputs'>
-                            {descriptionFields.map((field, index) => (
-                                <div className='description-item' key={field.id}>
-                                    <div className='lang-selector'>
-                                        <Label
-                                            forInput={`description-lang-${index}`}
-                                            label='Lang'
-                                            counting={false}
-                                            length={0}
-                                            maxLength={0}
-                                        />
-                                        <select
-                                            id={`description-lang-${index}`}
-                                            name={`description-lang-${index}`}
-                                            value={field.language ?? ''}
-                                            onChange={(e) => handleLangChange(index, e.target.value)}
-                                        >
-                                            <option value="" disabled hidden>Select</option>
-                                            {getAvailableLanguages(index).map(lang => (
-                                                <option key={lang.cd_language} value={lang.cd_language}>{lang.ds_language_short}</option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                    <div className='input-item'>
-                                        <InputFIeld
-                                            label="Description"
-                                            maxLength={maxDescriptionLength}
-                                            name={`description-${index}`}
-                                            placeholder="Put here the description of your content"
-                                            type="text"
-                                            icon={UIIcons.Book}
-                                            errors={translationErrors[index] ?? errors.translations}
-                                            value={descriptionTexts[index] ?? ''}
-                                            onChange={(e) => handleDescriptionTextChange(index, e.target.value)}
-                                        />
-                                    </div>
-                                    <div className='remove-description'>
-                                        <Button
-                                            type='button'
-                                            handleOnClick={() => removeDescriptionField(index)}
-                                            clicable={index === 0 ? (descriptionFields[0].language !== null || (descriptionTexts[0] ?? '').trim() !== '') : true}
-                                            color={"secondary"}
-                                        >
-                                            <Icon icon={UIIcons.Trash} size={24} color='#000' />
-                                        </Button>
-                                    </div>
+                {(categoriesQuantity > 0 && categories.length > 0 && languages.length > 0) ? (
+                    <>
+                        <h1 className="title_style">Post a new content</h1>
+                        <form onSubmit={sendForm}>
+                            <div className='input-descriptions'>
+                                <Button
+                                    type='button'
+                                    color='secondary'
+                                    handleOnClick={addDescriptionField}
+                                    clicable={!(remainingLangs.length === 0)}
+                                >
+                                    Add Lang
+                                </Button>
+                                <div className='description-inputs'>
+                                    {descriptionFields.map((field, index) => (
+                                        <div className='description-item' key={field.id}>
+                                            <div className='lang-selector'>
+                                                <Label
+                                                    forInput={`description-lang-${index}`}
+                                                    label='Lang'
+                                                    counting={false}
+                                                    length={0}
+                                                    maxLength={0}
+                                                />
+                                                <select
+                                                    id={`description-lang-${index}`}
+                                                    name={`description-lang-${index}`}
+                                                    value={field.language ?? ''}
+                                                    onChange={(e) => handleLangChange(index, e.target.value)}
+                                                >
+                                                    <option value="" disabled hidden>Select</option>
+                                                    {getAvailableLanguages(index).map(lang => (
+                                                        <option key={lang.cd_language} value={lang.cd_language}>{lang.ds_language_short}</option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                            <div className='input-item'>
+                                                <InputFIeld
+                                                    label="Description"
+                                                    maxLength={maxDescriptionLength}
+                                                    name={`description-${index}`}
+                                                    placeholder="Put here the description of your content"
+                                                    type="text"
+                                                    icon={UIIcons.Book}
+                                                    errors={translationErrors[index] ?? errors.translations}
+                                                    value={descriptionTexts[index] ?? ''}
+                                                    onChange={(e) => handleDescriptionTextChange(index, e.target.value)}
+                                                />
+                                            </div>
+                                            <div className='remove-description'>
+                                                <Button
+                                                    type='button'
+                                                    handleOnClick={() => removeDescriptionField(index)}
+                                                    clicable={index === 0 ? (descriptionFields[0].language !== null || (descriptionTexts[0] ?? '').trim() !== '') : true}
+                                                    color={"secondary"}
+                                                >
+                                                    <Icon icon={UIIcons.Trash} size={24} color='#000' />
+                                                </Button>
+                                            </div>
 
 
+                                        </div>
+                                    ))}
                                 </div>
-                            ))}
-                        </div>
-                    </div>
+                            </div>
 
-                    {(postTypes.length > 0 && languages.length > 0) ? (
-                        <PostTypeCheckbox
-                            label="Post Type"
-                            languages={languages}
-                            name="postTypes"
-                            options={postTypes}
-                            onChange={setSelectedPostTypes}
-                            errors={errors.postTypes}
+                            <PostTypeCheckbox
+                                label="Post Type"
+                                languages={languages}
+                                name="postTypes"
+                                options={postTypes}
+                                onChange={setSelectedPostTypes}
+                                errors={errors.postTypes}
 
-                        />
-                    ) :
-                        (
-                            <p style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%" }}><Spinner /></p>
-                        )}
+                            />
 
-                    <AnimatePresence mode="wait">
-                        {selectedPostTypes.some(pt => pt.cd_post_type === 2) && (
-                            <motion.div
-                                key="price-field"
-                                initial={{ opacity: 0, height: 0 }}
-                                animate={{ opacity: 1, height: 'auto' }}
-                                exit={{ opacity: 0, height: 0 }}
-                                transition={{ duration: 0.2 }}
-                                style={{ width: '100%' }}
+                            <AnimatePresence mode="wait">
+                                {selectedPostTypes.some(pt => pt.cd_post_type === 2) && (
+                                    <motion.div
+                                        key="price-field"
+                                        initial={{ opacity: 0, height: 0 }}
+                                        animate={{ opacity: 1, height: 'auto' }}
+                                        exit={{ opacity: 0, height: 0 }}
+                                        transition={{ duration: 0.2 }}
+                                        style={{ width: '100%' }}
+                                    >
+                                        <InputFIeld
+                                            label="Price"
+                                            maxLength={maxLengths.price?.max ? maxLengths.price.max : 0}
+                                            name="price"
+                                            placeholder="Tokens"
+                                            type="number"
+                                            icon={UIIcons.Key}
+                                            errors={errors.price}
+                                            instructions={["Max value 999999 tokens"]}
+                                        />
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+
+
+
+
+                            <CategorySelector
+                                name="categories"
+                                max_selection={categoriesQuantity}
+                                placeHolder="Select the desired categories"
+                                selected_categories={[
+                                ] as ResponseCategory[]}
+                                all_categories={categories}
+                                languages={languages}
+                            />
+
+                            <UploadArea
+                                addFiles={addFiles}
+                                uploads={uploads}
+                                retryUpload={retryUpload}
+                                removeUpload={removeUpload}
+                            />
+
+                            <Button
+                                color="primary"
+                                type="submit"
+                                clicable={!loading}
+                                loading={loading}
                             >
-                                <InputFIeld
-                                    label="Price"
-                                    maxLength={maxLengths.price?.max ? maxLengths.price.max : 0}
-                                    name="price"
-                                    placeholder="Tokens"
-                                    type="number"
-                                    icon={UIIcons.Key}
-                                    errors={errors.price}
-                                    instructions={["Max value 999999 tokens"]}
-                                />
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
-
-
-                    {(categoriesQuantity > 0 && categories.length > 0 && languages.length > 0) ? (
-
-                        <CategorySelector
-                            name="categories"
-                            max_selection={categoriesQuantity}
-                            placeHolder="Select the desired categories"
-                            selected_categories={[
-                            ] as ResponseCategory[]}
-                            all_categories={categories}
-                            languages={languages}
-                        />
-                    ) : (
-                        <p style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%" }}><Spinner /></p>
-                    )}
-
-                    <UploadArea
-                        addFiles={addFiles}
-                        uploads={uploads}
-                        retryUpload={retryUpload}
-                        removeUpload={removeUpload}
-                    />
-
-                    <Button
-                        color="primary"
-                        type="submit"
-                        clicable={!loading}
-                        loading={loading}
-                    >
-                        Publish
-                    </Button>
-                </form>
+                                Publish
+                            </Button>
+                        </form>
+                    </>
+                ) : (
+                    <p style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%" }}><Spinner /></p>
+                )}
             </div>
-
         </PublishContentStyle>
     )
 }
