@@ -5,12 +5,12 @@ export const PublishContentStyle = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: start;
-    margin: ${({ theme }) => theme.spacings.big} 0px;
+    margin: ${({ theme }) => theme.spacings["main-padding"]} 0px;
 
-  .card_style {
+  & .card_style {
     top: 92px;
     left: 220px;
-    width: 1000px;
+    width: 1000%;
     height: auto;
     min-height: 400px;
     max-width: 90%;
@@ -24,7 +24,7 @@ export const PublishContentStyle = styled.div`
     margin-top: ${({ theme }) => theme.spacings.normal};
   }
 
-  .title_style {
+  & .title_style {
     font-size: 2rem;
     padding: ${({ theme }) => `${theme.spacings.big} 0px`};
 
@@ -34,7 +34,7 @@ export const PublishContentStyle = styled.div`
     }
   }
 
-  form {
+  & form {
     display:flex;
     flex-direction: column;
     justify-content: center;
@@ -42,25 +42,25 @@ export const PublishContentStyle = styled.div`
     gap: ${({ theme }) => theme.spacings.normal};
   }
 
-  .input-descriptions {
+  & .input-descriptions {
     width: 100%;
     & > button {
       display: block;
       margin-left: auto;
     }
-    .description-inputs {
+    & .description-inputs {
       display: flex;
       flex-direction: column;
       gap: ${({ theme }) => theme.spacings.normal};
       margin-top: ${({ theme }) => theme.spacings.small};
     }
-    .description-item {
+    & .description-item {
       display: flex;
       gap: ${({ theme }) => theme.spacings.small};
       align-items: flex-start;
     }
 
-    .remove-description {
+    & .remove-description {
       background: none;
       border: none;
       margin: 0px auto;
@@ -86,7 +86,7 @@ export const PublishContentStyle = styled.div`
       }
     }
 
-    .lang-selector {
+    & .lang-selector {
       display: flex;
       padding: 0px;      
       height: auto;
@@ -104,7 +104,7 @@ export const PublishContentStyle = styled.div`
       gap: 0px;
       }
 
-      select {
+      & select {
         height: 48px;
         width: min-content;
         border: 1px solid ${({ theme }) => theme.colors.button_text};
@@ -116,7 +116,7 @@ export const PublishContentStyle = styled.div`
         padding: 1px 4px 1px 8px;
       }
     }
-    .input-item {
+    & .input-item {
       flex: 1;
       & .input-holder, p, label, .characters, > div {
       padding: 0px;
