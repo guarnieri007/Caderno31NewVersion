@@ -15,7 +15,8 @@ interface LoginOverlayProps {
 }
 
 export const Login_overlay = ({ onClose }: LoginOverlayProps): ReactElement => {
-
+    const [username, setUsername] = useState<string>("email@email.com");
+    const [password, setPassword] = useState<string>("senhasegura123");
     
     const theme: DefaultTheme = useTheme();
     
@@ -114,7 +115,8 @@ export const Login_overlay = ({ onClose }: LoginOverlayProps): ReactElement => {
                         placeholder="Enter your email"
                         maxLength={maxLengths.email?.max ?? 0}
                         errors={errors.email}
-                        value={"guarnieri007@hotmail.com"}
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
                     />
                     <InputFIeld
                         key={"Password"}
@@ -125,7 +127,8 @@ export const Login_overlay = ({ onClose }: LoginOverlayProps): ReactElement => {
                         maxLength={maxLengths.password?.max ?? 0}
                         type="password"
                         errors={errors.password}
-                        value={"senhasegura123"}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                     />
                     <Button type="submit" width="100%" color="secondary" loading={loadingLogin} clicable={!loadingLogin}>Log In</Button>
                 </form>
