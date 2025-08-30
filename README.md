@@ -56,7 +56,7 @@ O layout foi desenvolvido para ser moderno e responsivo, priorizando usabilidade
    npm install
    ```
 
-   5.**Execute o servidor de desenvolvimento**
+5. **Execute o servidor de desenvolvimento**
    ```bash
    npm run dev
 
