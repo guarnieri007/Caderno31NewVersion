@@ -44,11 +44,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setAccessToken(token);
         await getUserData(token);
       } else {
-        throw new Error('Email or password not found');
+        throw new Error('Email or password not found').message;
       }
     } catch (error) {
-      console.error('Login failed:', error);
-      throw new Error(`${error}`);
+      throw new Error(`${error}`).message;
     }
   }
 
@@ -73,7 +72,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const userData: User = await requestUserData(tokenToUse);
       setUser(userData);
     } catch (error) {
-      throw new Error(`Failed to fetch user. Error: ${error}`);
+      throw new Error(`Failed to fetch user. Error: ${error}`).message;
     }
   }
 
@@ -81,7 +80,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       await requestLogout();
     } catch (error) {
-      throw new Error(`Failed to logout on server: ${error}`);
+      throw new Error(`Failed to logout on server: ${error}`).message;
     } finally {
       setAccessToken(null);
       setUser(null);
@@ -93,7 +92,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const res = await CreateNewCredential(data);
       console.log(res);
     } catch (error) {
-      throw new Error(`Failed to create a new user on server: ${error}`);
+      throw new Error(`Failed to create a new user on server: ${error}`).message;
     }
   }
 

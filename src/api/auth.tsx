@@ -17,7 +17,7 @@ export const AuthAPI = () => {
     } catch (err) {
       if (err instanceof AxiosError && err.response) {
         const msg = err.response?.data?.message ?? err.message;
-        throw new Error(msg);
+        throw new Error(msg).message;
       }
     }
   }

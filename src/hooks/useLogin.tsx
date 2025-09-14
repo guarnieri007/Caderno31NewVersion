@@ -14,7 +14,7 @@ export function useLogin() {
       await login(email, password);
       setSuccessLogin(true);
     } catch (err) {
-      setErrorLogin(`Erro ao fazer login: ${err}`);
+      setErrorLogin(`${err}`);
     } finally {
       setLoadingLogin(false);
     }
