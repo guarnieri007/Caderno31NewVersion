@@ -60,7 +60,7 @@ async function loadLanguageDict(lang: string): Promise<Dict> {
   const dict: Dict = {};
   for (const { path, mod } of mods) {
     const key = pathToKey(path, lang);
-    const data = (mod && 'default' in mod) ? (mod as any).default : mod;
+    const data = (mod as any)?.default ?? mod;
     setDeep(dict, key, data);
   }
   dictCache.set(lang, dict);
