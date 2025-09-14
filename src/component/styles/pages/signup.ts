@@ -47,6 +47,13 @@ export const SignUpPage = styled.div<BannerDivProps>`
             padding: 0px;
             margin-top: 8px;
         }
+        form {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: ${(prop) => prop.theme.spacings.big};
+        }
         .termsContainer {
             display: flex;
             flex-direction: column;
@@ -97,7 +104,7 @@ export const SignUpPage = styled.div<BannerDivProps>`
             display: block;
         }
         .form {
-            padding: ${(prop) => prop.theme.spacings["main-padding"]};
+            padding: ${(prop) => prop.theme.spacings.big};
             h1 {
                 margin-top: ${(prop) => prop.theme.spacings.min};
             }
