@@ -1,11 +1,13 @@
 import React, { ReactElement, useState  } from "react";
 import { CarrouselMainDiv } from "../styles/common/carrousel-styles";
 import { CarrouselProps } from "../../interfaces";
+import { useI18n } from "../../i18n";
 
 export const Carrousel = ({ children }: CarrouselProps): ReactElement => {
     const childrenArray = React.Children.toArray(children);
 
     const [currentIndex, setCurrentIndex] = useState(0);
+    const { t } = useI18n();
 
     const handleNext = () => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % childrenArray.length);
@@ -33,11 +35,11 @@ export const Carrousel = ({ children }: CarrouselProps): ReactElement => {
             <div className="defaultPadding navegation">
                 {childrenArray.length > 1 && (
                     <>
-                        <button className="previous-button" onClick={handlePrev}>Voltar</button>
+                        <button className="previous-button" onClick={handlePrev}>{t('component.common.carrousel.previous', undefined, 'Previous')}</button>
                         <span>
                             {currentIndex + 1} / {childrenArray.length}
                         </span>
-                        <button className="next-button" onClick={handleNext}>Próximo</button>
+                        <button className="next-button" onClick={handleNext}>{t('component.common.carrousel.next', undefined, 'Next')}</button>
                     </>
                 )}
             </div>

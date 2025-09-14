@@ -7,11 +7,13 @@ import { UIIcons } from "../icons";
 import { formatFileSize } from "../../helper/file-size-convertions";
 import { UploadItemsHolder } from "../styles/common/upload-styles";
 import { UploadAreaProps } from "../../interfaces";
+import { useI18n } from "../../i18n";
 
 export const UploadArea = ({ uploads, addFiles, retryUpload, removeUpload }: UploadAreaProps) => {
 
   const [videoThumbs, setVideoThumbs] = useState<Record<string, string>>({});
   const generatedThumbs = useRef<Set<string>>(new Set());
+  const { t } = useI18n();
 
   const getFileType = (file: File): "Image" | "Video" | "Audio" | "Unknown" => {
     return file.type.startsWith("image")
@@ -77,7 +79,7 @@ export const UploadArea = ({ uploads, addFiles, retryUpload, removeUpload }: Upl
     <div style={{ width: "100%", height: "auto" }}>
       <UploadWrapper {...getRootProps()}>
         <input {...getInputProps()} />
-        <p><Icon icon={UIIcons.Anexo} size={25} color="#FFF" />Drag and drop or click here to send your files</p>
+        <p><Icon icon={UIIcons.Anexo} size={25} color="#FFF" />{t('component.common.uploadArea.pickFiles', undefined, 'Drag and drop or click here to send your files')}</p>
       </UploadWrapper>
 
       <UploadItemsHolder>
@@ -144,3 +146,4 @@ export const UploadArea = ({ uploads, addFiles, retryUpload, removeUpload }: Upl
     </div>
   );
 };
+

@@ -9,8 +9,10 @@ import { ItemAsCard } from "../component/common/itemAsCard";
 import { CreatorChip } from "../component/common/creator-chip";
 import { Banner } from "../component/common/banner";
 import { MiniBannerLayout } from "../component/common/miniBannerLayout";
+import { useI18n } from "../i18n";
 
 export const Home = (): ReactElement => {
+    const { t } = useI18n();
     const [dataBestOfTheMonth, setDataBestOfTheMonth] = useState<React.JSX.Element>();
     const [collectionContentCreators, setCollectionContentCreators] = useState<React.JSX.Element>();
     const [bannerItems, setBannerItems] = useState<React.JSX.Element>();
@@ -134,7 +136,7 @@ export const Home = (): ReactElement => {
 
     return (
         <div style={HomeStyle}>
-            {loading && <div>is loading</div>}
+            {loading && <div>{t('pages.home.loading', undefined, 'is loading')}</div>}
             <Carrousel>
                 {heroBanners}
             </Carrousel>
@@ -145,9 +147,9 @@ export const Home = (): ReactElement => {
 
             <div className="defaultPadding">
                 <div className="backgroundStructure">
-                    <ItemsColections title="Featured Content Creators" children={collectionContentCreators}
+                    <ItemsColections title={t('pages.home.titleFeaturedCreators', undefined, 'Featured Content Creators')} children={collectionContentCreators}
                     />
-                    <ItemsColections title="Best of the month" >
+                    <ItemsColections title={t('pages.home.titleBestOfMonth', undefined, 'Best of the month')} >
                         {dataBestOfTheMonth}
                     </ItemsColections>
                 </div>

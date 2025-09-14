@@ -8,6 +8,7 @@ import { Button } from "./button";
 import { useEffect } from "react";
 import { DefaultTheme } from "styled-components/dist/types";
 import { useTheme } from "styled-components";
+import { useI18n } from "../../i18n";
 
 
 interface LoginOverlayProps {
@@ -19,6 +20,7 @@ export const Login_overlay = ({ onClose }: LoginOverlayProps): ReactElement => {
     const [password, setPassword] = useState<string>("senhasegura123");
     
     const theme: DefaultTheme = useTheme();
+    const { t } = useI18n();
     
     const loginOverlay: React.CSSProperties = {
         position: "fixed",
@@ -104,15 +106,15 @@ export const Login_overlay = ({ onClose }: LoginOverlayProps): ReactElement => {
     return (
         <div style={loginOverlay}>
             <div style={loginBox}>
-                <button style={closeButton} onClick={onClose}>X Fechar</button>
-                <h2 style={{textAlign:"center"}}>Login</h2>
+                <button style={closeButton} onClick={onClose}>X {t('component.common.login-overlay.close', undefined, 'Close')}</button>
+                <h2 style={{textAlign:"center"}}>{t('component.common.login-overlay.title', undefined, 'Login')}</h2>
                 <form onSubmit={handleLoginComponent} style={formStyle}>
                     <InputFIeld
                         key={"Email"}
                         icon={UIIcons.Letter}
-                        label="Email"
+                        label={t('component.common.login-overlay.emailLabel', undefined, 'Email')}
                         name="email"
-                        placeholder="Enter your email"
+                        placeholder={t('component.common.login-overlay.emailPlaceholder', undefined, 'Enter your email')}
                         maxLength={maxLengths.email?.max ?? 0}
                         errors={errors.email}
                         value={username}
@@ -121,16 +123,16 @@ export const Login_overlay = ({ onClose }: LoginOverlayProps): ReactElement => {
                     <InputFIeld
                         key={"Password"}
                         icon={UIIcons.Key}
-                        label="Password"
+                        label={t('component.common.login-overlay.passwordLabel', undefined, 'Password')}
                         name="password"
-                        placeholder="Enter your password"
+                        placeholder={t('component.common.login-overlay.passwordPlaceholder', undefined, 'Enter your password')}
                         maxLength={maxLengths.password?.max ?? 0}
                         type="password"
                         errors={errors.password}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                    <Button type="submit" width="100%" color="secondary" loading={loadingLogin} clicable={!loadingLogin}>Log In</Button>
+                    <Button type="submit" width="100%" color="secondary" loading={loadingLogin} clicable={!loadingLogin}>{t('component.common.login-overlay.submit', undefined, 'Log In')}</Button>
                 </form>
                 {errorLogin && <p className="error">{errorLogin}</p>}
             </div>

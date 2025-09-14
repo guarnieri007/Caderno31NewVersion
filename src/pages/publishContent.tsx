@@ -19,6 +19,7 @@ import { useLanguage } from '../context/Language'
 import { Label } from '../component/common/label'
 import { useCreatePost } from '../hooks/useCreatePost'
 import { useNavigate } from 'react-router-dom'
+import { useI18n } from '../i18n'
 
 // Schema do formulário
 const publishContentSchema = publishContentSchemaZOD();
@@ -65,6 +66,7 @@ export const PublishContent = (): ReactElement => {
     const [descriptionTexts, setDescriptionTexts] = useState<string[]>([]);
     const [translationErrors, setTranslationErrors] = useState<(string[] | undefined)[]>([]);
     const navigate = useNavigate();
+    const { t } = useI18n();
 
     useEffect(() => {
         async function fetchData() {
@@ -241,7 +243,7 @@ export const PublishContent = (): ReactElement => {
             <div className="card_style">
                 {(categoriesQuantity > 0 && categories.length > 0 && languages.length > 0) ? (
                     <>
-                        <h1 className="title_style">Post a new content</h1>
+                        <h1 className="title_style">{t('pages.publishContent.title', undefined, 'Post a new content')}</h1>
                         <form onSubmit={sendForm}>
                             <div className='input-descriptions'>
                                 <Button
@@ -250,7 +252,7 @@ export const PublishContent = (): ReactElement => {
                                     handleOnClick={addDescriptionField}
                                     clicable={!(remainingLangs.length === 0)}
                                 >
-                                    Add Lang
+                                    {t('pages.publishContent.addLang', undefined, 'Add Lang')}
                                 </Button>
                                 <div className='description-inputs'>
                                     {descriptionFields.map((field, index) => (
@@ -258,7 +260,7 @@ export const PublishContent = (): ReactElement => {
                                             <div className='lang-selector'>
                                                 <Label
                                                     forInput={`description-lang-${index}`}
-                                                    label='Lang'
+                                                    label={t('pages.publishContent.langLabel', undefined, 'Lang')}
                                                     counting={false}
                                                     length={0}
                                                     maxLength={0}
@@ -269,7 +271,7 @@ export const PublishContent = (): ReactElement => {
                                                     value={field.language ?? ''}
                                                     onChange={(e) => handleLangChange(index, e.target.value)}
                                                 >
-                                                    <option value="" disabled hidden>Select</option>
+                                                    <option value="" disabled hidden>{t('pages.publishContent.select', undefined, 'Select')}</option>
                                                     {getAvailableLanguages(index).map(lang => (
                                                         <option key={lang.cd_language} value={lang.cd_language}>{lang.ds_language_short}</option>
                                                     ))}
@@ -277,10 +279,10 @@ export const PublishContent = (): ReactElement => {
                                             </div>
                                             <div className='input-item'>
                                                 <InputFIeld
-                                                    label="Description"
+                                                    label={t('pages.publishContent.descriptionLabel', undefined, 'Description')}
                                                     maxLength={maxDescriptionLength}
                                                     name={`description-${index}`}
-                                                    placeholder="Put here the description of your content"
+                                                    placeholder={t('pages.publishContent.descriptionPlaceholder', undefined, 'Put here the description of your content')}
                                                     type="text"
                                                     icon={UIIcons.Book}
                                                     errors={translationErrors[index] ?? errors.translations}
@@ -306,7 +308,7 @@ export const PublishContent = (): ReactElement => {
                             </div>
 
                             <PostTypeCheckbox
-                                label="Post Type"
+                                label={t('pages.publishContent.postTypeLabel', undefined, 'Post Type')}
                                 languages={languages}
                                 name="postTypes"
                                 options={postTypes}
@@ -326,14 +328,14 @@ export const PublishContent = (): ReactElement => {
                                         style={{ width: '100%' }}
                                     >
                                         <InputFIeld
-                                            label="Price"
+                                            label={t('pages.publishContent.priceLabel', undefined, 'Price')}
                                             maxLength={maxLengths.price?.max ? maxLengths.price.max : 0}
                                             name="price"
-                                            placeholder="Tokens"
+                                            placeholder={t('pages.publishContent.pricePlaceholder', undefined, 'Tokens')}
                                             type="number"
                                             icon={UIIcons.Key}
                                             errors={errors.price}
-                                            instructions={["Max value 999999 tokens"]}
+                                            instructions={[t('pages.publishContent.priceInstruction', undefined, 'Max value 999999 tokens')]}
                                         />
                                     </motion.div>
                                 )}
@@ -345,7 +347,7 @@ export const PublishContent = (): ReactElement => {
                             <CategorySelector
                                 name="categories"
                                 max_selection={categoriesQuantity}
-                                placeHolder="Select the desired categories"
+                                placeHolder={t('pages.publishContent.categoriesPlaceholder', undefined, 'Select the desired categories')}
                                 selected_categories={[
                                 ] as ResponseCategory[]}
                                 all_categories={categories}
@@ -365,7 +367,7 @@ export const PublishContent = (): ReactElement => {
                                 clicable={!loading}
                                 loading={loading}
                             >
-                                Publish
+                                {t('pages.publishContent.submit', undefined, 'Publish')}
                             </Button>
                         </form>
                     </>

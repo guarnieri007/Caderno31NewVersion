@@ -6,6 +6,7 @@ import { UIIcons } from "../icons";
 import { Label } from "./label";
 import { CategorySelectorProps, ResponseCategory } from "../../interfaces";
 import { useLanguage } from "../../context/Language";
+import { useI18n } from "../../i18n";
 
 export const CategorySelector = (
   {
@@ -14,7 +15,7 @@ export const CategorySelector = (
     max_selection,
     name,
     languages,
-    placeHolder = "Select Categories"
+    placeHolder
   }: CategorySelectorProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<ResponseCategory[]>(selected_categories);
@@ -23,6 +24,7 @@ export const CategorySelector = (
   const inputRef = useRef<HTMLInputElement>(null);
   const { language, getLanguage } = useLanguage();
   const [cd_language, setCd_language] = useState<number | undefined>(languages.find((lang) => lang.ds_language_short === getLanguage())?.cd_language);
+  const { t } = useI18n();
 
   const openDropdown = () => {
     setIsOpen(true);
@@ -97,7 +99,7 @@ export const CategorySelector = (
       <div className="dropdown" ref={dropdownRef}>
         <Label
           forInput={name}
-          label="Categories"
+          label={t('component.common.categorySelector.label', undefined, 'Categories')}
           is_focused={isOpen}
           maxLength={max_selection}
           length={selected.length}
@@ -106,7 +108,7 @@ export const CategorySelector = (
           <input
             type="text"
             ref={inputRef}
-            placeholder={placeHolder}
+            placeholder={placeHolder ?? t('component.common.categorySelector.placeholder', undefined, 'Select Categories')}
             value={search}
             onChange={(e) => {
               setSearch(e.target.value);
@@ -166,7 +168,7 @@ export const CategorySelector = (
 
       {selected.length >= max_selection && (
         <div className="warning">
-          You can select up to {max_selection} categories.
+          {t('component.common.categorySelector.maxWarning', { max: `${max_selection}` }, 'You can select up to {max} categories.')}
         </div>
       )}
     </CategorySelectorStyle>

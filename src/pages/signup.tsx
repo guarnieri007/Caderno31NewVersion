@@ -9,6 +9,7 @@ import { extractMinMaxLengths, validateFormData } from "../helper/zod-helper";
 import { useNavigate } from "react-router-dom";
 import { useLogin } from "../hooks/useLogin";
 import { useCreateCredential } from "../hooks/useCreateCredential";
+import { useI18n } from "../i18n";
 
 // Define o esquema de validação com Zod
 const signUpSchema = z.object({
@@ -30,6 +31,7 @@ const maxLengths = extractMinMaxLengths(signUpSchema);
 type SignUpFormValues = z.infer<typeof signUpSchema>; // Inferir o tipo do esquema
 
 export const SignUp = (): ReactElement => {
+  const { t } = useI18n();
   const [errors, setErrors] = useState<{ [key in keyof SignUpFormValues]?: string[] }>({});
   const [formValues, setFormValues] = useState({
     nickname: "",
@@ -99,16 +101,19 @@ export const SignUp = (): ReactElement => {
 
         <div className="photo"></div>
         <div className="form">
-          <h1>Sign up</h1>
-          <h2>Join our community today!</h2>
+          <h1>{t('pages.signup.title', undefined, 'Sign up')}</h1>
+          <h2>{t('pages.signup.subtitle', undefined, 'Join our community today!')}</h2>
           <form className="signupForm" onSubmit={sendForm}>
             <InputFIeld
               key={"Nickname"}
               icon={UIIcons.IdCard}
-              label="Nickname"
+              label={t('pages.signup.form.nicknameLabel', undefined, 'Nickname')}
               name="nickname"
-              placeholder="Choose a unique nickname"
-              instructions={["Must be a unique nickname", "should have up to 60 characters"]}
+              placeholder={t('pages.signup.form.nicknamePlaceholder', undefined, 'Choose a unique nickname')}
+              instructions={[
+                t('pages.signup.form.nicknameInstruction1', undefined, 'Must be a unique nickname'),
+                t('pages.signup.form.nicknameInstruction2', undefined, 'should have up to 60 characters'),
+              ]}
               maxLength={maxLengths.nickname?.max ?? 0}
               errors={errors.nickname}
               value={formValues.nickname}
@@ -117,9 +122,9 @@ export const SignUp = (): ReactElement => {
             <InputFIeld
               key={"Email"}
               icon={UIIcons.Letter}
-              label="Email"
+              label={t('pages.signup.form.emailLabel', undefined, 'Email')}
               name="email"
-              placeholder="Enter your email"
+              placeholder={t('pages.signup.form.emailPlaceholder', undefined, 'Enter your email')}
               maxLength={maxLengths.email?.max ?? 0}
               errors={errors.email}
               value={formValues.email}
@@ -128,9 +133,9 @@ export const SignUp = (): ReactElement => {
             <InputFIeld
               key={"Username"}
               icon={UIIcons.User}
-              label="Username"
+              label={t('pages.signup.form.usernameLabel', undefined, 'Username')}
               name="username"
-              placeholder="Create your username"
+              placeholder={t('pages.signup.form.usernamePlaceholder', undefined, 'Create your username')}
               maxLength={maxLengths.username?.max ?? 0}
               errors={errors.username}
               value={formValues.username}
@@ -139,9 +144,9 @@ export const SignUp = (): ReactElement => {
             <InputFIeld
               key={"Create your password"}
               icon={UIIcons.Key}
-              label="Create your password"
+              label={t('pages.signup.form.passwordLabel', undefined, 'Create your password')}
               name="password"
-              placeholder="Enter a new password"
+              placeholder={t('pages.signup.form.passwordPlaceholder', undefined, 'Enter a new password')}
               maxLength={maxLengths.password?.max ?? 0}
               type="password"
               errors={errors.password}
@@ -151,9 +156,9 @@ export const SignUp = (): ReactElement => {
             <InputFIeld
               key={"Confirm password"}
               icon={UIIcons.Lock}
-              label="Confirm password"
+              label={t('pages.signup.form.confirmPasswordLabel', undefined, 'Confirm password')}
               name="confirmPassword"
-              placeholder="Type again the same password"
+              placeholder={t('pages.signup.form.confirmPasswordPlaceholder', undefined, 'Type again the same password')}
               maxLength={maxLengths.confirmPassword?.max ?? 0}
               type="password"
               errors={errors.confirmPassword}
@@ -164,14 +169,14 @@ export const SignUp = (): ReactElement => {
               <div>
                 <input type="checkbox" name="termsAndConditions" id="termsAndConditions" />
                 <label htmlFor="termsAndConditions" className="terms">
-                  I agree with terms and Privacy Policy
+                  {t('pages.signup.form.terms', undefined, 'I agree with terms and Privacy Policy')}
                 </label>
               </div>
               {errors.termsAndConditions && <p className="error">{errors.termsAndConditions}</p>}
             </div>
 
             <Button width={"100%"} color="primary" type="submit" clicable={!loadingCreateCredential} loading={loadingCreateCredential}>
-              Get started
+              {t('pages.signup.form.submit', undefined, 'Get started')}
             </Button>
           </form>
         </div>

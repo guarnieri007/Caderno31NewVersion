@@ -9,12 +9,14 @@ import { Login_overlay } from "../common/login-overlay";
 import { useLogout } from "../../hooks/useLogout";
 import { LanguageSwitcher } from "./languageSwitcher";
 import { Spinner } from "../styles/common/common-styles";
+import { useI18n } from "../../i18n";
 
 export const Header = (): ReactElement => {
   const navigate = useNavigate();
   const { user, firstFetching } = useAuth();
   const { handleLogout, loadingLogout } = useLogout();
   const [showLogin, setShowLogin] = useState(false); // 🔥 controla se o overlay aparece
+  const { t } = useI18n();
 
   function GoToSignup() {
     navigate("/signupUser");
@@ -42,9 +44,9 @@ export const Header = (): ReactElement => {
             <Icon icon={UIIcons.Book} size={24} color="#000" />
             <span className="title">Caderno31</span>
           </NavLink>
-          <NavLink to="/categories">Categories</NavLink>
-          <NavLink to="/posts">Posts</NavLink>
           <LanguageSwitcher />
+          <NavLink to="/categories">{t('component.common.header.categories', undefined, 'Categories')}</NavLink>
+          <NavLink to="/posts">{t('component.common.header.posts', undefined, 'Posts')}</NavLink>
         </div>
         <div className="right">
           {firstFetching ? (
@@ -55,8 +57,8 @@ export const Header = (): ReactElement => {
                 {user && (
                   <>
                     <a >{user.username}</a>
-                    <Button color="secondary" handleOnClick={handleLogout} loading={loadingLogout} clicable={!loadingLogout}>Logout</Button>
-                    <Button color="primary" handleOnClick={GoToPostContent} >Post a new content</Button>
+                    <Button color="secondary" handleOnClick={handleLogout} loading={loadingLogout} clicable={!loadingLogout}>{t('component.common.header.logout', undefined, 'Logout')}</Button>
+                    <Button color="primary" handleOnClick={GoToPostContent} >{t('component.common.header.postNewContent', undefined, 'Post a new content')}</Button>
                   </>
                 )}
               </>
@@ -64,8 +66,8 @@ export const Header = (): ReactElement => {
               :
               (
                 <>
-                  <Button color='secondary' handleOnClick={OpenLoginForm} >log in</Button>
-                  <Button color='primary' handleOnClick={GoToSignup}>sign up</Button>
+                  <Button color='secondary' handleOnClick={OpenLoginForm} >{t('component.common.header.login', undefined, 'log in')}</Button>
+                  <Button color='primary' handleOnClick={GoToSignup}>{t('component.common.header.signup', undefined, 'sign up')}</Button>
                 </>
               ))}
 
