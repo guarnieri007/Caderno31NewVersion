@@ -68,15 +68,13 @@ async function loadLanguageDict(lang: string): Promise<Dict> {
 }
 
 export function useI18n() {
-  const { language, getLanguage } = useLanguage();
+  const { language } = useLanguage();
   const [ready, setReady] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const dictRef = useRef<Dict>({});
   const [version, setVersion] = useState(0);
 
   useEffect(() => {
-    console.log("Current language from context:", getLanguage());
-    console.log("Language changed to", language);
     let cancelled = false;
     setReady(false);
     setError(null);
