@@ -8,13 +8,13 @@ export const LanguageSwitcher = (): ReactElement => {
 
   return (
     <LanguageSwitcherStyles>
-      <Button color='secondary' handleOnClick={() => changeLanguage('en')} clicable={true}>
+      <Button color='secondary' width='60px' handleOnClick={() => changeLanguage('en')} clicable={true}>
         EN
       </Button>
-      <Button color='secondary' handleOnClick={() => changeLanguage('pt')} clicable={true}>
+      <Button color='secondary' width='60px' handleOnClick={() => changeLanguage('pt')} clicable={true}>
         PT
       </Button>
-      <Button color='secondary' handleOnClick={() => changeLanguage('es')} clicable={true}>
+      <Button color='secondary' width='60px' handleOnClick={() => changeLanguage('es')} clicable={true}>
         ESP
       </Button>
     </LanguageSwitcherStyles>
