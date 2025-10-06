@@ -14,7 +14,6 @@ import { useRemoveScroll } from './context/RemoveScroll'
 import { useEffect } from 'react'
 import { ResetPassword } from './pages/resetPassword'
 
-
 function App() {
   const mainBody = document.querySelector('body');
   const removeScroll = useRemoveScroll();
