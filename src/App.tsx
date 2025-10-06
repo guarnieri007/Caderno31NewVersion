@@ -12,7 +12,7 @@ import { NotFound404 } from './pages/notFound404'
 import { PublishContent } from './pages/publishContent'
 import { useRemoveScroll } from './context/RemoveScroll'
 import { useEffect } from 'react'
-import { ResetPassword } from './pages/resetPassword'
+import { ResetPassword } from './pages/ResetPassword'
 
 function App() {
   const mainBody = document.querySelector('body');
