@@ -10,8 +10,21 @@ import { Route, Routes } from 'react-router-dom'
 import { SignUp } from './pages/signup'
 import { NotFound404 } from './pages/notFound404'
 import { PublishContent } from './pages/publishContent'
+import { useRemoveScroll } from './context/RemoveScroll'
+import { useEffect } from 'react'
+import { ResetPassword } from './pages/ResetPassword'
 
 function App() {
+  const mainBody = document.querySelector('body');
+  const removeScroll = useRemoveScroll();
+
+  useEffect(() => {
+    if (removeScroll) {
+      mainBody?.classList.add('remove-scroll');
+    } else {
+      mainBody?.classList.remove('remove-scroll');
+    }
+  }, [removeScroll]);
 
   return (
     <>
@@ -23,6 +36,7 @@ function App() {
             <Routes>
               <Route path='/' element={<Home />} />
               <Route path='/signupUser' element={<SignUp />} />
+              <Route path='/reset-password' element={<ResetPassword />} />
               <Route path='/publishContent' element={<PublishContent />} />
               <Route path='*' element={<NotFound404/>} />
             </Routes>

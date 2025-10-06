@@ -115,6 +115,10 @@ export interface AuthContextType {
   firstFetching: boolean;
 }
 
+export interface ForgotPasswordContextType {
+  forgotPwHandler: (email: string) => Promise<void>;
+}
+
 export interface CategorySelectorProps {
   all_categories: ResponseCategory[],
   max_selection: number,

@@ -6,6 +6,7 @@ import { AuthProvider } from './context/AuthContext.tsx';
 import { UploadFilesProvider } from './context/UploadFiles.tsx'
 import { LanguageProvider } from './context/Language.tsx';
 import { PostsProvider } from './context/Posts.tsx';
+import { ForgotPasswordProvider } from './context/ForgotPasswordContext.tsx';
 
 
 createRoot(document.getElementById('root')!).render(
@@ -13,11 +14,13 @@ createRoot(document.getElementById('root')!).render(
     <LanguageProvider>
       <UploadFilesProvider>
         <AuthProvider>
-          <PostsProvider>
-            <BrowserRouter>
-              <App />
-            </BrowserRouter>
-          </PostsProvider>
+          <ForgotPasswordProvider>
+            <PostsProvider>
+              <BrowserRouter>
+                <App />
+              </BrowserRouter>
+            </PostsProvider>
+          </ForgotPasswordProvider>
         </AuthProvider>
       </UploadFilesProvider>
     </LanguageProvider>

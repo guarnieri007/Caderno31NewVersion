@@ -107,4 +107,7 @@ body
     display: block;
     margin: 24px auto;
   }
+  .remove-scroll {
+    overflow: hidden;
+  }
 `

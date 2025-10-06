@@ -80,12 +80,24 @@ export const AuthAPI = () => {
     }
   }
 
+  async function forgotPassword(email: string): Promise<void> {
+    try {
+      await api.post(`${backendURL}auth/request_reset_password`, { email });
+    } catch (err) {
+      if (err instanceof AxiosError && err.response) {
+        const msg = err.response?.data?.message ?? err.message;
+        throw new Error(msg).message;
+      }
+    }
+  }
+
   return {
     getJWTToken,
     CreateNewCredential,
     requestAccessTokenRefresh,
     requestUserData,
-    requestLogout
+    requestLogout,
+    forgotPassword,
   };
 
 }

@@ -5,11 +5,11 @@ import { NavLink, useNavigate } from "react-router-dom";
 import Icon from "../icons/icon";
 import { UIIcons } from "../icons";
 import { useAuth } from "../../context/AuthContext";
-import { Login_overlay } from "../common/login-overlay";
 import { useLogout } from "../../hooks/useLogout";
 import { LanguageSwitcher } from "./languageSwitcher";
 import { Spinner } from "../styles/common/common-styles";
 import { useI18n } from "../../i18n";
+import { Login_overlay } from "../complex/login-overlay";
 
 export const Header = (): ReactElement => {
   const navigate = useNavigate();
