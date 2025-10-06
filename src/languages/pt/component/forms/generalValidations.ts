@@ -1,6 +1,11 @@
 export default {
-    requiredField: '{item} é obrigatório',
-    minCharacters: '{item} deve ter ao menos {min} caracteres',
-    maxCharacters: '{item} deve ter no máximo {max} caracteres',
-    invalidEmail: 'Formato de e-mail inválido',
-}
+  title: 'Definir uma nova senha',
+  subtitle: 'Proporcionando a melhor experiência para você',
+  form: {
+    passwordLabel: 'Nova senha',
+    passwordPlaceholder: 'Digite uma nova senha',
+    confirmPasswordLabel: 'Confirme a nova senha',
+    confirmPasswordPlaceholder: 'Digite novamente a mesma nova senha',
+    submit: 'Definir a nova senha'
+  }
+};

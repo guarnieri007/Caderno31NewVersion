@@ -1,7 +1,7 @@
 export default {
   close: 'Fechar',
   title: 'Entrar',
-  forgetPasswordTitle: 'Esqueci minha senha',
+  passwordTitle: 'Esqueci minha senha',
   emailLabel: 'Email',
   emailPlaceholder: 'Digite seu email',
   passwordLabel: 'Senha',

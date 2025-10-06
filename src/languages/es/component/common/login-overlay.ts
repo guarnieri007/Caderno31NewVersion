@@ -1,7 +1,7 @@
 export default {
   close: 'Cerrar',
   title: 'Iniciar sesión',
-  forgotPasswordTitle: 'Olvidé mi contraseña',
+  passwordTitle: 'Olvidé mi contraseña',
   emailLabel: 'Correo electrónico',
   emailPlaceholder: 'Introduce tu correo electrónico',
   passwordLabel: 'Contraseña',

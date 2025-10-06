@@ -63,7 +63,7 @@ export const ResetPassword = ({ onClose, changeToLogin }: ForgotPasswordProps): 
             <MakeLoginStyle>
                 <div className="form-group">
                     <button className="closeButton" onClick={() => {setShowMessage(false); onClose()}}>X {t('component.common.login-overlay.close', undefined, 'Close')}</button>
-                    <h2 style={{ textAlign: "center" }}>{t('component.common.login-overlay.forgetPasswordTitle', undefined, 'Login')}</h2>
+                    <h2 style={{ textAlign: "center" }}>{t('component.common.login-overlay.passwordTitle', undefined, 'Losssgin')}</h2>
                     <form onSubmit={handleForgotPasswordComponent} className="formStyle">
                         <InputFIeld
                             key={"Email"}
@@ -76,7 +76,7 @@ export const ResetPassword = ({ onClose, changeToLogin }: ForgotPasswordProps): 
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                         />
-                        <Button type="submit" width="100%" color="secondary" loading={loadingForgotPassword} clicable={!loadingForgotPassword}>{t('component.common.login-overlay.submit', undefined, 'Log In')}</Button>
+                        <Button type="submit" width="100%" color="secondary" loading={loadingForgotPassword} clicable={!loadingForgotPassword}>{t('component.common.login-overlay.resetPassword', undefined, 'Log In')}</Button>
                     </form>
                     {errorForgotPassword && <p className="error">{errorForgotPassword}</p>}
                     {showMessage && <p className="success">{t('component.complex.reset-password.successMessage', undefined, 'If the email is registered, you will receive a password reset link shortly.')}</p>}

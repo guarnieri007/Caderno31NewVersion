@@ -91,6 +91,23 @@ export const AuthAPI = () => {
     }
   }
 
+  interface ResetPasswordProps {
+    token: string;
+    newPassword: string;
+  }
+
+  async function resetPasswordEmailToken({ token, newPassword }: ResetPasswordProps): Promise<void> {
+    try {
+      await api.post(`${backendURL}auth/reset_password_from_email_token`, { token, newPassword }); 
+
+    } catch (err) {
+      if (err instanceof AxiosError && err.response) {
+        const msg = err.response?.data?.message ?? err.message;
+        throw new Error(msg).message;
+      }
+    }
+  }
+
   return {
     getJWTToken,
     CreateNewCredential,
@@ -98,6 +115,7 @@ export const AuthAPI = () => {
     requestUserData,
     requestLogout,
     forgotPassword,
+    resetPasswordEmailToken,
   };
 
 }
