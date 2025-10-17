@@ -10,12 +10,12 @@ export const ButtonStyled = styled.button.withConfig({
   shouldForwardProp: (prop) => !['clicable'].includes(prop),
 })<ButtonStyledProps>`
   min-width: min(60px, 100%);
-  height: 38px;
-  padding: 0px 8px;
+  height: auto;
+  padding: 4px 8px;
   border: 0;
   box-sizing: border-box;
   box-shadow: -2px 2px 0px rgba(0, 0, 0, 0.25);
-  font-size: 12px;
+  font-size: 14px;
   position: relative;
   display: inline-flex;
   align-items: center;

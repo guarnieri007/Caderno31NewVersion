@@ -20,19 +20,19 @@ export const LanguageSwitcherStyles = styled.div.withConfig({
     cursor: pointer;
     
     .SelectedLanguage {
-        padding: ${(prop) => prop.theme.spacings.small};
+        padding: ${(prop) => prop.theme.spacings.min} ${(prop) => prop.theme.spacings.small};
         display: inline-flex;
         flex-direction: row;
         align-items: center;
         gap: 4px;
         height: 100%;
-
+        
     }
-
+    
     .AvailableLanguages {
         display: ${(prop) => prop.isOpen ? "inline-flex" : "none"};
         flex-direction: column;
-        padding: ${(prop) => prop.theme.spacings.small};
+        padding: ${(prop) => prop.theme.spacings.min} ${(prop) => prop.theme.spacings.small};
         gap: 12px;
         background-color: ${(prop) => prop.theme.colors.background_secondary};
         border-radius: ${(prop) => prop.theme.spacings.min};

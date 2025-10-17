@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useState } from 'react';
+import { ReactElement, useEffect, useRef, useState } from 'react';
 import { Button } from './button';
 import { useLanguage } from '../../context/Language';
 import { LanguageSwitcherStyles } from '../styles/common/languageSwitcher-styles';
@@ -9,6 +9,7 @@ export const LanguageSwitcher = (): ReactElement => {
   const [availableLanguages, setAvailableLanguages] = useState<Language[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isHovered, setIsHovered] = useState<boolean>(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const { t } = useI18n();
 
   const HandleChangingLanguage = (lang: Language) => {
@@ -27,13 +28,37 @@ export const LanguageSwitcher = (): ReactElement => {
   ];
 
   useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    const handleEsc = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEsc);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEsc);
+    };
+  }, []);
+
+  useEffect(() => {
     setAvailableLanguages(languages.filter(lang => lang.code !== language));
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [language]);
 
   return (
-    <LanguageSwitcherStyles isOpen={isOpen} isHovered={isHovered}>
+    <LanguageSwitcherStyles isOpen={isOpen} isHovered={isHovered} ref={dropdownRef}>
       <div className='SelectedLanguage' onClick={() => setIsOpen(!isOpen)} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
         <span className='noSelection'>{languages.find(lang => lang.code === language)?.flag}</span>
         <span className='noSelection'>{t(`component.common.header.${language}`)}</span>
