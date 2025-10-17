@@ -4,6 +4,9 @@ export default {
   logout: 'Logout',
   postNewContent: 'Post a new content',
   login: 'log in',
-  signup: 'sign up'
+  signup: 'sign up',
+  pt: 'Portuguese',
+  en: 'English',
+  es: 'Spanish',
 };
 

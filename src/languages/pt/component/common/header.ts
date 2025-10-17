@@ -4,6 +4,9 @@ export default {
   logout: 'Sair',
   postNewContent: 'Publicar novo conteúdo',
   login: 'Entrar',
-  signup: 'Criar conta'
+  signup: 'Criar conta',
+  pt: 'Português',
+  en: 'Inglês',
+  es: 'Espanhol',
 };
 

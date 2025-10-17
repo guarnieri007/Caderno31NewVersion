@@ -110,4 +110,8 @@ body
   .remove-scroll {
     overflow: hidden;
   }
+
+  .noSelection {
+    user-select: none;
+  }
 `
