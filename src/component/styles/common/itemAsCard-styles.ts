@@ -11,9 +11,9 @@ export interface ItemAsCardDivProps {
 export const ItemAsCardDiv = styled.div.withConfig({
     shouldForwardProp: (prop) => !['bg_image'].includes(prop),
 })<ItemAsCardDivProps>`
-    background-color: ${(prop) => prop.theme.colors.button_text};
+    background-color: ${(prop) => prop.theme.colors.background_secondary};
     color: ${(prop) => prop.theme.colors.text};
-    border-radius: 16px 16px 0px 0px;
+    border-radius: 16px;
     padding: 2px;
     box-sizing: border-box;
     display: flex;
@@ -27,10 +27,11 @@ export const ItemAsCardDiv = styled.div.withConfig({
         background-repeat: no-repeat;
         background-position: center;
         background-size: contain;
-        height:auto;
+        height: 200px;
+        width: 100%;
+        max-height: 200px;
         border-radius: 8px 8px 0px 0px;
         background-color: ${(prop) => prop.theme.colors.background_primary};
-        padding-top: 100%;
     }
     .cardData {
         margin-top: 16px;

@@ -235,7 +235,7 @@ export const ContentCreatorDiv = styled.div.withConfig({
 
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(${(prop) => prop.number_items_uhd ? prop.number_items_uhd : 5}, 1fr);
+  grid-template-columns: repeat(${(prop) => prop.number_items_uhd ? prop.number_items_uhd : 4}, 1fr);
   gap: 16px;
   overflow-y: auto;
   padding-bottom: 24px;
