@@ -236,7 +236,7 @@ export const ContentCreatorDiv = styled.div.withConfig({
   width: 100%;
   display: grid;
   grid-template-columns: repeat(${(prop) => prop.number_items_uhd ? prop.number_items_uhd : 4}, 1fr);
-  gap: 16px;
+  gap: ${(prop) => prop.theme.spacings["main-padding"]};
   overflow-y: auto;
   padding-bottom: 24px;
   @media (max-width: 1081px) {
