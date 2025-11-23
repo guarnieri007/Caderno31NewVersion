@@ -1,6 +1,7 @@
 import { createContext, ReactNode, useContext } from 'react';
 import { AuthAPI } from '../api/auth';
 import { ForgotPasswordContextType, } from '../interfaces';
+import { useLanguage } from './Language';
 
 const ForgotPasswordContext = createContext<ForgotPasswordContextType>({} as ForgotPasswordContextType);
 
@@ -9,10 +10,12 @@ export const ForgotPasswordProvider = ({ children }: { children: ReactNode }) =>
     forgotPassword,
   } = AuthAPI();
 
+  const { getLanguage } = useLanguage();
+
 
   async function forgotPwHandler(email: string) {
     try {
-      await forgotPassword(email);
+      await forgotPassword(email, getLanguage());
     } catch (error) {
       throw new Error(`${error}`).message;
     }

@@ -80,9 +80,9 @@ export const AuthAPI = () => {
     }
   }
 
-  async function forgotPassword(email: string): Promise<void> {
+  async function forgotPassword(email: string, language: string): Promise<void> {
     try {
-      await api.post(`${backendURL}auth/request_reset_password`, { email });
+      await api.post(`${backendURL}auth/request_reset_password`, { email, language });
     } catch (err) {
       if (err instanceof AxiosError && err.response) {
         const msg = err.response?.data?.message ?? err.message;
