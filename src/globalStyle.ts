@@ -84,7 +84,7 @@ body
     display: block;
     width: inherit;
     height: inherit;
-    padding: 24px;
+    padding: 0px 1rem;
     background-color: ${(prop) => prop.theme.colors.background_primary};
     margin: ${(prop) => prop.theme.spacings.big} 0px;
     
