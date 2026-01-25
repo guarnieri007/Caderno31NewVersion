@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         await getUserData(token);
 
       } catch (error) {
-        console.log('No active session found.', error);
+        throw new Error(`No active session found. ${JSON.stringify(error)}`).message;
       }
       finally {
         setFirstFetching(false);

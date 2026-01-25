@@ -1,26 +1,26 @@
 import { ReactNode, ChangeEvent } from "react";
 import { UIIcons } from "./component/icons";
 
-export interface HeroProps {
-  id_hero: number;
-  title?: string;
-  text?: string;
-  text_button?: string;
-  handleClickButton?: () => void;
-  bg_color?: string;
-  image?: string;
+export interface AcessTokenResponse {
+  data?: {
+    accessToken: string;
+  };
 }
 
-export interface ItemsColectionsProps {
-  title: string;
-  children: ReactNode;
+export interface AuthContextType {
+  access_Token: string | null;
+  user: User | null;
+  login: (email: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
+  setAccessToken: (token: string) => void;
+  accessTokenRefresh: () => Promise<void>;
+  getUserData: (token?: string) => Promise<User | undefined>;
+  createCredential: (data: CreateNewCredentialProps) => Promise<void>;
+  firstFetching: boolean;
 }
 
-export interface CreatorChipProps {
-  id: number;
-  title: string;
-  category: string;
-  image?: string;
+export interface BannerDivProps {
+  bg_image?: string;
 }
 
 export interface BannerProps {
@@ -30,34 +30,77 @@ export interface BannerProps {
   image: string;
 }
 
-export interface MiniBannerLayoutProps {
-  items: ReactNode[];
-}
-
-export interface BannerDivProps {
-  bg_image?: string;
-}
-
-export interface MediaInformation {
-  amount_videos: number;
-  amount_photos: number;
-  amount_audios: number;
-}
-
-export interface ItemAsCardProps {
-  id_card: number;
-  creators_name: string;
-  image: string;
-  title: string;
-  category: string;
-  price: number;
-  profile_image: string;
-  media_info: MediaInformation;
-  currency: "real" | "dolar";
-}
-
 export interface CarrouselProps {
   children: ReactNode[];
+}
+
+export interface CategorySelectorProps {
+  all_categories: ResponseCategory[];
+  max_selection: number;
+  selected_categories: ResponseCategory[];
+  name: string;
+  placeHolder?: string;
+  languages: ResponseLanguage[];
+}
+
+export interface CategoryTranslation {
+  cd_category: number;
+  cd_language: number;
+  ds_category: string;
+}
+
+export interface CreateNewCredentialProps {
+  data: {
+    email: string;
+    username: string;
+    password: string;
+  };
+}
+
+export interface CreatePostProps {
+  translations: PostTranslation[];
+  categories: ResponseCategory[];
+  postTypes: ResponsePostType[];
+  price: number | null;
+  files: UploadFilePayload[] | null;
+}
+
+export interface CreatorChipProps {
+  id: number;
+  title: string;
+  category: string;
+  image?: string;
+}
+
+export interface DropdownSelectorProps<TItem, TValue extends string | number> {
+  categories: TItem[];
+  value: TValue | null; // controlled
+  onChange: (value: TValue | null, item: TItem | null) => void;
+
+  filterFunction: (search: string, list: TItem[], cd_language: number) => TItem[];
+
+  name: string;
+  placeHolder: string;
+  label: string;
+  cd_language: number;
+
+  getValue: (item: TItem) => TValue;
+  getLabel: (item: TItem, language: number) => string;
+}
+
+
+export interface ForgotPasswordContextType {
+  forgotPwHandler: (email: string) => Promise<void>;
+}
+
+export interface HeroProps {
+  id_hero: number;
+  title?: string;
+  text?: string;
+  text_button?: string;
+  handleClickButton?: () => void;
+  bg_color?: string;
+  image?: string;
 }
 
 export interface InputFIeldProps {
@@ -74,24 +117,21 @@ export interface InputFIeldProps {
   onChange?: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
-export interface AcessTokenResponse {
-  data?: {
-    accessToken: string;
-  };
+export interface ItemAsCardProps {
+  id_card: number;
+  creators_name: string;
+  image: string;
+  title: string;
+  category: string;
+  price: number;
+  profile_image: string;
+  media_info: MediaInformation;
+  currency: "real" | "dolar";
 }
 
-export interface CreateNewCredentialProps {
-  data: {
-    email: string;
-    username: string;
-    password: string;
-  }
-}
-
-export interface User {
-  username: string;
-  email: string;
-  role?: string;
+export interface ItemsColectionsProps {
+  title: string;
+  children: ReactNode;
 }
 
 export interface LabelProps {
@@ -103,29 +143,75 @@ export interface LabelProps {
   counting?: boolean;
 }
 
-export interface AuthContextType {
-  access_Token: string | null;
-  user: User | null;
-  login: (email: string, password: string) => Promise<void>;
-  logout: () => Promise<void>;
-  setAccessToken: (token: string) => void;
-  accessTokenRefresh: () => Promise<void>;
-  getUserData: (token?: string) => Promise<User | undefined>;
-  createCredential: (data: CreateNewCredentialProps) => Promise<void>;
-  firstFetching: boolean;
+export interface LanguageTranslation {
+  cd_language: number;
+  cd_translation_lang: number;
+  ds_language: string;
 }
 
-export interface ForgotPasswordContextType {
-  forgotPwHandler: (email: string) => Promise<void>;
+export interface MediaInformation {
+  amount_videos: number;
+  amount_photos: number;
+  amount_audios: number;
 }
 
-export interface CategorySelectorProps {
-  all_categories: ResponseCategory[],
-  max_selection: number,
-  selected_categories: ResponseCategory[],
-  name: string,
-  placeHolder?: string,
-  languages: ResponseLanguage[],
+export interface MiniBannerLayoutProps {
+  items: ReactNode[];
+}
+
+export interface Post {
+  cd_post: number;
+  translations: PostTranslation[];
+  categories: ResponseCategory[];
+  postTypes: ResponsePostType[];
+  price: number | null;
+  files: UploadFile[] | null;
+}
+
+export interface PostContextType {
+  posts: Post[];
+  listPosts: () => Promise<void>;
+  getPost: (cd_post: number) => Promise<Post | null>;
+  createPost: (data: CreatePostProps) => Promise<Post | undefined>;
+  updatePost: (cd_post: number, data: CreatePostProps) => Promise<Post | undefined>;
+  deletePost: (cd_post: number) => Promise<void>;
+}
+
+export interface PostTranslation {
+  cd_language: number;
+  ds_post: string;
+}
+
+export interface PostTypeTranslation {
+  cd_post_type: number;
+  cd_language: number;
+  ds_post_type: string;
+}
+
+export interface ResponseCategory {
+  cd_category: number;
+  translations: CategoryTranslation[];
+}
+
+export interface ResponseLanguage {
+  cd_language: number;
+  ds_language_short: string;
+  slug: string;
+  nameTranslations: LanguageTranslation[];
+  languageTranslations: LanguageTranslation[];
+}
+
+export interface ResponsePostType {
+  cd_post_type: number;
+  translations: PostTypeTranslation[];
+  slug: string;
+}
+
+export interface UploadAreaProps {
+  uploads: UploadFile[];
+  addFiles: (files: File[]) => void;
+  retryUpload: (file: File) => void;
+  removeUpload: (file: File) => void;
 }
 
 export interface UploadFile {
@@ -149,77 +235,8 @@ export interface UploadFileProps {
   path: string;
 }
 
-export interface LanguageTranslation {
-  cd_language: number;
-  cd_translation_lang: number;
-  ds_language: string;
-}
-
-export interface ResponseLanguage {
-  cd_language: number;
-  ds_language_short: string;
-  slug: string;
-  nameTranslations: LanguageTranslation[];
-  languageTranslations: LanguageTranslation[];
-}
-
-export interface CategoryTranslation {
-  cd_category: number;
-  cd_language: number;
-  ds_category: string;
-}
-
-export interface ResponseCategory {
-  cd_category: number;
-  translations: CategoryTranslation[];
-}
-
-export interface PostTypeTranslation {
-  cd_post_type: number;
-  cd_language: number;
-  ds_post_type: string;
-}
-
-export interface ResponsePostType {
-  cd_post_type: number;
-  translations: PostTypeTranslation[];
-  slug: string;
-}
-
-export interface PostTranslation {
-  cd_language: number;
-  ds_post: string;
-}
-
-export interface Post {
-  cd_post: number;
-  translations: PostTranslation[];
-  categories: ResponseCategory[];
-  postTypes: ResponsePostType[];
-  price: number | null;
-  files: UploadFile[] | null;
-}
-
-export interface CreatePostProps {
-  translations: PostTranslation[];
-  categories: ResponseCategory[];
-  postTypes: ResponsePostType[];
-  price: number | null;
-  files: UploadFilePayload[] | null;
-}
-
-export interface PostContextType {
-  posts: Post[];
-  listPosts: () => Promise<void>;
-  getPost: (cd_post: number) => Promise<Post | null>;
-  createPost: (data: CreatePostProps) => Promise<Post | undefined>;
-  updatePost: (cd_post: number, data: CreatePostProps) => Promise<Post | undefined>;
-  deletePost: (cd_post: number) => Promise<void>;
-}
-
-export interface UploadAreaProps {
-  uploads: UploadFile[];
-  addFiles: (files: File[]) => void;
-  retryUpload: (file: File) => void;
-  removeUpload: (file: File) => void;
+export interface User {
+  username: string;
+  email: string;
+  role?: string;
 }

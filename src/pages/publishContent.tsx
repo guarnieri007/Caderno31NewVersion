@@ -16,10 +16,10 @@ import { extractMinMaxLengths, publishContentSchemaZOD, validateFormData, catego
 import { ResponseCategory, ResponseLanguage, ResponsePostType, CreatePostProps } from '../interfaces'
 import { UploadArea } from '../component/common/uploadArea'
 import { useLanguage } from '../context/Language'
-import { Label } from '../component/common/label'
 import { useCreatePost } from '../hooks/useCreatePost'
 import { useNavigate } from 'react-router-dom'
 import { useI18n } from '../i18n'
+import { DropdownSelector } from '../component/common/dropdownSelector'
 
 // Schema do formulário
 const publishContentSchema = publishContentSchemaZOD();
@@ -61,7 +61,7 @@ export const PublishContent = (): ReactElement => {
     const [categories, setCategories] = useState<ResponseCategory[]>([]);
     const [postTypes, setPostTypes] = useState<ResponsePostType[]>([]);
     const [selectedPostTypes, setSelectedPostTypes] = useState<ResponsePostType[]>([]);
-    interface DescriptionField { id: number; language: number | null }
+    interface DescriptionField { id: number; cd_language: number | null }
     const [descriptionFields, setDescriptionFields] = useState<DescriptionField[]>([]);
     const [descriptionTexts, setDescriptionTexts] = useState<string[]>([]);
     const [translationErrors, setTranslationErrors] = useState<(string[] | undefined)[]>([]);
@@ -93,11 +93,11 @@ export const PublishContent = (): ReactElement => {
         const currentLang = languages.find(l => l.slug === language)
         setDescriptionFields(prev => {
             if (prev.length === 0) {
-                return [{ id: Date.now(), language: currentLang?.cd_language ?? null }]
+                return [{ id: Date.now(), cd_language: currentLang?.cd_language ?? null }]
             }
             return prev.map((field, index) => ({
                 ...field,
-                language: index === 0 ? currentLang?.cd_language ?? null : null,
+                cd_language: index === 0 ? currentLang?.cd_language ?? null : null,
             }))
         })
         setDescriptionTexts(prev => {
@@ -114,19 +114,13 @@ export const PublishContent = (): ReactElement => {
         })
     }, [languages])
 
-    const handleLangChange = (index: number, value: string) => {
-        setDescriptionFields(fields =>
-            fields.map((field, i) => i === index ? { ...field, language: value ? parseInt(value, 10) : null } : field)
-        )
-    }
-
     const addDescriptionField = () => {
-        const usedLangs = descriptionFields.map(f => f.language).filter((l): l is number => l !== null)
+        const usedLangs = descriptionFields.map(f => f.cd_language).filter((l): l is number => l !== null)
         const available = languages
             .filter(l => !usedLangs.includes(l.cd_language))
             .sort((a, b) => a.ds_language_short.localeCompare(b.ds_language_short))
         if (available.length === 0) return
-        setDescriptionFields([...descriptionFields, { id: Date.now(), language: available[0].cd_language }])
+        setDescriptionFields([...descriptionFields, { id: Date.now(), cd_language: available[0].cd_language }])
         setDescriptionTexts(prev => [...prev, ""])
         setTranslationErrors(prev => [...prev, undefined])
     }
@@ -134,7 +128,7 @@ export const PublishContent = (): ReactElement => {
     const removeDescriptionField = (index: number) => {
         if (index === 0) {
             setDescriptionFields(fields =>
-                fields.map((field, i) => i === 0 ? { ...field, language: null } : field)
+                fields.map((field, i) => i === 0 ? { ...field, cd_language: null } : field)
             )
             setDescriptionTexts(texts => texts.map((t, i) => i === 0 ? "" : t))
             setTranslationErrors(errs => errs.map((e, i) => i === 0 ? undefined : e))
@@ -155,14 +149,14 @@ export const PublishContent = (): ReactElement => {
 
     const getAvailableLanguages = (index: number) => {
         const selected = descriptionFields
-            .map((f, i) => (i === index ? null : f.language))
+            .map((f, i) => (i === index ? null : f.cd_language))
             .filter((l): l is number => l !== null)
         return languages
             .filter(l => !selected.includes(l.cd_language))
             .sort((a, b) => a.ds_language_short.localeCompare(b.ds_language_short))
     }
 
-    const remainingLangs = languages.filter(l => !descriptionFields.some(df => df.language === l.cd_language))
+    const remainingLangs = languages.filter(l => !descriptionFields.some(df => df.cd_language === l.cd_language))
 
     async function sendForm(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault()
@@ -190,8 +184,7 @@ export const PublishContent = (): ReactElement => {
         const newTranslationErrors: (string[] | undefined)[] = Array.from({ length: descriptionFields.length }, () => undefined)
         for (let i = 0; i < descriptionFields.length; i++) {
             const text = parseOptionalString(formData.get(`description-${i}`))
-            const langVal = formData.get(`description-lang-${i}`)
-            const lang = typeof langVal === 'string' && langVal !== '' ? parseInt(langVal, 10) : null
+            const lang = descriptionFields[i]?.cd_language ?? null
             if (text && lang !== null) {
                 translations.push({ cd_language: lang, ds_post: text })
             } else if (text || lang !== null) {
@@ -238,6 +231,10 @@ export const PublishContent = (): ReactElement => {
         navigate('/');
     }
 
+    const getLangDescription = (item: ResponseLanguage, cd_language: number): string => {
+        return item.nameTranslations.find(tr => tr.cd_translation_lang === cd_language)?.ds_language || 'N/A'
+    }
+
     return (
         <PublishContentStyle>
             <div className="card_style">
@@ -257,26 +254,37 @@ export const PublishContent = (): ReactElement => {
                                 <div className='description-inputs'>
                                     {descriptionFields.map((field, index) => (
                                         <div className='description-item' key={field.id}>
-                                            <div className='lang-selector'>
-                                                <Label
-                                                    forInput={`description-lang-${index}`}
-                                                    label={t('pages.publishContent.langLabel', undefined, 'Lang')}
-                                                    counting={false}
-                                                    length={0}
-                                                    maxLength={0}
-                                                />
-                                                <select
-                                                    id={`description-lang-${index}`}
-                                                    name={`description-lang-${index}`}
-                                                    value={field.language ?? ''}
-                                                    onChange={(e) => handleLangChange(index, e.target.value)}
-                                                >
-                                                    <option value="" disabled hidden>{t('pages.publishContent.select', undefined, 'Select')}</option>
-                                                    {getAvailableLanguages(index).map(lang => (
-                                                        <option key={lang.cd_language} value={lang.cd_language}>{lang.ds_language_short}</option>
-                                                    ))}
-                                                </select>
-                                            </div>
+                                            {
+                                                <div className='lang-selector'>
+
+                                                    <DropdownSelector<ResponseLanguage, number>
+                                                        getValue={(item) => item.cd_language}
+                                                        getLabel={(item, cd_language) => getLangDescription(item, cd_language)}
+                                                        name={`description-lang-${index}`}
+                                                        placeHolder={t('pages.publishContent.selectLangPlaceholder', undefined, 'Select Language')}
+                                                        label={t('pages.publishContent.langLabel', undefined, 'Lang')}
+                                                        categories={getAvailableLanguages(index)}
+                                                        cd_language={
+                                                            languages.find(l => l.ds_language_short.toLocaleLowerCase() === language.toLocaleLowerCase())?.cd_language || 1
+                                                        }
+                                                        value={field.cd_language}
+                                                        onChange={(nextValue) => {
+                                                            setDescriptionFields((fields) =>
+                                                                fields.map((f, i) => (i === index ? { ...f, cd_language: nextValue } : f))
+                                                            );
+                                                        }}
+                                                        filterFunction={(search, list, cd_language) => {
+                                                            const s = search.trim().toLowerCase();
+                                                            if (!s) return list;
+                                                            return list.filter((item) =>
+                                                                getLangDescription(item, cd_language).toLowerCase().includes(s)
+                                                            );
+                                                        }}
+                                                    />
+
+                                                </div>
+
+                                            }
                                             <div className='input-item'>
                                                 <InputFIeld
                                                     label={t('pages.publishContent.descriptionLabel', undefined, 'Description')}
@@ -294,7 +302,7 @@ export const PublishContent = (): ReactElement => {
                                                 <Button
                                                     type='button'
                                                     handleOnClick={() => removeDescriptionField(index)}
-                                                    clicable={index === 0 ? (descriptionFields[0].language !== null || (descriptionTexts[0] ?? '').trim() !== '') : true}
+                                                    clicable={index === 0 ? (descriptionFields[0].cd_language !== null || (descriptionTexts[0] ?? '').trim() !== '') : true}
                                                     color={"secondary"}
                                                 >
                                                     <Icon icon={UIIcons.Trash} size={24} color='#000' />
@@ -340,9 +348,6 @@ export const PublishContent = (): ReactElement => {
                                     </motion.div>
                                 )}
                             </AnimatePresence>
-
-
-
 
                             <CategorySelector
                                 name="categories"
