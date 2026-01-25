@@ -84,11 +84,12 @@ body
     display: block;
     width: inherit;
     height: inherit;
-    padding: 24px ${(prop) => prop.theme.spacings["main-padding"]};
+    padding: 24px;
     background-color: ${(prop) => prop.theme.colors.background_primary};
+    margin: ${(prop) => prop.theme.spacings.big} 0px;
     
     @media (max-width: 768px) {
-      padding: 24px ${(prop) => prop.theme.spacings.normal};
+      padding: ${(prop) => prop.theme.spacings.big} ${(prop) => prop.theme.spacings.normal};
     }
 }
 
@@ -97,9 +98,9 @@ body
     height: auto;
     background-color: transparent;
     border-radius: 8px;
-    border: 1px solid ${(prop) => prop.theme.colors.text};
+    border: 0px solid ${(prop) => prop.theme.colors.text};
     box-sizing: border-box;
-    padding: ${(prop) => prop.theme.spacings.big};
+    padding: 0px;
   }
 
   .signupForm {
