@@ -14,6 +14,9 @@ export const CategorySelectorStyle = styled.div.withConfig({
   .dropdown {
     position: relative;
     width: 100%;
+    div div p {
+      margin: 0;
+    }
   }
 
   .dropdown-header {

@@ -72,10 +72,10 @@ export const CategorySelector = (
     };
   }, []);
 
-    useEffect(() => {
+  useEffect(() => {
     const newLang = languages.find(lang => lang.ds_language_short === language)?.cd_language;
-    if(newLang !== undefined) setCd_language(newLang)
-    
+    if (newLang !== undefined) setCd_language(newLang)
+
   }, [language]);
 
   const filteredOptions = all_categories.filter(
