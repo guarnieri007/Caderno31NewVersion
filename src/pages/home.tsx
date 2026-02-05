@@ -107,6 +107,7 @@ export const Home = (): ReactElement => {
         try {
             const content = await FetchHeroBanners();
             const result = buildBannerHero(content.data);
+            console.log(`Hero banners result: ${JSON.stringify(result)}`);
             setHeroBanners(result);
 
         }
@@ -135,25 +136,31 @@ export const Home = (): ReactElement => {
     }
 
     return (
-        <div style={HomeStyle}>
-            {loading && <div>{t('pages.home.loading', undefined, 'is loading')}</div>}
-            <Carrousel>
-                {heroBanners}
-            </Carrousel>
+        <>
+            <div>
 
-            <div className="defaultPadding grid3items">
-                {bannerItems}
+                <Carrousel>
+                    {heroBanners}
+                </Carrousel>
             </div>
 
-            <div className="defaultPadding">
-                <div className="backgroundStructure">
-                    <ItemsColections title={t('pages.home.titleFeaturedCreators', undefined, 'Featured Content Creators')} children={collectionContentCreators}
-                    />
-                    <ItemsColections title={t('pages.home.titleBestOfMonth', undefined, 'Best of the month')} >
-                        {dataBestOfTheMonth}
-                    </ItemsColections>
+            <div style={HomeStyle}>
+                {loading && <div>{t('pages.home.loading', undefined, 'is loading')}</div>}
+
+                <div className="defaultPadding grid3items">
+                    {bannerItems}
+                </div>
+
+                <div className="defaultPadding">
+                    <div className="backgroundStructure">
+                        <ItemsColections title={t('pages.home.titleFeaturedCreators', undefined, 'Featured Content Creators')} children={collectionContentCreators}
+                        />
+                        <ItemsColections title={t('pages.home.titleBestOfMonth', undefined, 'Best of the month')} >
+                            {dataBestOfTheMonth}
+                        </ItemsColections>
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     )
 }
