@@ -10,10 +10,10 @@ export const Hero = ({ title, text, text_button, handleClickButton, bg_color, im
         <HeroHeader
             bg_color={bg_color}
             bg_image={image}>
-            <h1>
+            <h1 className="noSelection">
                 {title}
             </h1>
-            <p>
+            <p className="noSelection">
                 {text}
             </p>
             <Button color="primary" handleOnClick={handleClickButton}>

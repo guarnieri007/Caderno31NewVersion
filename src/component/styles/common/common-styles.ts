@@ -261,4 +261,5 @@ export const Chip = styled.div`
   width: fit-content;
   padding: 0.175rem 0.75rem;
   color: ${(prop) => prop.theme.colors.button_text_hover};
+  user-select: none;
 `;

@@ -11,7 +11,7 @@ export const Banner = ({ text_button, image, text, title }: BannerProps): ReactE
                 <Chip>
                     {title}
                 </Chip>
-                <h2>
+                <h2 className="noSelection">
                     {text}
                 </h2>
                     <Button color="primary">
