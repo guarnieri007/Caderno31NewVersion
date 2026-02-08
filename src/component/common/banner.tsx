@@ -8,7 +8,7 @@ export const Banner = ({ text_button, image, text, title }: BannerProps): ReactE
     return (
         <BannerDiv bg_image={image}>
             <div>
-                <Chip>
+                <Chip bg_color={undefined} text_color={undefined}>
                     {title}
                 </Chip>
                 <h2 className="noSelection">
