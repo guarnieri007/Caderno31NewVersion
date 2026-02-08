@@ -159,6 +159,7 @@ export const ItemsColectionsDiv = styled.div`
   }
 
   @media (max-width: 768px) {
+    
     h2 {
       text-align: center;
     }
@@ -220,6 +221,15 @@ export const CreatorChipDiv = styled.div`
       line-height: 15px;
     }
   }
+
+  @media (max-width: 768px) {
+    > div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }    
+  }
+
 `;
 
 interface RowsLines {
