@@ -122,7 +122,7 @@ export interface ItemAsCardProps {
   creators_name: string;
   image: string;
   title: string;
-  category: string;
+  categories: string[];
   price: number;
   profile_image: string;
   media_info: MediaInformation;

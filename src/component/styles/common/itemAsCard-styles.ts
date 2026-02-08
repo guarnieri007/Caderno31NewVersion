@@ -10,7 +10,7 @@ export interface ItemAsCardDivProps {
 
 export const ItemAsCardDiv = styled.div.withConfig({
     shouldForwardProp: (prop) => !['bg_image'].includes(prop),
-})<ItemAsCardDivProps>`
+}) <ItemAsCardDivProps>`
     background-color: ${(prop) => prop.theme.colors.background_secondary};
     color: ${(prop) => prop.theme.colors.text};
     border-radius: 16px;
@@ -27,52 +27,72 @@ export const ItemAsCardDiv = styled.div.withConfig({
         background-repeat: no-repeat;
         background-position: center;
         background-size: contain;
-        height: 200px;
+        height: 265px;
         width: 100%;
-        max-height: 200px;
+        max-height: 265px;
         border-radius: 8px 8px 0px 0px;
         background-color: ${(prop) => prop.theme.colors.background_primary};
-    }
-    .cardData {
-        margin-top: 16px;
-        display: flex;
-        flex-direction: column;
-        flex-grow: 1;
-        .price {
-            height: auto;
-            min-height: 76px;
+
+        .cardData {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.15rem;
-            line-height: 32px;
-        }
-        .cardAmountInfo {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            flex-wrap: wrap;
-            width: 100%;
-            margin: 0px;
-            gap: 16px;
-            min-height: 32px;
-            height: auto;
-            div{
+            flex-direction: column;
+            height: 100%;
+            background-color: rgba(0,0,0,0.65);
+            .price {
+                height: auto;
                 display: flex;
                 flex-direction: row;
-                align-items: center;
-                align-content: center;
-                gap: 2px;
-                width: min-content;
-                img {
-                    width:24px;
-                    height:auto;
+                align-items: flex-start;
+                gap: 0px;
+                justify-content: baseline;
+                font-size: 1.15rem;
+                line-height: 32px;
+                padding: ${(prop) => prop.theme.spacings.small};
+
+                .categories {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
+                    justify-content: start;
+                    align-items: flex-start;
                 }
-                span {
-                    color: ${(prop) => prop.theme.colors.text};
-                    width: auto;
-                    height: auto;
-                    line-height: 32px;
+
+                div {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                    justify-content: end;
+                    align-items: flex-end;
+                }
+            }
+            .cardAmountInfo {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                flex-wrap: wrap;
+                width: 100%;
+                margin-top: auto;
+                padding: ${(prop) => prop.theme.spacings.small};
+                gap: 16px;
+                min-height: 32px;
+                height: auto;
+                div{
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    align-content: center;
+                    gap: 2px;
+                    width: min-content;
+                    img {
+                        width:24px;
+                        height:auto;
+                    }
+                    span {
+                        color: ${(prop) => prop.theme.colors.text};
+                        width: auto;
+                        height: auto;
+                        line-height: 32px;
+                    }
                 }
             }
         }
@@ -91,7 +111,7 @@ export const ItemAsCardDiv = styled.div.withConfig({
         gap: ${(prop) => prop.theme.spacings.reduced};
         .title {
             grid-area: title;
-            font-size: 1.15rem;
+            font-size: 1rem;
             color: ${(prop) => prop.theme.colors.text_hover};
             align-self: baseline;
             display: -webkit-box;               /* Usa o layout flexível baseado em caixas */
@@ -99,8 +119,8 @@ export const ItemAsCardDiv = styled.div.withConfig({
             overflow: hidden;                   /* Esconde o texto que exceder o tamanho */
             text-overflow: ellipsis;            /* Exibe os três pontinhos */
             -webkit-line-clamp: ${description_lines};              /* Limita a exibição a x linhas */
-            line-height: ${description_lineHeight/2}${description_lineHeightUnit};                   /* Define a altura da linha para ajustar a altura da div */
-            max-height: ${(description_lineHeight /2)* description_lines}${description_lineHeightUnit};        /* Altura máxima permitida com base nas linhas */
+            line-height: ${description_lineHeight / 2}${description_lineHeightUnit};                   /* Define a altura da linha para ajustar a altura da div */
+            max-height: ${(description_lineHeight / 2) * description_lines}${description_lineHeightUnit};        /* Altura máxima permitida com base nas linhas */
             text-align: center;
         }
         .category {
@@ -114,20 +134,19 @@ export const ItemAsCardDiv = styled.div.withConfig({
         .contentCreator {
             grid-area: contentCreator;
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 0px;
             .profileImage {
                 display:flex;
                 align-items: center;
                 justify-content: center;
                 height:initial;
-                width: 4rem;
                 img {
                     border-radius: 8px;
                     height: 100%;
-                    max-height: 64px;
+                    max-height: 60px;
                     width: auto;
                 }
             }

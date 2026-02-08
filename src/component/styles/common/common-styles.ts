@@ -246,14 +246,15 @@ export const ContentCreatorDiv = styled.div.withConfig({
   width: 100%;
   display: grid;
   grid-template-columns: repeat(${(prop) => prop.number_items_uhd ? prop.number_items_uhd : 4}, 1fr);
-  gap: ${(prop) => prop.theme.spacings["main-padding"]};
+  gap: ${(prop) => prop.theme.spacings.big};
+  row-gap: ${(prop) => prop.theme.spacings["main-padding"]};
   overflow-y: auto;
   padding-bottom: 24px;
   @media (max-width: 1081px) {
     grid-template-columns: repeat(${(prop) => prop.number_items_hd ? prop.number_items_hd : 3}, 1fr);
   }
   @media (max-width: 768px) {
-    grid-template-columns: repeat(${(prop) => prop.number_items_mobile_turned ? prop.number_items_mobile_turned : 2}, 1fr);
+    grid-template-columns: repeat(${(prop) => prop.number_items_mobile_turned ? prop.number_items_mobile_turned : 1}, 1fr);
   }
   @media (max-width: 430px) {
     grid-template-columns: repeat(${(prop) => prop.number_items_mobile ? prop.number_items_mobile : 1}, 1fr);
@@ -261,15 +262,30 @@ export const ContentCreatorDiv = styled.div.withConfig({
 
 `;
 
-export const Chip = styled.div`
-  background-color: ${(prop) => prop.theme.colors.text};
-  border: ${(prop) => prop.theme.colors.button_text_hover} solid 2px;
+interface ChipProps {
+  bg_color: string | undefined;
+  text_color: string | undefined;
+}
+
+export const Chip = styled.div.withConfig({
+  shouldForwardProp: (prop) => !['bg_color', 'text_color'].includes(prop),
+})<ChipProps>`
+  background-color: ${(prop) => prop.bg_color ? prop.bg_color : prop.theme.colors.text};
+  border: ${(prop) => prop.text_color ? prop.text_color : prop.theme.colors.button_text_hover} solid 2px;
   border-radius: 1rem;
-  font-size: 0.75rem;
+  font-size: 0.65rem;
   display: inline-flex;
   flex-wrap: nowrap;
   width: fit-content;
-  padding: 0.175rem 0.75rem;
-  color: ${(prop) => prop.theme.colors.button_text_hover};
+  padding: 0 0.6rem;
+  color: ${(prop) => prop.text_color ? prop.text_color : prop.theme.colors.button_text_hover};
   user-select: none;
+  line-height: 1.75rem;
+  
+  @media (max-width: 768px) {
+    font-size: 0.8rem;
+    padding: 0 0.4rem;
+    line-height: 1.65rem;
+  }
+
 `;
