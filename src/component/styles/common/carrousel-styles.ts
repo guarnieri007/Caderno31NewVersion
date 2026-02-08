@@ -77,7 +77,7 @@ export const CarrouselMainDiv = styled.div`
     padding-top: 0px;
     display: flex;
     flex-direction: row;
-    gap: ${(p) => p.theme.spacings.normal};
+    gap: ${(p) => p.theme.spacings["main-padding"]};
 
     span {
       margin: 0px 8px;
@@ -92,6 +92,9 @@ export const CarrouselMainDiv = styled.div`
       padding: 6px ${(prop) => prop.theme.spacings.small};
       height: min-content;
       line-height: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     button:hover {

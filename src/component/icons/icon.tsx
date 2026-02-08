@@ -5,14 +5,17 @@ import AnexoIcon from "@/assets/icons/anexo.svg?react";
 import AudioIcon from "@/assets/icons/audio_file.svg?react";
 import BackspaceIcon from "../../assets/icons/backspace.svg?react";
 import BookIcon from "../../assets/icons/book-open.svg?react";
-import ChevronDownIcon from "@/assets/icons/chevron-down.svg?react"
-import ChevronUpIcon from "@/assets/icons/chevron-up.svg?react"
+import ChevronDownIcon from "@/assets/icons/chevron-down.svg?react";
+import ChevronLeftIcon from "@/assets/icons/chevron-left.svg?react";
+import ChevronRightIcon from "@/assets/icons/chevron-right.svg?react";
+import ChevronUpIcon from "@/assets/icons/chevron-up.svg?react";
 import IdCardIcon from "@/assets/icons/id-card.svg?react";
 import KeyIcon from "@/assets/icons/key.svg?react";
 import LetterIcon from "@/assets/icons/letter.svg?react";
 import LockIcon from "@/assets/icons/lock.svg?react";
 import PauseIcon from "@/assets/icons/pause.svg?react";
 import PhotoIcon from "@/assets/icons/photo.svg?react";
+import PhotoAlternativeIcon from "@/assets/icons/photo-alternative.svg?react";
 import PlayIcon from "@/assets/icons/play.svg?react";
 import RetryErrorIcon from "@/assets/icons/retry_error.svg?react";
 import SaveIcon from "@/assets/icons/save.svg?react";
@@ -38,6 +41,8 @@ const Icon = ({ icon, ...rest }: IconProps): ReactElement => {
     [UIIcons.Backspace]: BackspaceIcon,
     [UIIcons.Book]: BookIcon,
     [UIIcons.ChevronDown]: ChevronDownIcon,
+    [UIIcons.ChevronLeft]: ChevronLeftIcon,
+    [UIIcons.ChevronRight]: ChevronRightIcon,
     [UIIcons.ChevronUp]: ChevronUpIcon,
     [UIIcons.IdCard]: IdCardIcon,
     [UIIcons.Key]: KeyIcon,
@@ -45,6 +50,7 @@ const Icon = ({ icon, ...rest }: IconProps): ReactElement => {
     [UIIcons.Lock]: LockIcon,
     [UIIcons.Pause]: PauseIcon,
     [UIIcons.Photo]: PhotoIcon,
+    [UIIcons.PhotoAlternative]: PhotoAlternativeIcon,
     [UIIcons.Play]: PlayIcon,
     [UIIcons.RecEmpty]: "",
     [UIIcons.RetryError]: RetryErrorIcon,

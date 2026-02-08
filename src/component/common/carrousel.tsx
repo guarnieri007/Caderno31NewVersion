@@ -165,11 +165,11 @@ export const Carrousel = ({ children }: CarrouselProps): ReactElement => {
                 {childrenArray.length > 1 && (
                     <>
                         <button className="previous-button" onClick={() => scroll("left")}>
-                            <Icon icon={UIIcons.ChevronDown} size={16} />
+                            <Icon icon={UIIcons.ChevronLeft} size={20} color="#fff" />
                         </button>
 
                         <button className="next-button" onClick={() => scroll("right")}>
-                            <Icon icon={UIIcons.ChevronUp} size={16} />
+                            <Icon icon={UIIcons.ChevronRight} size={20} color="#fff" />
                         </button>
                     </>
                 )}
