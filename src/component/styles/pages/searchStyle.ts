@@ -20,8 +20,12 @@ export const PageSearchContainer = styled.div`
     border-radius: 6px;
     cursor: pointer;
 
-    span {
-        color: #acd;
+    span
+    {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: ${({theme}) => theme.colors.button_text};
     }
   }
 `;
