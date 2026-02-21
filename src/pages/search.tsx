@@ -1,18 +1,14 @@
-import React, { ReactElement, useEffect, useRef, useState } from "react";
-import littleMonkey from "../assets/images/notFound/macaquito.png";
+import { ReactElement, useEffect, useRef, useState } from "react";
 import { useTheme } from "styled-components";
 import { DefaultTheme } from "styled-components/dist/types";
-import { Button } from "../component/common/button";
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
+//import { useNavigate } from "react-router-dom";
 import { useI18n } from "../i18n";
 import Icon from "../component/icons/icon";
 import { UIIcons } from "../component/icons";
 import { MobileSidebar, PageSearchContainer } from "../component/styles/pages/searchStyle";
-import Overlay from "../component/common/overlay";
 
 export const Page_search = (): ReactElement => {
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
     const theme: DefaultTheme = useTheme();
     const { t } = useI18n();
 
@@ -69,7 +65,7 @@ export const Page_search = (): ReactElement => {
                             <p>{t('component.common.filter.search_description')}</p>
                         </div>
                         <div className="closeButton" onClick={() => closeMobileSidebar()}>
-                            <Icon icon={UIIcons.Close} size={35} color="#8f2323" />
+                            <Icon icon={UIIcons.Close} size={35} color={theme.colors.text} />
                         </div>
                     </div>
                     Mobile options
