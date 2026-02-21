@@ -9,10 +9,12 @@ import ChevronDownIcon from "@/assets/icons/chevron-down.svg?react";
 import ChevronLeftIcon from "@/assets/icons/chevron-left.svg?react";
 import ChevronRightIcon from "@/assets/icons/chevron-right.svg?react";
 import ChevronUpIcon from "@/assets/icons/chevron-up.svg?react";
+import CloseIcon from "@/assets/icons/closeX.svg?react";
 import IdCardIcon from "@/assets/icons/id-card.svg?react";
 import KeyIcon from "@/assets/icons/key.svg?react";
 import LetterIcon from "@/assets/icons/letter.svg?react";
 import LockIcon from "@/assets/icons/lock.svg?react";
+import MeltStudioIcon from "@/assets/icons/LogoMelt.svg?react";
 import PauseIcon from "@/assets/icons/pause.svg?react";
 import PhotoIcon from "@/assets/icons/photo.svg?react";
 import PhotoAlternativeIcon from "@/assets/icons/photo-alternative.svg?react";
@@ -44,10 +46,12 @@ const Icon = ({ icon, ...rest }: IconProps): ReactElement => {
     [UIIcons.ChevronLeft]: ChevronLeftIcon,
     [UIIcons.ChevronRight]: ChevronRightIcon,
     [UIIcons.ChevronUp]: ChevronUpIcon,
+    [UIIcons.Close]: CloseIcon,
     [UIIcons.IdCard]: IdCardIcon,
     [UIIcons.Key]: KeyIcon,
     [UIIcons.Letter]: LetterIcon,
     [UIIcons.Lock]: LockIcon,
+    [UIIcons.MeltStudio]: MeltStudioIcon,
     [UIIcons.Pause]: PauseIcon,
     [UIIcons.Photo]: PhotoIcon,
     [UIIcons.PhotoAlternative]: PhotoAlternativeIcon,
