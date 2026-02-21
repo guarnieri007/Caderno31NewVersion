@@ -80,10 +80,7 @@ export const CarrouselMainDiv = styled.div`
     gap: ${(p) => p.theme.spacings["main-padding"]};
 
     span {
-      margin: 0px 8px;
-      min-width: 80px;
       text-align: center;
-      line-height: 33px;
       pointer-events: none;
       user-select: none;
     }
@@ -95,6 +92,12 @@ export const CarrouselMainDiv = styled.div`
       display: flex;
       align-items: center;
       justify-content: center;
+
+      * {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        }
     }
 
     button:hover {

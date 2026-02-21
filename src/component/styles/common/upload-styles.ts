@@ -7,7 +7,7 @@ export const UploadItemsHolder = styled.div`
     gap: 12px;
     margin-top: 16px;
 
-    @media (min-width: 768px) {
+    @media (min-width: 769px) {
         grid-template-columns: 1fr 1fr 1fr;
     }
 `;

@@ -6,10 +6,10 @@ export const OverlayStyle = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.65);
+    background: rgba(0, 0, 0, 0.4);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 9999;
+    z-index: 3;
 
 `

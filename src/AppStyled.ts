@@ -233,7 +233,7 @@ export const HeaderComponent = styled.header`
         align-items: inherit;
         gap: ${({theme}) => theme.spacings.small};
         width: inherit;
-        @media (min-width: 768px) {
+        @media (min-width: 769px) {
 
             :first-child {
                 margin-left: auto;

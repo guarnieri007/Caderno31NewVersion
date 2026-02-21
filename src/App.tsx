@@ -13,6 +13,7 @@ import { PublishContent } from './pages/publishContent'
 import { useRemoveScroll } from './context/RemoveScroll'
 import { useEffect } from 'react'
 import { ResetPassword } from './pages/ResetPassword'
+import { Page_search } from './pages/search'
 
 function App() {
   const mainBody = document.querySelector('body');
@@ -38,6 +39,7 @@ function App() {
               <Route path='/signupUser' element={<SignUp />} />
               <Route path='/reset-password' element={<ResetPassword />} />
               <Route path='/publishContent' element={<PublishContent />} />
+              <Route path='/search' element={<Page_search />} />
               <Route path='*' element={<NotFound404/>} />
             </Routes>
           </MainContent>

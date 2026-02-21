@@ -3,6 +3,8 @@ import { CarrouselMainDiv } from "../styles/common/carrousel-styles";
 import { CarrouselProps } from "../../interfaces";
 import Icon from "../icons/icon";
 import { UIIcons } from "../icons";
+import { useTheme } from "styled-components";
+import { Button } from "./button";
 
 export const Carrousel = ({ children }: CarrouselProps): ReactElement => {
     const childrenArray = React.Children.toArray(children);
@@ -11,6 +13,9 @@ export const Carrousel = ({ children }: CarrouselProps): ReactElement => {
     // Animation config
     const ANIMATION_MS = 800; // try 900-1400 for a visible slide
     const EPS = 0.5;
+    
+    // Importing the theme
+    const theme = useTheme();
 
     // Keep track of the current animation so we can cancel it
     const rafIdRef = React.useRef<number | null>(null);
@@ -164,13 +169,13 @@ export const Carrousel = ({ children }: CarrouselProps): ReactElement => {
             <div className="defaultPadding navegation">
                 {childrenArray.length > 1 && (
                     <>
-                        <button className="previous-button" onClick={() => scroll("left")}>
-                            <Icon icon={UIIcons.ChevronLeft} size={20} color="#fff" />
-                        </button>
+                        <Button className="previous-button" handleOnClick={() => scroll("left")} color="secondary">
+                            <Icon icon={UIIcons.ChevronLeft} size={20} color={theme.colors.button_text} />
+                        </Button>
 
-                        <button className="next-button" onClick={() => scroll("right")}>
-                            <Icon icon={UIIcons.ChevronRight} size={20} color="#fff" />
-                        </button>
+                        <Button className="next-button" handleOnClick={() => scroll("right")} color="secondary">
+                            <Icon icon={UIIcons.ChevronRight} size={20} color={theme.colors.button_text} />
+                        </Button>
                     </>
                 )}
             </div>

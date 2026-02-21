@@ -41,11 +41,11 @@ export const Header = (): ReactElement => {
         <div className="left">
 
           <NavLink to="/" className="logo">
-            <Icon icon={UIIcons.Book} size={24} color="#000" />
+            <Icon icon={UIIcons.Book} size={24} color="#fff" />
             <span className="title">Caderno31</span>
           </NavLink>
           <LanguageSwitcher />
-          <NavLink to="/categories">{t('component.common.header.categories', undefined, 'Categories')}</NavLink>
+          <NavLink to="/search">{t('component.common.header.categories', undefined, 'Categories')}</NavLink>
           <NavLink to="/posts">{t('component.common.header.posts', undefined, 'Posts')}</NavLink>
         </div>
         <div className="right">

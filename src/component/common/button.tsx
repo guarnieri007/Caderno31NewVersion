@@ -1,8 +1,9 @@
-import { ReactNode } from "react"
+import { ButtonHTMLAttributes, ReactNode } from "react"
 import { ReactElement } from "react"
 import { ButtonStyled, Spinner } from "../styles/common/common-styles"
 
-export interface ButtonProps {
+// extends the button class, now the component is able to receive button properties
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     color: "primary" | "secondary",
     handleOnClick?: () => void,
     children: ReactNode,
@@ -12,11 +13,12 @@ export interface ButtonProps {
     loading?: boolean;
 }
 
-export const Button = ({ color, handleOnClick, children, type = "button", width, loading = false, clicable = true }: ButtonProps): ReactElement => {
+export const Button = ({ color, handleOnClick, children, type = "button", width, loading = false, clicable = true, ...rest }: ButtonProps): ReactElement => {
     const widthValue = (width != undefined && width != "") ? width : "initial";
     return (
         <>
             <ButtonStyled
+                {...rest}
                 type={type}
                 width={widthValue}
                 button_theme={color}
