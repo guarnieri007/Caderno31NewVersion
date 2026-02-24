@@ -173,10 +173,7 @@ export const HeaderComponent = styled.header`
             svg {
                 fill: ${(prop) => prop.theme.colors.text};
             }
-            &.active svg {
-                fill: ${(prop) => prop.theme.colors.text_hover};
-            }
-
+            
             .title {
                 color: ${(prop) => prop.theme.colors.text};
                 font-size: 20px;
@@ -184,18 +181,21 @@ export const HeaderComponent = styled.header`
                 font-weight: 800;
                 line-height: 26px;
             }
-
-            &.active .title {
-                color: ${(prop) => prop.theme.colors.text_hover};
+            
+            // when the description and icon are hovered and when they are selected (active)
+            &.active .title, &.active svg, &:hover .title, &:hover svg {
+                color: ${(prop) => prop.theme.colors.button_text_hover};
+                fill: ${(prop) => prop.theme.colors.button_text_hover};
             }
         }
 
 
         a {
+            padding: ${(prop) => prop.theme.spacings.min} ${(prop) => prop.theme.spacings.small};
             color: ${(prop) => prop.theme.colors.text};
             font-size: 16px;
             font-weight: 500;
-            line-height: 22px;
+            font-weight: 800;
             position: relative;
             text-decoration: none;
             height: 100%;
@@ -217,12 +217,13 @@ export const HeaderComponent = styled.header`
                 bottom: -6px;
                 left: 0px;
                 width: 100%;
-                height: 2px;
-                background-color: ${(prop) => prop.theme.colors.button_text_hover};
+                height: 1px;
             }
         }
-        a.active {
-            color: ${(prop) => prop.theme.colors.text_hover};
+        > a.active,> :hover {
+            border-radius: ${(prop) => prop.theme.spacings.small};
+            background-color: ${(prop) => prop.theme.colors.primary_hover};
+            color: ${(prop) => prop.theme.colors.button_text_hover};
         }
     }
 

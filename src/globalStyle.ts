@@ -14,17 +14,6 @@ export const GlobalStyles = createGlobalStyle`
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
-
-    /* --main-padding: ${(prop) => prop.theme.spacings["main-padding"]};  
-    --primary-color: ${(prop) => prop.theme.colors.primary};
-    --primary-hover-color: ${(prop) => prop.theme.colors.primary_hover};
-    --background-color: ${(prop) => prop.theme.colors.background_primary};
-    --background-secondary: ${(prop) => prop.theme.colors.background_secondary};
-    --text-color: ${(prop) => prop.theme.colors.text};
-    --text-color-hover: ${(prop) => prop.theme.colors.text_hover};
-    --button-text-color: ${(prop) => prop.theme.colors.button_text};
-    --button-text-color_hover: ${(prop) => prop.theme.colors.button_text_hover};
-    --button-background-color: ${(prop) => prop.theme.colors.button_background}; */
 }
 
 body

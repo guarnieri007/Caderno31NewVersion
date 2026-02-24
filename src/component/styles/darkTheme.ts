@@ -6,7 +6,7 @@ export const darkTheme = {
       "primary": "#00B2FF",
       "primary_hover": "#3a91a5",
       "background_primary": "#21252B",
-      "background_secondary": "#242C33",
+      "background_secondary": "#222a32",
       "background_card": "#2f343d",
       "text": "#DEDBCC",
       "text_hover": "#fff",

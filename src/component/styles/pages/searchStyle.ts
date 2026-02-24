@@ -79,11 +79,11 @@ export const MobileSidebar = styled.div<{ $open: boolean }>`
     display: block;
     top: 0;
     bottom: 0;
-    width: 90%;
+    width: 82%;
     height: 100dvh;
-    background: #363434;
+    background: ${({theme}) => theme.colors.background_primary};
     overflow-y: auto;
-    color: #5FFFE2;
+    color: ${({theme}) => theme.colors.text};
     padding: 0px;
     margin: 0px;
   }
