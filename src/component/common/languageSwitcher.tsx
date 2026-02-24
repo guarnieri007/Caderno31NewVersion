@@ -3,6 +3,8 @@ import { Button } from './button';
 import { useLanguage } from '../../context/Language';
 import { LanguageSwitcherStyles } from '../styles/common/languageSwitcher-styles';
 import { useI18n } from '../../i18n';
+import Icon from '../icons/icon';
+import { UIIcons } from '../icons';
 
 export const LanguageSwitcher = (): ReactElement => {
   const { language, changeLanguage } = useLanguage();
@@ -62,6 +64,7 @@ export const LanguageSwitcher = (): ReactElement => {
       <div className='SelectedLanguage' onClick={() => setIsOpen(!isOpen)} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
         <span className='noSelection'>{languages.find(lang => lang.code === language)?.flag}</span>
         <span className='noSelection'>{t(`component.common.header.${language}`)}</span>
+        <Icon icon={isOpen ? UIIcons.ChevronUp : UIIcons.ChevronDown} size={10} />
       </div>
       <div className='AvailableLanguages'>
         {availableLanguages.map(lang => (

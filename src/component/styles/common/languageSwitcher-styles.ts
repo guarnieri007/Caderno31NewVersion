@@ -13,9 +13,9 @@ export const LanguageSwitcherStyles = styled.div.withConfig({
     display: flex;
     gap: 8px;
     height: 100%;
-    background-color: ${(prop) => prop.isOpen ? prop.theme.colors.primary : prop.isHovered ? prop.theme.colors.primary_hover : 'none'};
+    background-color: ${(prop) => prop.isOpen ? prop.theme.colors.primary_hover : prop.isHovered ? prop.theme.colors.primary_hover : 'none'};
     border-radius: ${(prop) => prop.theme.spacings.small};
-    color: ${(prop) => prop.isOpen ? prop.theme.colors.button_text_hover : prop.isHovered ? prop.theme.colors.text_hover : prop.theme.colors.text};
+    color: ${(prop) => prop.isOpen ? prop.theme.colors.text_hover : prop.isHovered ? prop.theme.colors.text_hover : prop.theme.colors.text};
 
     cursor: pointer;
     
