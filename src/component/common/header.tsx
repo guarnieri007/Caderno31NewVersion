@@ -43,7 +43,7 @@ export const Header = (): ReactElement => {
         <div className="left">
 
           <NavLink to="/" className="logo">
-            <Icon icon={UIIcons.Book} size={24} color="#fff" />
+            <Icon icon={UIIcons.Book} size={24} />
             <span className="title">Caderno31</span>
           </NavLink>
           <LanguageSwitcher />
