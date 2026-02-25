@@ -10,7 +10,7 @@ export const MakeLoginStyle = styled.div`
         overflow-y: auto;
         display: flex;
         flex-direction: column;
-        gap: ${(prop) => prop.theme.spacings["main-padding"]};
+        gap: ${(prop) => prop.theme.spacings["biger"]};
         max-height: 80dvh;
         overflow-x: auto;
 

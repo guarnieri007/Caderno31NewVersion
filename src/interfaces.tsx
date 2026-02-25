@@ -101,6 +101,7 @@ export interface HeroProps {
   handleClickButton?: () => void;
   bg_color?: string;
   image?: string;
+  text_color?: string;
 }
 
 export interface InputFIeldProps {
@@ -205,6 +206,37 @@ export interface ResponsePostType {
   cd_post_type: number;
   translations: PostTypeTranslation[];
   slug: string;
+}
+
+export interface ThemeType {
+  
+  spacings: {
+    biger: string;
+    big: string;
+    normal: string;
+    reduced: string;
+    small: string;
+    min: string;
+  };
+
+  colors: {
+      primary: string,
+      primary_hover: string,
+      border_default: string,
+      hero_text: string,
+      background_primary: string,
+      background_secondary: string,
+      background_card: string,
+      text: string,
+      text_hover: string,
+      button_text: string,
+      button_text_hover: string,
+      button_background: string,
+      placeHolder: string,
+      placeHolder_focus: string,
+      error: string,
+      success: string,
+    }, 
 }
 
 export interface UploadAreaProps {

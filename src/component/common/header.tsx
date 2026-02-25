@@ -10,6 +10,7 @@ import { LanguageSwitcher } from "./languageSwitcher";
 import { Spinner } from "../styles/common/common-styles";
 import { useI18n } from "../../i18n";
 import { Login_overlay } from "../complex/login-overlay";
+import { useAppTheme } from "../../context/ThemeContext";
 
 export const Header = (): ReactElement => {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ export const Header = (): ReactElement => {
   const { handleLogout, loadingLogout } = useLogout();
   const [showLogin, setShowLogin] = useState(false); // 🔥 controla se o overlay aparece
   const { t } = useI18n();
+  const {setMode} = useAppTheme();
 
   function GoToSignup() {
     navigate("/signupUser");
@@ -47,6 +49,8 @@ export const Header = (): ReactElement => {
           <LanguageSwitcher />
           <NavLink to="/search">{t('component.common.header.categories', undefined, 'Categories')}</NavLink>
           <NavLink to="/posts">{t('component.common.header.posts', undefined, 'Posts')}</NavLink>
+          <span onClick={() => setMode("light")}>light</span>
+          <span onClick={() => setMode("dark")}>dark</span>
         </div>
         <div className="right">
           {firstFetching ? (

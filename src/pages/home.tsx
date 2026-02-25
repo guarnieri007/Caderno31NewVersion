@@ -66,7 +66,7 @@ export const Home = (): ReactElement => {
     const buildBannerHero = (content: HeroProps[]) => {
         return (content.map((item) => {
             return (
-                <Hero key={item.id_hero} {...item} />
+                <Hero key={item.id_hero} {...item} text_color="#acd" />
             )
         }));
     }
@@ -107,7 +107,7 @@ export const Home = (): ReactElement => {
         try {
             const content = await FetchHeroBanners();
             const result = buildBannerHero(content.data);
-            console.log(`Hero banners result: ${JSON.stringify(result)}`);
+
             setHeroBanners(result);
 
         }

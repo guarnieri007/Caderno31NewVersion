@@ -26,7 +26,7 @@ export const CarrouselMainDiv = styled.div`
   gap: ${(p) => p.theme.spacings.big};
 
   /* Only vertical padding here */
-  padding-block: ${(p) => p.theme.spacings["main-padding"]};
+  padding-block: ${(p) => p.theme.spacings["biger"]};
   padding-bottom: ${(p) => p.theme.spacings.small};
 
   /* No horizontal padding; we'll do it via edge spacers */
@@ -46,7 +46,7 @@ export const CarrouselMainDiv = styled.div`
   box-sizing: border-box;
 }
 
-/* Bigger spacers = the "fake neighbor" on both ends + gutter */
+/* biger spacers = the "fake neighbor" on both ends + gutter */
 .track::before,
 .track::after {
   content: "";
@@ -77,7 +77,7 @@ export const CarrouselMainDiv = styled.div`
     padding-top: 0px;
     display: flex;
     flex-direction: row;
-    gap: ${(p) => p.theme.spacings["main-padding"]};
+    gap: ${(p) => p.theme.spacings["biger"]};
 
     span {
       text-align: center;

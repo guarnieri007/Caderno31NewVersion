@@ -1,7 +1,6 @@
 import { ReactElement, useEffect, useRef, useState } from "react";
 import { useTheme } from "styled-components";
 import { DefaultTheme } from "styled-components/dist/types";
-//import { useNavigate } from "react-router-dom";
 import { useI18n } from "../i18n";
 import Icon from "../component/icons/icon";
 import { UIIcons } from "../component/icons";

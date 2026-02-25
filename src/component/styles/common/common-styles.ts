@@ -75,9 +75,10 @@ export const Spinner = styled.span`
 interface HeroHeaderProps {
   bg_color: string | undefined;
   bg_image: string | undefined;
+  text_color: string;
 }
 export const HeroHeader = styled.header.withConfig({
-  shouldForwardProp: (prop) => !['bg_color', 'bg_image'].includes(prop),
+  shouldForwardProp: (prop) => !['bg_color', 'bg_image', 'text_color'].includes(prop),
 })<HeroHeaderProps>`
 
 display: flex;
@@ -85,13 +86,13 @@ flex-direction: column;
 align-items: start;
 height: 523px;
 box-sizing: border-box;
-padding: 12px ${(prop) => prop.theme.spacings["main-padding"]};
+padding: 12px ${(prop) => prop.theme.spacings["biger"]};
 padding-bottom: 56px;
 border-radius: 16px;
 background-repeat: no-repeat;
 background-position: right center;
 background-size: auto 364px;
-border: solid 1px ${(prop) => prop.theme.colors.text};
+border: solid 1px ${(prop) => prop.theme.colors.border_default};
 background-color: ${(prop) => prop.bg_color !== null ? prop.bg_color : "#fff"};
 background-image: url(${(prop) => (prop.bg_image !== null && prop.bg_image !== undefined) ? prop.bg_image : "#fff"});
 
@@ -102,7 +103,7 @@ h1 {
   padding: 0px;
   margin-top: 0;
   max-width: min(950px, 60%);
-  color: ${(prop) => prop.theme.colors.text_hover};
+  color: ${(prop) => prop.text_color};
   font-size: 48px;
   font-weight: 800;
   line-height: 62px;
@@ -113,7 +114,7 @@ h1 {
 
 p {
   margin-top: 20px;
-  color: ${(prop) => prop.theme.colors.text_hover};
+  color: ${(prop) => prop.text_color};
   font-size: 18px;
   line-height: 22px;
 }
@@ -247,7 +248,7 @@ export const ContentCreatorDiv = styled.div.withConfig({
   display: grid;
   grid-template-columns: repeat(${(prop) => prop.number_items_uhd ? prop.number_items_uhd : 4}, 1fr);
   gap: ${(prop) => prop.theme.spacings.big};
-  row-gap: ${(prop) => prop.theme.spacings["main-padding"]};
+  row-gap: ${(prop) => prop.theme.spacings["biger"]};
   overflow-y: auto;
   padding-bottom: 24px;
   @media (max-width: 1081px) {

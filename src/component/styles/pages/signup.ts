@@ -13,7 +13,7 @@ export const SignUpPage = styled.div<BannerDivProps>`
     
     .photo {
         box-sizing: border-box;
-        padding: ${(prop) => prop.theme.spacings["main-padding"]};
+        padding: ${(prop) => prop.theme.spacings["biger"]};
         padding-bottom: ${(prop) => prop.theme.spacings.normal};
         background-image: url(${(prop) => prop.bg_image});
         height: 100%;
@@ -24,7 +24,7 @@ export const SignUpPage = styled.div<BannerDivProps>`
     }
     .form {
         box-sizing: border-box;
-        padding: ${(prop) => prop.theme.spacings["main-padding"]};
+        padding: ${(prop) => prop.theme.spacings["biger"]};
         background-color: ${(prop) => prop.theme.colors.background_secondary};
         height: 100%;
         
@@ -36,7 +36,7 @@ export const SignUpPage = styled.div<BannerDivProps>`
             text-align: center;
             padding: 0px;
             margin: 0px;
-            margin-top: ${(prop) => prop.theme.spacings["main-padding"]};
+            margin-top: ${(prop) => prop.theme.spacings["biger"]};
         }
         h2 {
             color: ${(prop) => prop.theme.colors.text_hover};

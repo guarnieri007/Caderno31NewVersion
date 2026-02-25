@@ -7,6 +7,7 @@ import { UploadFilesProvider } from './context/UploadFiles.tsx'
 import { LanguageProvider } from './context/Language.tsx';
 import { PostsProvider } from './context/Posts.tsx';
 import { ForgotPasswordProvider } from './context/ForgotPasswordContext.tsx';
+import { AppThemeProvider } from './context/ThemeContext.tsx';
 
 
 createRoot(document.getElementById('root')!).render(
@@ -17,7 +18,9 @@ createRoot(document.getElementById('root')!).render(
           <ForgotPasswordProvider>
             <PostsProvider>
               <BrowserRouter>
+              <AppThemeProvider>
                 <App />
+              </AppThemeProvider>
               </BrowserRouter>
             </PostsProvider>
           </ForgotPasswordProvider>

@@ -5,7 +5,7 @@ export const PublishContentStyle = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: start;
-    margin: ${({ theme }) => theme.spacings["main-padding"]} 0px;
+    margin: ${({ theme }) => theme.spacings["biger"]} 0px;
 
   & .card_style {
     top: 92px;

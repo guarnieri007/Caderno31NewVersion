@@ -94,7 +94,7 @@ export const FooterContainer = styled.div`
         }
 
         .footerRight {
-            padding: ${(prop) => prop.theme.spacings.normal} ${(prop) => prop.theme.spacings["main-padding"]};
+            padding: ${(prop) => prop.theme.spacings.normal} ${(prop) => prop.theme.spacings["biger"]};
             display: flex;
             flex-direction: column;
             align-items: end;
@@ -144,7 +144,7 @@ export const HeaderComponent = styled.header`
     z-index: 1;
     top: 0px;
     box-sizing: border-box;
-    padding: 12px ${(prop) => prop.theme.spacings["main-padding"]};
+    padding: 12px ${(prop) => prop.theme.spacings["biger"]};
     gap: 24px;
     display: flex;
     flex-direction: row;
@@ -153,7 +153,7 @@ export const HeaderComponent = styled.header`
     min-height: 65px;
     height: auto;
     background-color: ${(prop) => prop.theme.colors.background_primary};
-    border-bottom: solid ${(prop) => prop.theme.colors.button_text_hover} 3px;
+    border-bottom: solid ${(prop) => prop.theme.colors.border_default} 3px;
 
     .left {
         display: inherit;

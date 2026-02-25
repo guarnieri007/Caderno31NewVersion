@@ -36,7 +36,7 @@ body
   width: inherit;
   height: auto;
   overflow: hidden;
-  padding: 24px ${(prop) => prop.theme.spacings["main-padding"]};
+  padding: 24px ${(prop) => prop.theme.spacings["biger"]};
 }
 
 .grid3items > div {

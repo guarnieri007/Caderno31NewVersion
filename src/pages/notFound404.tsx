@@ -16,7 +16,7 @@ export const NotFound404 = (): ReactElement => {
     width: "auto";
     height: "auto";
     margin: "0 auto";
-    padding: ${(prop) => prop.theme.spacings.normal} ${(prop) => prop.theme.spacings["main-padding"]};
+    padding: ${(prop) => prop.theme.spacings.normal} ${(prop) => prop.theme.spacings["biger"]};
 
     @media (max-width: 768px) {
         .content {
