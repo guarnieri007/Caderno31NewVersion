@@ -12,11 +12,9 @@ import { useRemoveScroll } from './context/RemoveScroll'
 import { useEffect } from 'react'
 import { ResetPassword } from './pages/ResetPassword'
 import { Page_search } from './pages/search'
-import { lightTheme } from './component/styles/lightTheme'
 
 function App() {
   const removeScroll = useRemoveScroll();
-  const lightThemeOption = lightTheme;
 
   useEffect(() => {
     document.body.classList.toggle("remove-scroll", removeScroll);
