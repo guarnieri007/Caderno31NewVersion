@@ -21,6 +21,7 @@ export interface AuthContextType {
 
 export interface BannerDivProps {
   bg_image?: string;
+  $text_color?: string;
 }
 
 export interface BannerProps {

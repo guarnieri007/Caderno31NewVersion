@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { withAlpha } from "../../../helper/colors";
 
 const description_lineHeight = 3.6;
 const description_lineHeightUnit = "rem";
@@ -20,9 +21,12 @@ export const ItemAsCardDiv = styled.div.withConfig({
     flex-direction: column;
     max-width: 100%;
     overflow: hidden;
+    box-shadow: -2px 2px 2px rgba(0, 0, 0, 0.3);
     
     .cardImage {
-        background-image: ${(prop) => prop.bg_image};
+        background-image: ${(prop) => `linear-gradient(${withAlpha(prop.theme.colors.background_primary, 0.0)},
+        ${withAlpha(prop.theme.colors.background_primary, 0.0)},
+        ${withAlpha(prop.theme.colors.background_secondary, 0.5)}), ${prop.bg_image}`};
         border-radius: 16px 16px 8px 8px !important;
         background-repeat: no-repeat;
         background-position: center;
@@ -32,12 +36,11 @@ export const ItemAsCardDiv = styled.div.withConfig({
         max-height: 265px;
         border-radius: 8px 8px 0px 0px;
         background-color: ${(prop) => prop.theme.colors.background_primary};
-
+        
         .cardData {
             display: flex;
             flex-direction: column;
             height: 100%;
-            background-color: rgba(0,0,0,0.65);
             .price {
                 height: auto;
                 display: flex;
@@ -73,16 +76,30 @@ export const ItemAsCardDiv = styled.div.withConfig({
                 width: 100%;
                 margin-top: auto;
                 padding: ${(prop) => prop.theme.spacings.small};
-                gap: 16px;
+                gap: 0px;
                 min-height: 32px;
                 height: auto;
                 div{
+                    background-color: ${(prop) => withAlpha(prop.theme.colors.background_secondary, 0.85)};
                     display: flex;
                     flex-direction: row;
                     align-items: center;
                     align-content: center;
+                    padding: 6px 8px;
                     gap: 2px;
                     width: min-content;
+                    border-top: 1px solid ${(prop) => prop.theme.colors.border_default};
+                    border-bottom: 1px solid ${(prop) => prop.theme.colors.border_default};
+                    &:first-child {
+                        border-left: 1px solid ${(prop) => prop.theme.colors.border_default};
+                        border-top-left-radius: ${(prop) => prop.theme.spacings.small};
+                        border-bottom-left-radius: ${(prop) => prop.theme.spacings.small};
+                    }
+                    &:last-child {
+                        border-right: 1px solid ${(prop) => prop.theme.colors.border_default};
+                        border-top-right-radius: ${(prop) => prop.theme.spacings.small};
+                        border-bottom-right-radius: ${(prop) => prop.theme.spacings.small};
+                    }
                     img {
                         width:24px;
                         height:auto;
@@ -91,7 +108,7 @@ export const ItemAsCardDiv = styled.div.withConfig({
                         color: ${(prop) => prop.theme.colors.text};
                         width: auto;
                         height: auto;
-                        line-height: 32px;
+                        line-height: 1rem;
                     }
                 }
             }

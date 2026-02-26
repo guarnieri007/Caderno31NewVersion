@@ -6,7 +6,7 @@ import { Button } from "./button";
 
 export const Banner = ({ text_button, image, text, title }: BannerProps): ReactElement => {
     return (
-        <BannerDiv bg_image={image}>
+        <BannerDiv bg_image={image} $text_color={"#fff"}>
             <div>
                 <Chip bg_color={undefined} text_color={undefined}>
                     {title}

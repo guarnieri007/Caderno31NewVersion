@@ -16,7 +16,7 @@ export const lightTheme: ThemeType = {
     background_secondary: "#d2dbe4",
 
     // Cards / panels
-    background_card: "#ff0000",
+    background_card: "#FAFBFC",
     hero_text: "#e0e6f0",
 
     // --- text ---

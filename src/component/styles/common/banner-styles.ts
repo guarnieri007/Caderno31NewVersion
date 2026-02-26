@@ -4,9 +4,9 @@ import styled from "styled-components";
 export const BannerDiv = styled.div.withConfig({
     shouldForwardProp: (prop) => !['bg_image'].includes(prop),
 })<BannerDivProps>`
-    border: 1px solid ${(prop) => prop.theme.colors.text};
+    border: 2px solid ${(prop) => prop.theme.colors.text};
     background-color: ${(prop) => prop.theme.colors.background_primary};
-    color: ${(prop) => prop.theme.colors.text_hover};
+    color: ${(prop) => prop.$text_color};
     border-radius: 16px;
     box-sizing: border-box;
     padding: 1rem;
@@ -14,8 +14,8 @@ export const BannerDiv = styled.div.withConfig({
     display: flex;
     flex-direction: row;
     
-    background-image: ${(prop) => prop.bg_image
-        ? `linear-gradient(rgba(31, 36, 46, 0.4), rgba(31, 36, 46, 0.5)), ${prop.bg_image}`
+    background-image: ${(prop) => prop.bg_image !== undefined && prop.bg_image !== null && prop.bg_image !== ""
+        ? `linear-gradient(rgba(31, 36, 46, 0.2), rgba(31, 36, 46, 0.7), rgba(31, 36, 46, 0.45)), ${prop.bg_image}`
         : null};
     
     background-position: right;

@@ -9,7 +9,6 @@ import { useTheme } from "styled-components";
 
 export const Hero = ({ title, text, text_button, handleClickButton, text_color, bg_color, image }: HeroProps): ReactElement => {
     const theme = useTheme();
-    console.log(`Title: ${title}\nText: ${text}`)
     const fallback_text_color = text_color ?? theme.colors.hero_text;
     return (
         <HeroHeader

@@ -92,7 +92,7 @@ border-radius: 16px;
 background-repeat: no-repeat;
 background-position: right center;
 background-size: auto 364px;
-border: solid 1px ${(prop) => prop.theme.colors.border_default};
+border: solid 16px ${(prop) => prop.theme.colors.border_default};
 background-color: ${(prop) => prop.bg_color !== null ? prop.bg_color : "#fff"};
 background-image: url(${(prop) => (prop.bg_image !== null && prop.bg_image !== undefined) ? prop.bg_image : "#fff"});
 
@@ -173,7 +173,7 @@ export const CreatorChipDiv = styled.div`
   width: 100%;
   max-width: 100%;
   height: 105px;
-  background-color: #030303;
+  background-color: ${({theme}) => theme.colors.background_secondary};
   border-radius: 8px;
   box-sizing: border-box;
   display: flex;
@@ -184,7 +184,7 @@ export const CreatorChipDiv = styled.div`
   border: 1px solid transparent;
   
   &:hover {
-    border: 1px solid ${(prop) => prop.theme.colors.text};
+    border: 1px solid ${(prop) => prop.theme.colors.border_default};
   }
 
   img {
