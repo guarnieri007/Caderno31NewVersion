@@ -190,7 +190,7 @@ export const HeaderComponent = styled.header`
         }
 
 
-        a {
+        >* {
             padding: ${(prop) => prop.theme.spacings.min} ${(prop) => prop.theme.spacings.small};
             color: ${(prop) => prop.theme.colors.text};
             font-size: 16px;

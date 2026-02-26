@@ -16,7 +16,7 @@ export const MakeLoginStyle = styled.div`
 
     .closeButton {
         background: transparent;
-        border: 1px solid #fff;
+        border: 1px solid ${({ theme }) => theme.colors.border_default};
         border-radius: 5px;
         padding: 5px 10px;
         margin-left: auto;

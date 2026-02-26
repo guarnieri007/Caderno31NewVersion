@@ -59,6 +59,8 @@ export const LanguageSwitcher = (): ReactElement => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [language]);
 
+  console.log(`isOpen: ${isOpen}, isHovered: ${isHovered}`);
+
   return (
     <LanguageSwitcherStyles isOpen={isOpen} isHovered={isHovered} ref={dropdownRef}>
       <div className='SelectedLanguage' onClick={() => setIsOpen(!isOpen)} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
