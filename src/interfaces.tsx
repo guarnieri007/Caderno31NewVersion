@@ -209,7 +209,7 @@ export interface ResponsePostType {
 }
 
 export interface ThemeType {
-  
+
   spacings: {
     biger: string;
     big: string;
@@ -219,24 +219,32 @@ export interface ThemeType {
     min: string;
   };
 
+  borderRadius: {
+    small: string,
+    mediumX0: string,
+    mediumX1: string,
+    mediumX2: string,
+    large: string,
+  }
+
   colors: {
-      primary: string,
-      primary_hover: string,
-      border_default: string,
-      hero_text: string,
-      background_primary: string,
-      background_secondary: string,
-      background_card: string,
-      text: string,
-      text_hover: string,
-      button_text: string,
-      button_text_hover: string,
-      button_background: string,
-      placeHolder: string,
-      placeHolder_focus: string,
-      error: string,
-      success: string,
-    }, 
+    primary: string,
+    primary_hover: string,
+    border_default: string,
+    hero_text: string,
+    background_primary: string,
+    background_secondary: string,
+    background_card: string,
+    text: string,
+    text_hover: string,
+    button_text: string,
+    button_text_hover: string,
+    button_background: string,
+    placeHolder: string,
+    placeHolder_focus: string,
+    error: string,
+    success: string,
+  },
 }
 
 export interface UploadAreaProps {

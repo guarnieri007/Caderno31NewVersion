@@ -18,26 +18,32 @@ function App() {
 
   useEffect(() => {
     document.body.classList.toggle("remove-scroll", removeScroll);
+
+    return () => {
+      // Ensure we never leave the class behind
+      document.body.classList.remove("remove-scroll");
+    };
+
   }, [removeScroll]);
 
   return (
     <>
 
-        <GlobalStyles />
-        <MainContainer>
-          <Header />
-          <MainContent>
-            <Routes>
-              <Route path='/' element={<Home />} />
-              <Route path='/signupUser' element={<SignUp />} />
-              <Route path='/reset-password' element={<ResetPassword />} />
-              <Route path='/publishContent' element={<PublishContent />} />
-              <Route path='/search' element={<Page_search />} />
-              <Route path='*' element={<NotFound404 />} />
-            </Routes>
-          </MainContent>
-          <Footer />
-        </MainContainer>
+      <GlobalStyles />
+      <MainContainer>
+        <Header />
+        <MainContent>
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/signupUser' element={<SignUp />} />
+            <Route path='/reset-password' element={<ResetPassword />} />
+            <Route path='/publishContent' element={<PublishContent />} />
+            <Route path='/search' element={<Page_search />} />
+            <Route path='*' element={<NotFound404 />} />
+          </Routes>
+        </MainContent>
+        <Footer />
+      </MainContainer>
     </>
   )
 }

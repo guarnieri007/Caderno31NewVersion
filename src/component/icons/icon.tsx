@@ -14,6 +14,9 @@ import IdCardIcon from "@/assets/icons/id-card.svg?react";
 import KeyIcon from "@/assets/icons/key.svg?react";
 import LetterIcon from "@/assets/icons/letter.svg?react";
 import LockIcon from "@/assets/icons/lock.svg?react";
+import MagnifierIcon from "@/assets/icons/magnifier.svg?react";
+import MagnifierMinusIcon from "@/assets/icons/magnifier-minus.svg?react";
+import MagnifierPlusIcon from "@/assets/icons/magnifier-plus.svg?react";
 import MeltStudioIcon from "@/assets/icons/LogoMelt.svg?react";
 import PauseIcon from "@/assets/icons/pause.svg?react";
 import PhotoIcon from "@/assets/icons/photo.svg?react";
@@ -51,6 +54,9 @@ const Icon = ({ icon, ...rest }: IconProps): ReactElement => {
     [UIIcons.Key]: KeyIcon,
     [UIIcons.Letter]: LetterIcon,
     [UIIcons.Lock]: LockIcon,
+    [UIIcons.Magnifier]: MagnifierIcon,
+    [UIIcons.MagnifierMinus]: MagnifierMinusIcon,
+    [UIIcons.MagnifierPlus]: MagnifierPlusIcon,
     [UIIcons.MeltStudio]: MeltStudioIcon,
     [UIIcons.Pause]: PauseIcon,
     [UIIcons.Photo]: PhotoIcon,

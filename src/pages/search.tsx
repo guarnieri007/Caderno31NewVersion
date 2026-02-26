@@ -5,6 +5,8 @@ import { useI18n } from "../i18n";
 import Icon from "../component/icons/icon";
 import { UIIcons } from "../component/icons";
 import { MobileSidebar, PageSearchContainer } from "../component/styles/pages/searchStyle";
+import { InputFIeld } from "../component/common/input-field";
+import { setRemoveScroll } from "../context/RemoveScrollSingleton";
 
 export const Page_search = (): ReactElement => {
     //const navigate = useNavigate();
@@ -44,13 +46,13 @@ export const Page_search = (): ReactElement => {
         };
     }, [open]);
 
-    const toggleMobileSidebar = () => {
-        setOpen(() => {
-            return !open;
-        })
+    const openMobileSidebar = () => {
+        setRemoveScroll(true);
+        setOpen(true);
     }
 
     const closeMobileSidebar = () => {
+        setRemoveScroll(false);
         setOpen(false);
     }
 
@@ -67,16 +69,38 @@ export const Page_search = (): ReactElement => {
                             <Icon icon={UIIcons.Close} size={35} color={theme.colors.text} />
                         </div>
                     </div>
-                    Mobile options
-                    <p>more options</p>
-                    <p>more options</p>
-                    <p>more options</p>
-                    <p>more options</p>
-                    <p>more options</p>
+
+                    <div className="fieldSelector">
+                        <div className="section">
+                            <InputFIeld icon={UIIcons.MagnifierPlus} label="Criadores" name="searchField" placeholder="search itens" maxLength={150} />
+                            <div className="optionItem">
+                                <div className="checkBox" > <Icon icon={UIIcons.Close} size={14} color="red" /> </div>
+                                <span>Luara Franca de azevedo silva santos e marina da oliveira malesca de andrade alves marítimo franco</span>
+                            </div>
+
+                            <div className="optionItem">
+                                <div className="checkBox" > <Icon icon={UIIcons.Close} size={14} color="red" /> </div>
+                                <span>Luara Franca de azevedo silva santos e marina da oliveira malesca de andrade alves marítimo franco</span>
+                            </div>
+                        </div>
+
+                        <div className="section">
+                            <InputFIeld icon={UIIcons.MagnifierPlus} label="Categorias" name="searchField" placeholder="search itens" maxLength={150} />
+                            <div className="optionItem">
+                                <div className="checkBox" > <Icon icon={UIIcons.Close} size={14} color="red" /> </div>
+                                <span>Frutas</span>
+                            </div>
+
+                            <div className="optionItem">
+                                <div className="checkBox" > <Icon icon={UIIcons.Close} size={14} color="red" /> </div>
+                                <span>Legumes</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </MobileSidebar>
             <PageSearchContainer>
-                <div className="filter" onClick={() => toggleMobileSidebar()}>
+                <div className="filter" onClick={() => openMobileSidebar()}>
                     <Icon icon={UIIcons.MeltStudio} size={25} />
                     <span>{t('component.common.filter.title')}</span>
                 </div>
