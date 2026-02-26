@@ -43,7 +43,7 @@ export const ItemAsCard = ({ categories, title, price, image, profile_image, cre
                             <Button color="primary" loading={false} clicable={true} handleOnClick={() => { }} >{GetCurrencyText(currency)} {price}</Button>
                         </div>
                     </span>
-                    <div className="cardAmountInfo">
+                    <div className="cardAmountInfo noSelection">
 
                         {amount_videos > 0 ? (<div><Icon icon={UIIcons.Video} size={18} color={iconColor} /> <span>{amount_videos}</span></div>) : null}
                         {amount_photos > 0 ? (<div><Icon icon={UIIcons.Photo} size={18} color={iconColor} /> <span>{amount_photos}</span></div>) : null}
