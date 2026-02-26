@@ -25,7 +25,7 @@ export const LanguageSwitcherStyles = styled.div.withConfig({
         align-items: center;
         gap: 4px;
         height: 100%;
-        color: ${(prop) => prop.isOpen || prop.isHovered ? prop.theme.colors.text_hover : prop.theme.colors.text};
+        color: ${(prop) => prop.isOpen || prop.isHovered ? prop.theme.colors.button_text_hover : prop.theme.colors.text};
     }
     
     .AvailableLanguages {
