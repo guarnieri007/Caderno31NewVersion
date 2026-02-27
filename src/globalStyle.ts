@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components";
+import { withAlpha } from "./helper/colors";
 
 export const GlobalStyles = createGlobalStyle`
 :root {
@@ -20,11 +21,11 @@ body
 {
     padding: 0px;
     margin: 0px;
-    background-image: radial-gradient(circle, rgba(100, 100, 100, 0.15) 1px, transparent 1px);/* for the background dots */
+  }
+  
+  .bg_dots {
+    background-image: radial-gradient(circle, ${(prop) => withAlpha(prop.theme.colors.border_default, 0.15)} 1px, transparent 1px);/* for the background dots */
     background-size: 4px 4px; /* for the background dots */
-    * {
-        
-    }
 }
 
 .defaultPadding {

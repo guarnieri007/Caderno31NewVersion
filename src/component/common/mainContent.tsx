@@ -7,7 +7,7 @@ interface MaindContentProps {
 
 export const MainContent = ({children}:MaindContentProps) => {
     return (
-        <ContentContainer>
+        <ContentContainer className="bg_dots">
             {children}
         </ContentContainer>
     )
