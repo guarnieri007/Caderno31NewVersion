@@ -10,6 +10,7 @@ import { CreatorChip } from "../component/common/creator-chip";
 import { Banner } from "../component/common/banner";
 import { MiniBannerLayout } from "../component/common/miniBannerLayout";
 import { useI18n } from "../i18n";
+import { useTheme } from "styled-components";
 
 export const Home = (): ReactElement => {
     const { t } = useI18n();
@@ -19,6 +20,7 @@ export const Home = (): ReactElement => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [heroBanners, setHeroBanners] = useState<ReactNode[]>([]);
+    const theme = useTheme();
 
     const HomeStyle: React.CSSProperties = {
         padding: "0px",
@@ -151,10 +153,12 @@ export const Home = (): ReactElement => {
                     {bannerItems}
                 </div>
 
-                <div className="defaultPadding">
+                <div className="defaultPadding" style={{display: "flex", flexDirection: "column", gap: `${ theme.spacings.normal}`}}>
                     <div className="backgroundStructure">
                         <ItemsColections title={t('pages.home.titleFeaturedCreators', undefined, 'Featured Content Creators')} children={collectionContentCreators}
                         />
+                    </div>
+                    <div className="backgroundStructure">
                         <ItemsColections title={t('pages.home.titleBestOfMonth', undefined, 'Best of the month')} >
                             {dataBestOfTheMonth}
                         </ItemsColections>

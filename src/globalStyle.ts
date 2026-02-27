@@ -77,6 +77,9 @@ body
     padding: 0px 1rem;
     background-color: ${(prop) => prop.theme.colors.background_primary};
     margin: ${(prop) => prop.theme.spacings.big} 0px;
+    border-radius: ${(prop) => prop.theme.borderRadius.small};
+    border: 2px solid ${(prop) => prop.theme.colors.border_default};
+    box-sizing: border-box;
     
     @media (max-width: 768px) {
       padding: ${(prop) => prop.theme.spacings.big} ${(prop) => prop.theme.spacings.normal};

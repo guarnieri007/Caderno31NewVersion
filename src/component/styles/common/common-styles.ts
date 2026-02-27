@@ -139,7 +139,7 @@ export const ItemsColectionsDiv = styled.div`
   flex-direction: column;
   width: 100%;
   height: auto;
-  margin-bottom: 5rem;
+  margin-bottom: ${(prop) => prop.theme.spacings.normal};
 
   h2 {
     color: ${(prop) => prop.theme.colors.text_hover};
@@ -172,7 +172,7 @@ export const CreatorChipDiv = styled.div`
 
   width: 100%;
   max-width: 100%;
-  height: 105px;
+  height: auto;
   background-color: ${({theme}) => theme.colors.background_secondary};
   border-radius: 8px;
   box-sizing: border-box;
@@ -250,7 +250,8 @@ export const ContentCreatorDiv = styled.div.withConfig({
   gap: ${(prop) => prop.theme.spacings.big};
   row-gap: ${(prop) => prop.theme.spacings["biger"]};
   overflow-y: auto;
-  padding-bottom: 24px;
+  padding-bottom: ${(prop) => prop.theme.spacings.normal};
+  margin-bottom: ${(prop) => prop.theme.spacings.normal};
   @media (max-width: 1081px) {
     grid-template-columns: repeat(${(prop) => prop.number_items_hd ? prop.number_items_hd : 3}, 1fr);
   }
