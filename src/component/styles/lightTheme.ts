@@ -10,7 +10,7 @@ export const lightTheme: ThemeType = {
     // --- backgrounds ---
     // Main page background (soft light, not pure white)
     background_primary: "#F4F6F8",
-    border_default: "#000",
+    border_default: "#000000",
 
     // Secondary containers
     background_secondary: "#d2dbe4",
