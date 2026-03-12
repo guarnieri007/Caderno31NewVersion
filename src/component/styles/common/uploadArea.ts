@@ -2,16 +2,16 @@
 import styled from "styled-components";
 
 export const UploadWrapper = styled.div`
-  border: 2px dashed ${(prop) => prop.theme.colors.button_text};
+  border: 2px dashed ${(prop) => prop.theme.colors.border_default};
   padding: 2rem;
   text-align: center;
   cursor: pointer;
-  border-radius: 12px;
-  background-color: ${(prop) => prop.theme.colors.background_primary};
-  transition: background-color 0.2s;
+  border-radius: ${(prop) => prop.theme.borderRadius.mediumX1};
+  background-color: ${(prop) => prop.theme.colors.background_secondary};
+  transition: background-color 0.3s;
   color: ${(prop) => prop.theme.colors.text_hover};
   &:hover {
-    background-color: ${(prop) => prop.theme.colors.button_text};
+    background-color: ${(prop) => prop.theme.colors.background_card};
   }
 `;
 
@@ -30,8 +30,8 @@ export const FileItem = styled.div`
   margin-top: 0rem;
   padding: 0.3rem;
   background: ${(prop) => prop.theme.colors.background_primary};
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  border: 1px solid ${(prop) => prop.theme.colors.border_default};
+  border-radius: ${(prop) => prop.theme.borderRadius.small};
   gap: ${(prop) => prop.theme.spacings.min};
 
   .picture {

@@ -20,6 +20,7 @@ import { useCreatePost } from '../hooks/useCreatePost'
 import { useNavigate } from 'react-router-dom'
 import { useI18n } from '../i18n'
 import { DropdownSelector } from '../component/common/dropdownSelector'
+import { useTheme } from 'styled-components'
 
 // Schema do formulário
 const publishContentSchema = publishContentSchemaZOD();
@@ -67,6 +68,7 @@ export const PublishContent = (): ReactElement => {
     const [translationErrors, setTranslationErrors] = useState<(string[] | undefined)[]>([]);
     const navigate = useNavigate();
     const { t } = useI18n();
+    const theme = useTheme();
 
     useEffect(() => {
         async function fetchData() {
@@ -305,7 +307,7 @@ export const PublishContent = (): ReactElement => {
                                                     clicable={index === 0 ? (descriptionFields[0].cd_language !== null || (descriptionTexts[0] ?? '').trim() !== '') : true}
                                                     color={"secondary"}
                                                 >
-                                                    <Icon icon={UIIcons.Trash} size={24} color='#000' />
+                                                    <Icon icon={UIIcons.Trash} size={24} color={theme.colors.button_text} />
                                                 </Button>
                                             </div>
 

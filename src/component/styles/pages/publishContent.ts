@@ -14,7 +14,7 @@ export const PublishContentStyle = styled.div`
     height: auto;
     min-height: 400px;
     max-width: 90%;
-    background-color: ${(prop) => prop.theme.colors.background_card};
+    background-color: ${(prop) => prop.theme.colors.background_primary};
     border-radius: 14px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     align-self: center;
@@ -72,11 +72,11 @@ export const PublishContentStyle = styled.div`
       display: flex;
 
       & button {
-        self-align: center;
-        display: flex;
+          display: flex;
+          height: auto;
         & span {
-        display: flex;
-        align-items: center;
+          display: flex;
+          align-items: center;
         }
       }
 

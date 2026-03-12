@@ -1,10 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { CategorySelectorStyle } from "../styles/common/categorySelector";
 import { motion, AnimatePresence } from "framer-motion";
-import Icon from "../icons/icon";
 import { UIIcons } from "../icons";
-import { Label } from "./label";
 import { DropdownSelectorProps } from "../../interfaces";
+import { InputFIeld } from "./input-field";
 
 export const DropdownSelector = <TItem, TValue extends string | number>({
     categories,
@@ -75,40 +74,24 @@ export const DropdownSelector = <TItem, TValue extends string | number>({
         <CategorySelectorStyle is_focused={isOpen}>
             <input type="hidden" name={name} id={name} value={value ?? ""} />
             <div className="dropdown" ref={dropdownRef}>
-                <Label
-                    forInput={name}
+                <InputFIeld
+                    name={name}
+                    placeholder={placeHolder}
                     label={label}
-                    is_focused={isOpen}
-                    length={value !== null ? 1 : 0}
+                    onChange={(e) => {
+                        if (value !== null) onChange(null, null);
+                        setSearch(e.target.value);
+                        setIsOpen(true);
+                    }}
+                    icon={UIIcons.ChevronDown}
+                    onFocus={openDropdown}
+                    onBlur={closeDropdown}
+                    value={search !== "" ? search : inputValue}
+                    disabled={false}
+                    restrictMaxLengthByText={false}
                     maxLength={1}
+                    labelValue={search === "" && value !== null ? 1 : 0}
                 />
-
-                <div className="dropdown-header">
-                    <input
-                        type="text"
-                        ref={inputRef}
-                        placeholder={placeHolder || "Select an option"}
-                        value={inputValue}
-                        onChange={(e) => {
-                            // user typed: clear selection and search
-                            if (value !== null) onChange(null, null);
-                            setSearch(e.target.value);
-                            setIsOpen(true);
-                        }}
-                        id={`${name}-visible`}
-                        onFocus={openDropdown}
-                        onBlur={closeDropdown}
-                    />
-
-                    <span
-                        className="icon"
-                        onClick={() => {
-                            setIsOpen((prev) => !prev);
-                        }}
-                    >
-                        <Icon icon={isOpen ? UIIcons.ChevronUp : UIIcons.ChevronDown} size={16} />
-                    </span>
-                </div>
 
                 <AnimatePresence>
                     {isOpen && filteredOptions.length > 0 && (

@@ -1,4 +1,4 @@
-import { ReactNode, ChangeEvent } from "react";
+import { ReactNode, ChangeEvent, InputHTMLAttributes } from "react";
 import { UIIcons } from "./component/icons";
 
 export interface AcessTokenResponse {
@@ -116,7 +116,13 @@ export interface InputFIeldProps {
   maxLength: number;
   type?: string;
   value?: string | number;
-  onChange?: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  inputFields?: InputHTMLAttributes<HTMLInputElement>;
+  labelValue?: string | number;
+  onFocus?: () => void;
+  onBlur?: () => void;
+  disabled?: boolean;
+  restrictMaxLengthByText?: boolean;
 }
 
 export interface ItemAsCardProps {

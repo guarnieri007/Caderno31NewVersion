@@ -16,6 +16,12 @@ export const InputFIeld = (
         errors,
         value,
         onChange,
+        inputFields,
+        labelValue,
+        onFocus,
+        onBlur,
+        disabled,
+        restrictMaxLengthByText = true,
 
     }: InputFIeldProps): ReactNode => {
     const hasErrors: boolean = errors !== undefined && errors.length > 0;
@@ -26,11 +32,17 @@ export const InputFIeld = (
 
     // Função para controlar quando o input ganhar o foco
     const handleFocus = () => {
+        if (onFocus) {
+            onFocus();
+        }
         setIsFocused(true);
     };
 
     // Função para controlar quando o input perder o foco
     const handleBlur = () => {
+        if (onBlur) {
+            onBlur();
+        }
         setIsFocused(false);
     };
 
@@ -43,13 +55,19 @@ export const InputFIeld = (
         }
     }
 
+    let labelLength = labelValue && typeof labelValue === "number"
+    ? labelValue : Number(labelValue);
+
+    const valueLabel = typeof value === "string" ? value.length : 0;
 
     return (
         <InputFieldContent has_errors={hasErrors} is_focused={isFocused}>
             <div className="holder">
                 <Label
                     label={label}
-                    length={(value !== undefined ? String(value).length : inputValue.length)}
+                    length={(!restrictMaxLengthByText
+                        ? labelLength
+                        : valueLabel)}
                     maxLength={maxLength}
                     is_focused={isFocused}
                     forInput={name}
@@ -69,7 +87,9 @@ export const InputFIeld = (
                         onBlur={handleBlur}
                         onChange={(e) => setValue(e)}
                         value={value !== undefined ? value : inputValue}
-                        maxLength={maxLength}
+                        maxLength={restrictMaxLengthByText ? maxLength : undefined}
+                        {...inputFields}
+                        disabled={disabled}
                     />
 
                     {icon !== null && icon !== undefined && (

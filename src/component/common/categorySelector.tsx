@@ -3,10 +3,10 @@ import { CategorySelectorStyle } from "../styles/common/categorySelector";
 import { motion, AnimatePresence } from "framer-motion";
 import Icon from "../icons/icon";
 import { UIIcons } from "../icons";
-import { Label } from "./label";
 import { CategorySelectorProps, ResponseCategory } from "../../interfaces";
 import { useLanguage } from "../../context/Language";
 import { useI18n } from "../../i18n";
+import { InputFIeld } from "./input-field";
 
 export const CategorySelector = (
   {
@@ -97,44 +97,26 @@ export const CategorySelector = (
         value={JSON.stringify(selected)}
       />
       <div className="dropdown" ref={dropdownRef}>
-        <Label
-          forInput={name}
-          label={t('component.common.categorySelector.label', undefined, 'Categories')}
-          is_focused={isOpen}
-          maxLength={max_selection}
-          length={selected.length}
-        />
-        <div className="dropdown-header">
-          <input
-            type="text"
-            ref={inputRef}
-            placeholder={placeHolder ?? t('component.common.categorySelector.placeholder', undefined, 'Select Categories')}
-            value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-              setIsOpen(true); // ao digitar, força abrir
-            }}
-            name={name}
-            id={name}
-            onFocus={openDropdown}
-            onBlur={closeDropdown}
-            disabled={selected.length >= max_selection}
-          />
-          <span
-            className={`icon ${selected.length >= max_selection ? "disabled" : ""}`}
-            onClick={() => {
-              if (selected.length < max_selection) {
-                setIsOpen((prev) => !prev);
-              }
-            }}
-          >
 
-            <Icon
-              icon={isOpen ? UIIcons.ChevronUp : UIIcons.ChevronDown}
-              size={16}
-            />
-          </span>
-        </div>
+        <InputFIeld
+          label={t('component.common.categorySelector.label', undefined, 'Categories')}
+          name={name}
+          maxLength={max_selection}
+          placeholder={placeHolder ?? t('component.common.categorySelector.placeholder', undefined, 'Select Categories')}
+          type="text"
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setIsOpen(true); // ao digitar, força abrir
+          }}
+          onFocus={openDropdown}
+          onBlur={closeDropdown}
+          disabled={selected.length >= max_selection}
+          icon={UIIcons.ChevronDown}
+          labelValue={selected.length}
+          value={search}
+          restrictMaxLengthByText={false}
+        />
+
 
         <AnimatePresence>
           {isOpen && filteredOptions.length > 0 && (

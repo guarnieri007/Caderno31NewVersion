@@ -16,7 +16,7 @@ export const lightTheme: ThemeType = {
     background_secondary: "#d2dbe4",
 
     // Cards / panels
-    background_card: "#FAFBFC",
+    background_card: "#c6d1dc",
     hero_text: "#e0e6f0",
 
     // --- text ---
@@ -34,8 +34,8 @@ export const lightTheme: ThemeType = {
     button_background: "#47494b",
 
     // --- inputs ---
-    placeHolder: "#8A94A6",
-    placeHolder_focus: "#5C677A",
+    placeHolder: "#606870",
+    placeHolder_focus: "#6b707a",
 
     // --- status ---
     error: "#d33a3a",

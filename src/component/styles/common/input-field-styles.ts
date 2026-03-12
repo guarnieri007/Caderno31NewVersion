@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { withAlpha } from "../../../helper/colors";
 
 interface InputFieldArguments {
     is_focused: boolean,
@@ -26,9 +27,9 @@ export const InputFieldContent = styled.div.withConfig({
         input[type="text"], input[type="password"], input[type="email"], input[type="number"] {
             height: 48px;
             width: calc(100% - 64px);
-            border: 1px solid ${(prop) => prop.theme.colors.button_text};
+            border: 2px solid ${(prop) => withAlpha(prop.theme.colors.border_default, 0.2)};
             box-sizing: content-box;
-            background-color: ${(prop) => prop.theme.colors.background_primary};
+            background-color: ${(prop) => prop.theme.colors.background_secondary};
             color: ${(prop) => prop.theme.colors.text_hover};
             font-size: 16px;
             outline: none;
@@ -36,17 +37,21 @@ export const InputFieldContent = styled.div.withConfig({
             padding: 1px 49px 1px 15px;
             
             &:focus {
-                background-color: ${(prop) => prop.theme.colors.background_secondary};
                 border: solid 2px ${(prop) => prop.theme.colors.text_hover};
                 color: ${(prop) => prop.theme.colors.text_hover};
-                padding: 0px 48px 0px 14px;
             }
     
             &::placeholder {
                 color: ${(prop) => prop.theme.colors.placeHolder};
             }
             &:focus::placeholder {
-                color: ${(prop) => prop.theme.colors.placeHolder_focus};
+                color: ${(prop) => withAlpha(prop.theme.colors.placeHolder_focus, 0.75)};
+            }
+
+            &:disabled {
+                cursor: not-allowed;
+                background-color: ${(prop) => withAlpha(prop.theme.colors.background_secondary, 0.4)};
+                color: ${(prop) => prop.theme.colors.text};
             }
         }
         svg {

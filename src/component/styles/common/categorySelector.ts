@@ -85,10 +85,10 @@ export const CategorySelectorStyle = styled.div.withConfig({
     li {
       padding: 0.75rem 1rem;
       cursor: pointer;
-      color: #fff;
+      color: ${(prop) => prop.theme.colors.text};
 
       &:hover {
-        background-color: ${(prop) => prop.theme.colors.background_primary};
+        background-color: ${(prop) => prop.theme.colors.background_secondary};
       }
     }
   }
