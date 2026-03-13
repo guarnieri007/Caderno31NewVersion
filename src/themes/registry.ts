@@ -1,13 +1,15 @@
+import { ThemeType } from "../interfaces"
+
 export type ThemeMode = "dark" | "light"
 
 export type ThemeCollection = {
   [variant: string]: {
-    dark?: any
-    light?: any
+    dark?: ThemeType
+    light?: ThemeType
   }
 }
 
-const modules = import.meta.glob("./*_theme.ts", { eager: true })
+const modules = import.meta.glob("./*_theme.ts", { eager: true }) as Record<string, Record<string, unknown>>
 
 export const themes: ThemeCollection = {}
 
@@ -27,5 +29,11 @@ Object.entries(modules).forEach(([path, module]) => {
     themes[variant] = {}
   }
 
-  themes[variant][mode] = (module as any).default
+  const exportedTheme =
+    (module.default as ThemeType | undefined)
+    ?? (Object.values(module)[0] as ThemeType | undefined)
+
+  if (!exportedTheme) return
+
+  themes[variant][mode] = exportedTheme
 })

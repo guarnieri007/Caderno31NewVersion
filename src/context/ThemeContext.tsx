@@ -2,8 +2,9 @@ import React, { createContext, useContext, useEffect, useMemo, useState } from "
 import { ThemeProvider } from "styled-components";
 
 import { themes, ThemeCollection, ThemeMode } from "../themes/registry";
+import { defaultDarkTheme } from "../themes/default_dark_theme";
 
-type ThemeVariant = keyof ThemeCollection;
+type ThemeVariant = string;
 
 type ThemeContextValue = {
   themes: ThemeCollection;
@@ -18,6 +19,7 @@ type ThemeContextValue = {
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
 export function AppThemeProvider({ children }: { children: React.ReactNode }) {
+  const fallbackTheme = themes.default?.dark ?? Object.values(themes)[0]?.dark ?? Object.values(themes)[0]?.light ?? defaultDarkTheme;
 
   const [mode, setMode] = useState<ThemeMode>(() => {
     const saved = localStorage.getItem("theme_mode");
@@ -26,7 +28,7 @@ export function AppThemeProvider({ children }: { children: React.ReactNode }) {
 
   const [variant, setVariant] = useState<ThemeVariant>(() => {
     const saved = localStorage.getItem("theme_variant");
-    return (saved as ThemeVariant) || "default";
+    return saved || "default";
   });
 
   useEffect(() => {
@@ -42,27 +44,26 @@ export function AppThemeProvider({ children }: { children: React.ReactNode }) {
     // fallback absoluto
     if (!themes || Object.keys(themes).length === 0) {
       console.error("Theme registry is empty");
-      return {};
+      return fallbackTheme;
     }
 
     const variantThemes = themes[variant];
 
     if (!variantThemes) {
       console.warn("Theme variant not found:", variant);
-      return themes.default?.[mode] ?? themes.default?.dark ?? {};
+      return themes.default?.[mode] ?? fallbackTheme;
     }
 
     const resolvedTheme = variantThemes[mode];
-    console.log("Resolving theme for variant:", variant, "\nmode:", mode, "\nfound:", resolvedTheme, "\nvariantThemes:", variantThemes, "themes: ", themes);
 
     if (!resolvedTheme) {
       console.warn("Theme mode not found:", variant, mode);
-      return themes.default?.dark ?? {};
+      return fallbackTheme;
     }
 
     return resolvedTheme;
 
-  }, [mode, variant]);
+  }, [fallbackTheme, mode, variant]);
 
   const toggleMode = () => {
     setMode((prev) => (prev === "dark" ? "light" : "dark"));
@@ -79,8 +80,7 @@ export function AppThemeProvider({ children }: { children: React.ReactNode }) {
     }),
     [mode, variant]
   );
-  
-  console.log("AppThemeProvider render:", { mode, variant, theme });
+
   return (
     <ThemeContext.Provider value={value}>
       <ThemeProvider theme={theme}>

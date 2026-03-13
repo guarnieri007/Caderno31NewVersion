@@ -19,7 +19,7 @@ export const Header = (): ReactElement => {
   const { handleLogout, loadingLogout } = useLogout();
   const [showLogin, setShowLogin] = useState(false); // 🔥 controla se o overlay aparece
   const { t } = useI18n();
-  const { setMode } = useAppTheme();
+  const { setVariant, variant } = useAppTheme();
 
   function GoToSignup() {
     navigate("/signupUser");
@@ -52,12 +52,13 @@ export const Header = (): ReactElement => {
           <NavLink to="/posts">{t('component.common.header.posts', undefined, 'Posts')}</NavLink>
           {
           Object.keys(themes).map((name) => (
-          <span
-            key={name}
-            onClick={() => setMode(name as any)}
-          >
-            {name}
-          </span>
+            <span
+              key={name}
+              onClick={() => setVariant(name)}
+              style={{ opacity: variant === name ? 1 : 0.7, cursor: "pointer" }}
+            >
+              {name}
+            </span>
           ))
           }
 
