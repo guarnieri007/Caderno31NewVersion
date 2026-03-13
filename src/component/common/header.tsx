@@ -19,7 +19,7 @@ export const Header = (): ReactElement => {
   const { handleLogout, loadingLogout } = useLogout();
   const [showLogin, setShowLogin] = useState(false); // 🔥 controla se o overlay aparece
   const { t } = useI18n();
-  const { setVariant, variant } = useAppTheme();
+  const { setVariant, setMode, mode } = useAppTheme();
 
   function GoToSignup() {
     navigate("/signupUser");
@@ -53,9 +53,13 @@ export const Header = (): ReactElement => {
           {
           Object.keys(themes).map((name) => (
             <span
+            className="noSelection"
               key={name}
-              onClick={() => setVariant(name)}
-              style={{ opacity: variant === name ? 1 : 0.7, cursor: "pointer" }}
+              onClick={() => {
+                  setVariant(name);
+                  setMode(mode === "dark" ? "light" : "dark"); // Alterna o modo para forçar a atualização do tema
+              }}
+              style={{ cursor: "pointer" }}
             >
               {name}
             </span>
