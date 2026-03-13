@@ -1,7 +1,7 @@
-import { ThemeType } from "../../interfaces";
+import { ThemeType } from "../interfaces";
 import baseUnits from "./baseUnits";
 
-export const darkTheme: ThemeType = {
+export const defaultDarkTheme: ThemeType = {
   ...baseUnits,
   colors: {
     primary: "#00B2FF",
