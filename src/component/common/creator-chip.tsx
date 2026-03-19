@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { CreatorChipProps } from "../../interfaces";
+import { CreatorChipProps } from "../../interfaces/interfaces";
 import { CreatorChipDiv } from "../styles/common/common-styles";
 import { Button } from "./button";
 

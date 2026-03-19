@@ -1,4 +1,4 @@
-import { LabelProps } from "../../interfaces"
+import { LabelProps } from "../../interfaces/interfaces"
 import { LabelStyle } from "../styles/common/label"
 
 export const Label = ({ label, length, maxLength, is_focused = false, forInput, counting = true }: LabelProps) => {

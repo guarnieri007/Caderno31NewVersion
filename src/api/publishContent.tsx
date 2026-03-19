@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 import api from './axiosInstance';
-import { ResponseCategory, ResponseLanguage, ResponsePostType } from '../interfaces';
+import { ResponseCategory, ResponseLanguage, ResponsePostType } from '../interfaces/interfaces';
 
 export const PublishContentAPI = () => {
 

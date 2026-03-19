@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 import { Button } from "./button";
-import { HeroProps } from "../../interfaces";
+import { HeroProps } from "../../interfaces/interfaces";
 import { HeroHeader } from "../styles/common/common-styles";
 import { useTheme } from "styled-components";
 

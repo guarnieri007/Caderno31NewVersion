@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { AuthAPI } from '../api/auth';
 import { setAccessToken, getAccessToken } from './AuthTokenSingleton';
-import { AuthContextType, CreateNewCredentialProps, User } from '../interfaces';
+import { AuthContextType, CreateNewCredentialProps, User } from '../interfaces/interfaces';
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 

@@ -1,5 +1,5 @@
 import 'styled-components';
-import { ThemeType } from '../interfaces';
+import { ThemeType } from '../interfaces/interfaces';
 
 type StyledTheme = ThemeType
 

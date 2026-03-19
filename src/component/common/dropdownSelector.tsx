@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { CategorySelectorStyle } from "../styles/common/categorySelector";
 import { motion, AnimatePresence } from "framer-motion";
 import { UIIcons } from "../icons";
-import { DropdownSelectorProps } from "../../interfaces";
+import { DropdownSelectorProps } from "../../interfaces/interfaces";
 import { InputFIeld } from "./input-field";
 
 export const DropdownSelector = <TItem, TValue extends string | number>({

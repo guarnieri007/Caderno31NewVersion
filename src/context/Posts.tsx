@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useContext, useState } from 'react';
-import { CreatePostProps, Post, PostContextType } from '../interfaces';
+import { CreatePostProps, Post, PostContextType } from '../interfaces/interfaces';
 import { PostAPI } from '../api/posts';
 
 const PostContext = createContext<PostContextType>({} as PostContextType);

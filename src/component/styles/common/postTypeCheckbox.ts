@@ -6,7 +6,7 @@ export const PostTypeCheckboxStyle = styled.div`
 
   .options {
     display: flex;
-    padding: 0px ${(prop) => prop.theme.spacings.normal};
+    padding: 0px;
     flex-wrap: wrap;
     gap: ${(prop) => prop.theme.spacings.normal};
   }
@@ -16,7 +16,7 @@ export const PostTypeCheckboxStyle = styled.div`
     display: flex;
     align-items: center;
     gap: ${(prop) => prop.theme.spacings.min};
-    padding: ${(prop) => prop.theme.spacings.min} ${(prop) => prop.theme.spacings.small};
+    padding: 0 15px;
     border-radius: ${(prop) => prop.theme.spacings.small};
     cursor: pointer;
     border: 1px solid transparent;

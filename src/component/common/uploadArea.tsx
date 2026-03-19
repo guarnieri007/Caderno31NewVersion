@@ -6,7 +6,7 @@ import Icon from "../icons/icon";
 import { UIIcons } from "../icons";
 import { formatFileSize } from "../../helper/file-size-convertions";
 import { UploadItemsHolder } from "../styles/common/upload-styles";
-import { UploadAreaProps } from "../../interfaces";
+import { UploadAreaProps } from "../../interfaces/interfaces";
 import { useI18n } from "../../i18n";
 
 export const UploadArea = ({ uploads, addFiles, retryUpload, removeUpload }: UploadAreaProps) => {

@@ -1,4 +1,4 @@
-import { ThemeType } from "../interfaces"
+import { ThemeType } from "../interfaces/interfaces"
 
 export type ThemeMode = "dark" | "light"
 

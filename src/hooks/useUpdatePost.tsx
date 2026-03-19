@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { usePosts } from '../context/Posts';
-import { CreatePostProps } from '../interfaces';
+import { CreatePostProps } from '../interfaces/interfaces';
 
 export function useUpdatePost() {
   const { updatePost } = usePosts();

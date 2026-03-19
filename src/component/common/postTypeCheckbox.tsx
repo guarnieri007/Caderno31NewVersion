@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { PostTypeCheckboxStyle } from "../styles/common/postTypeCheckbox";
-import { ResponseLanguage, ResponsePostType } from "../../interfaces";
+import { ResponseLanguage, ResponsePostType } from "../../interfaces/interfaces";
 import { useLanguage } from "../../context/Language";
 import { Label } from "./label";
 

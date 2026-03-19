@@ -1,6 +1,6 @@
 import { AxiosError, AxiosResponse } from 'axios';
 import api from './axiosInstance';
-import { CreatePostProps, Post } from '../interfaces';
+import { CreatePostProps, Post } from '../interfaces/interfaces';
 import { AuthAPI } from './auth';
 import { setAccessToken } from '../context/AuthTokenSingleton';
 import { isAuthError } from './authError';

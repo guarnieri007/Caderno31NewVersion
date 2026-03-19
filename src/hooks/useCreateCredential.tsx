@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { CreateNewCredentialProps } from '../interfaces';
+import { CreateNewCredentialProps } from '../interfaces/interfaces';
 
 export function useCreateCredential() {
     const { createCredential } = useAuth();

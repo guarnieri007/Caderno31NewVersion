@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 import { ItemAsCardDiv } from "../styles/common/itemAsCard-styles";
-import { ItemAsCardProps } from "../../interfaces";
+import { ItemAsCardProps } from "../../interfaces/interfaces";
 import { Button } from "./button";
 import Icon from "../icons/icon";
 import { UIIcons } from "../icons";

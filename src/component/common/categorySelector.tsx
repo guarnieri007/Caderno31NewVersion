@@ -3,7 +3,7 @@ import { CategorySelectorStyle } from "../styles/common/categorySelector";
 import { motion, AnimatePresence } from "framer-motion";
 import Icon from "../icons/icon";
 import { UIIcons } from "../icons";
-import { CategorySelectorProps, ResponseCategory } from "../../interfaces";
+import { CategorySelectorProps, ResponseCategory } from "../../interfaces/interfaces";
 import { useLanguage } from "../../context/Language";
 import { useI18n } from "../../i18n";
 import { InputFIeld } from "./input-field";

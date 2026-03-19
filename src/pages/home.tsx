@@ -2,7 +2,7 @@ import { ReactElement, ReactNode, useEffect, useState } from "react";
 import { Hero } from "../component/common/hero";
 import { ItemsColections } from "../component/common/items-colections";
 import { HomeApi } from "../api/backendApi";
-import { BannerProps, CreatorChipProps, HeroProps, ItemAsCardProps } from "../interfaces";
+import { BannerProps, CreatorChipProps, HeroProps, ItemAsCardProps } from "../interfaces/interfaces";
 import { Carrousel } from "../component/common/carrousel";
 import { ContentCreatorDiv } from "../component/styles/common/common-styles";
 import { ItemAsCard } from "../component/common/itemAsCard";

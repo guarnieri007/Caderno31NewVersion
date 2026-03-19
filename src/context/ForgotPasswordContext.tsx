@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useContext } from 'react';
 import { AuthAPI } from '../api/auth';
-import { ForgotPasswordContextType, } from '../interfaces';
+import { ForgotPasswordContextType, } from '../interfaces/interfaces';
 import { useLanguage } from './Language';
 
 const ForgotPasswordContext = createContext<ForgotPasswordContextType>({} as ForgotPasswordContextType);

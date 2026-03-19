@@ -1,6 +1,6 @@
 // src/context/UploadFiles.tsx
 import { createContext, useContext, useState, useRef, ReactNode } from "react";
-import { UploadFile, UploadFilePayload } from "../interfaces";
+import { UploadFile, UploadFilePayload } from "../interfaces/interfaces";
 import { UploadAPI } from "../api/upload";
 import { v4 as uuidv4 } from "uuid";
 import { getAccessToken } from "./AuthTokenSingleton";

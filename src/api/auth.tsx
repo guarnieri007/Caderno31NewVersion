@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 import api from './axiosInstance';
-import { AcessTokenResponse, CreateNewCredentialProps } from '../interfaces';
+import { AcessTokenResponse, CreateNewCredentialProps } from '../interfaces/interfaces';
 
 export const AuthAPI = () => {
   const backendURL = `${import.meta.env.VITE_BACKEND_PROTOCOAL}://${import.meta.env.VITE_BACKEND_HOST}:${import.meta.env.VITE_BACKEND_PORT}/api/`;

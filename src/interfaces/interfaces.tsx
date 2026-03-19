@@ -1,5 +1,5 @@
 import { ReactNode, ChangeEvent, InputHTMLAttributes } from "react";
-import { UIIcons } from "./component/icons";
+import { UIIcons } from "../component/icons";
 
 export interface AcessTokenResponse {
   data?: {

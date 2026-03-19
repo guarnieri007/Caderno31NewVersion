@@ -1,4 +1,4 @@
-import { ThemeType } from "../interfaces";
+import { ThemeType } from "../interfaces/interfaces";
 import baseUnits from "./baseUnits";
 
 export const brazilLightTheme: ThemeType = {
