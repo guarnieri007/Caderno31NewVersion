@@ -215,6 +215,18 @@ export interface ResponsePostType {
   slug: string;
 }
 
+export interface SearchFilterItem {
+  id: string;
+  name: string;
+}
+
+export interface SearchResults {
+  creators: SearchFilterItem[];
+  languages: SearchFilterItem[];
+  postCategories: SearchFilterItem[];
+  postTypes: SearchFilterItem[];
+}
+
 export interface ThemeType {
 
   spacings: {

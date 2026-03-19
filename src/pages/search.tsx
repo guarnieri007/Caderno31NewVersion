@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useRef, useState } from "react";
+import { ChangeEvent, ReactElement, useEffect, useMemo, useRef, useState } from "react";
 import { useTheme } from "styled-components";
 import { DefaultTheme } from "styled-components/dist/types";
 import { useI18n } from "../i18n";
@@ -7,22 +7,42 @@ import { UIIcons } from "../component/icons";
 import { MobileSidebar, PageSearchContainer } from "../component/styles/pages/searchStyle";
 import { InputFIeld } from "../component/common/input-field";
 import { setRemoveScroll } from "../context/RemoveScrollSingleton";
+import { SearchCategoryKey, SearchFilters } from "../api/searchMidias";
+import { SearchFilterItem, SearchResults } from "../interfaces";
+
+const SECTION_CONFIG: { key: SearchCategoryKey; label: string; inputName: string }[] = [
+    { key: 'creators', label: 'creators', inputName: 'search-creators' },
+    { key: 'postCategories', label: 'categories', inputName: 'search-categories' },
+    { key: 'languages', label: 'languages', inputName: 'search-languages' },
+    { key: 'postTypes', label: 'types', inputName: 'search-types' },
+];
+
+const EMPTY_RESULTS: SearchResults = {
+    creators: [],
+    languages: [],
+    postCategories: [],
+    postTypes: [],
+};
 
 export const Page_search = (): ReactElement => {
-    //const navigate = useNavigate();
     const theme: DefaultTheme = useTheme();
-    const { t } = useI18n();
+    const { t, language } = useI18n();
+    const searchFiltersAPI = useMemo(() => SearchFilters(), []);
+    const { fetchFiltersAvailables, searchCategoryItems } = searchFiltersAPI;
 
     const [open, setOpen] = useState(false);
+    const [categories, setCategories] = useState<SearchResults>(EMPTY_RESULTS);
+    const [searchTerms, setSearchTerms] = useState<Record<SearchCategoryKey, string>>({
+        creators: '',
+        languages: '',
+        postCategories: '',
+        postTypes: '',
+    });
 
-    // ref do sidebar
     const sidebarRef = useRef<HTMLDivElement | null>(null);
 
-    // detect click outside + ESC
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-
-            // if click is outside sidebar
             if (
                 sidebarRef.current &&
                 !sidebarRef.current.contains(event.target as Node)
@@ -46,15 +66,74 @@ export const Page_search = (): ReactElement => {
         };
     }, [open]);
 
+    useEffect(() => {
+        const fetchCategories = async () => {
+            const filters = await fetchFiltersAvailables({ lang: language });
+            setCategories(filters);
+        };
+
+        fetchCategories();
+    }, [fetchFiltersAvailables, language]);
+
+    useEffect(() => {
+        const timeout = setTimeout(async () => {
+            const requests = SECTION_CONFIG.map(async ({ key }) => {
+                const query = searchTerms[key].trim();
+                if (!query) {
+                    return null;
+                }
+
+                const items = await searchCategoryItems({
+                    category: key,
+                    search: query,
+                    lang: language,
+                });
+
+                return { key, items };
+            });
+
+            const updates = (await Promise.all(requests)).filter(Boolean) as {
+                key: SearchCategoryKey;
+                items: SearchFilterItem[];
+            }[];
+
+            if (!updates.length) {
+                return;
+            }
+
+            setCategories((previous) => {
+                const next = { ...previous };
+                updates.forEach(({ key, items }) => {
+                    next[key] = items;
+                });
+                return next;
+            });
+        }, 350);
+
+        return () => clearTimeout(timeout);
+    }, [searchCategoryItems, searchTerms, language]);
+
+    const visibleSections = useMemo(() => {
+        return SECTION_CONFIG.filter(({ key }) => categories[key].length > 0);
+    }, [categories]);
+
     const openMobileSidebar = () => {
         setRemoveScroll(true);
         setOpen(true);
-    }
+    };
 
     const closeMobileSidebar = () => {
         setRemoveScroll(false);
         setOpen(false);
-    }
+    };
+
+    const handleSearchChange = (key: SearchCategoryKey) => (event: ChangeEvent<HTMLInputElement>) => {
+        const { value } = event.target;
+        setSearchTerms((previous) => ({
+            ...previous,
+            [key]: value,
+        }));
+    };
 
     return (
         <>
@@ -71,31 +150,25 @@ export const Page_search = (): ReactElement => {
                     </div>
 
                     <div className="fieldSelector">
-                        <div className="section">
-                            <InputFIeld icon={UIIcons.MagnifierPlus} label="Criadores" name="searchField" placeholder="search itens" maxLength={150} />
-                            <div className="optionItem">
-                                <div className="checkBox" > <Icon icon={UIIcons.Close} size={14} color="red" /> </div>
-                                <span>Luara Franca de azevedo silva santos e marina da oliveira malesca de andrade alves marítimo franco</span>
+                        {visibleSections.map(({ key, label, inputName }) => (
+                            <div className="section" key={key}>
+                                <InputFIeld
+                                    icon={UIIcons.MagnifierPlus}
+                                    label={label}
+                                    name={inputName}
+                                    placeholder="search itens"
+                                    maxLength={150}
+                                    value={searchTerms[key]}
+                                    onChange={handleSearchChange(key)}
+                                />
+                                {categories[key].map((item) => (
+                                    <div className="optionItem" key={item.id}>
+                                        <div className="checkBox"> <Icon icon={UIIcons.Close} size={14} color="red" /> </div>
+                                        <span>{item.name}</span>
+                                    </div>
+                                ))}
                             </div>
-
-                            <div className="optionItem">
-                                <div className="checkBox" > <Icon icon={UIIcons.Close} size={14} color="red" /> </div>
-                                <span>Luara Franca de azevedo silva santos e marina da oliveira malesca de andrade alves marítimo franco</span>
-                            </div>
-                        </div>
-
-                        <div className="section">
-                            <InputFIeld icon={UIIcons.MagnifierPlus} label="Categorias" name="searchField" placeholder="search itens" maxLength={150} />
-                            <div className="optionItem">
-                                <div className="checkBox" > <Icon icon={UIIcons.Close} size={14} color="red" /> </div>
-                                <span>Frutas</span>
-                            </div>
-
-                            <div className="optionItem">
-                                <div className="checkBox" > <Icon icon={UIIcons.Close} size={14} color="red" /> </div>
-                                <span>Legumes</span>
-                            </div>
-                        </div>
+                        ))}
                     </div>
                 </div>
             </MobileSidebar>
@@ -107,5 +180,5 @@ export const Page_search = (): ReactElement => {
 
             </PageSearchContainer>
         </>
-    )
-}
+    );
+};
