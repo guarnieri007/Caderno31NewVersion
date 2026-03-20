@@ -13,7 +13,7 @@ export const defaultLightTheme: ThemeType = {
     border_default: "#000000",
 
     // Secondary containers
-    background_secondary: "#d2dbe4",
+    background_secondary: "#1a90fe",
 
     // Cards / panels
     background_card: "#c6d1dc",

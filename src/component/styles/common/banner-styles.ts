@@ -4,7 +4,7 @@ import styled from "styled-components";
 export const BannerDiv = styled.div.withConfig({
     shouldForwardProp: (prop) => !['bg_image'].includes(prop),
 })<BannerDivProps>`
-    border: 2px solid ${(prop) => prop.theme.colors.text};
+    border: 2px solid ${(prop) => prop.theme.colors.border_default};
     background-color: ${(prop) => prop.theme.colors.background_primary};
     color: ${(prop) => prop.$text_color};
     border-radius: 16px;

@@ -3,7 +3,7 @@ import { CreatorChipProps } from "../../interfaces/interfaces";
 import { CreatorChipDiv } from "../styles/common/common-styles";
 import { Button } from "./button";
 
-export const CreatorChip = ({id, title, category, image }: CreatorChipProps): ReactElement => {
+export const Chip = ({id, title, category, image }: CreatorChipProps): ReactElement => {
     return (
         <CreatorChipDiv key={id}>
             <img src={`${image}`} />
@@ -14,3 +14,5 @@ export const CreatorChip = ({id, title, category, image }: CreatorChipProps): Re
         </CreatorChipDiv>
     )
 }
+
+Chip.displayName = "Chip";

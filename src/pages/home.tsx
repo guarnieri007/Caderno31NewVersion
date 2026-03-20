@@ -6,7 +6,7 @@ import { BannerProps, CreatorChipProps, HeroProps, ItemAsCardProps } from "../in
 import { Carrousel } from "../component/common/carrousel";
 import { ContentCreatorDiv } from "../component/styles/common/common-styles";
 import { ItemAsCard } from "../component/common/itemAsCard";
-import { CreatorChip } from "../component/common/creator-chip";
+import { Chip } from "../component/common/creator-chip";
 import { Banner } from "../component/common/banner";
 import { MiniBannerLayout } from "../component/common/miniBannerLayout";
 import { useI18n } from "../i18n";
@@ -48,7 +48,7 @@ export const Home = (): ReactElement => {
             <ContentCreatorDiv number_items_uhd={4} number_items_hd={2}>
                 {content.map((item) => {
                     return (
-                        <CreatorChip key={item.id} {...item} />
+                        <Chip key={item.id} {...item} />
                     )
                 })}
             </ContentCreatorDiv>

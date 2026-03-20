@@ -197,7 +197,7 @@ export const CreatorChipDiv = styled.div`
     width: 100%;
 
     h2 {
-      color: ${(prop) => prop.theme.colors.text_hover};
+      color: ${(prop) => prop.theme.colors.text};
       font-size: 1rem;
       line-height: 1rem;
       display: -webkit-box;               /* Usa o layout flexível baseado em caixas */
@@ -207,6 +207,10 @@ export const CreatorChipDiv = styled.div`
       -webkit-line-clamp: 2;              /* Limita a exibição a 3 linhas */
       line-height: 1rem;                   /* Define a altura da linha para ajustar a altura da div */
       max-height: calc(1rem * 2);
+      &:hover {
+        text-decoration: underline;
+        color: ${(prop) => prop.theme.colors.text_hover};
+      }
     }
 
     p {

@@ -1,4 +1,4 @@
-import { ChangeEvent, ReactElement, useEffect, useMemo, useRef, useState } from "react";
+import { ChangeEvent, ReactElement, useEffect, useRef, useState } from "react";
 import { useTheme } from "styled-components";
 import { DefaultTheme } from "styled-components/dist/types";
 import { useI18n } from "../i18n";
