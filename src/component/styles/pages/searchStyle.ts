@@ -81,7 +81,7 @@ export const MobileSidebar = styled.div<{ $open: boolean }>`
     bottom: 0;
     width: 82%;
     height: 100dvh;
-    background: ${({ theme }) => theme.colors.background_secondary};
+    background: ${({ theme }) => theme.colors.background_primary};
     overflow-y: auto;
     color: ${({ theme }) => theme.colors.text};
     padding: 0px;

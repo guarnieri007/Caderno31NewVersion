@@ -9,40 +9,43 @@ import { InputFIeld } from "../component/common/input-field";
 import { setRemoveScroll } from "../context/RemoveScrollSingleton";
 import { SearchCategoryKey, SearchFilters } from "../api/searchMidias";
 import { SearchFilterItem, SearchResults } from "../interfaces/searchFilters.odt";
+import { useLanguage } from "../context/Language";
 
 
 export const Page_search = (): ReactElement => {
     //const navigate = useNavigate();
-    
+
     const theme: DefaultTheme = useTheme();
-    const { t, language } = useI18n();
-    const searchFiltersAPI = useMemo(() => SearchFilters(), []);
-    const { fetchFiltersAvailables, searchCategoryItems } = searchFiltersAPI;
-    
+    const { t } = useI18n();
+    const { language } = useLanguage();
+    const { fetchFiltersAvailables, searchCategoryItems } = SearchFilters();
+
     const [searchTerms, setSearchTerms] = useState<Record<SearchCategoryKey, string>>({
         creators: '',
         languages: '',
         postCategories: '',
         postTypes: '',
     });
-    
+
     const SECTION_CONFIG: { key: SearchCategoryKey; label: string; inputName: string }[] = [
-        { key: 'creators', label: 'creators', inputName: 'search-creators' },
-        { key: 'postCategories', label: 'categories', inputName: 'search-categories' },
-        { key: 'languages', label: 'languages', inputName: 'search-languages' },
-        { key: 'postTypes', label: 'types', inputName: 'search-types' },
+        { key: 'creators', label: t('component.complex.search.creators'), inputName: 'search-creators' },
+        { key: 'postCategories', label: t('component.complex.search.categories'), inputName: 'search-categories' },
+        { key: 'languages', label: t('component.complex.search.languages'), inputName: 'search-languages' },
+        { key: 'postTypes', label: t('component.complex.search.types'), inputName: 'search-types' },
     ];
-    
+
     const EMPTY_RESULTS: SearchResults = {
         creators: [],
         languages: [],
         postCategories: [],
         postTypes: [],
     };
-    
+
     const [categories, setCategories] = useState<SearchResults>(EMPTY_RESULTS);
+    const [categoriesFiltered, setCategoriesFiltered] = useState<SearchResults>(EMPTY_RESULTS);
+    const [categoriesSelected, setCategoriesSelected] = useState<SearchResults>(EMPTY_RESULTS);
     const [open, setOpen] = useState(false);
-    
+
     useEffect(() => {
         const fetchCategories = async () => {
             const filters = await fetchFiltersAvailables({ lang: language });
@@ -84,46 +87,57 @@ export const Page_search = (): ReactElement => {
     }, [open]);
 
     useEffect(() => {
-        const timeout = setTimeout(async () => {
-            const requests = SECTION_CONFIG.map(async ({ key }) => {
-                const query = searchTerms[key].trim();
+        // const timeout = setTimeout(async () => {
+        //     const requests = SECTION_CONFIG.map(async ({ key }) => {
+        //         const query = searchTerms[key].trim();
+        //         if (!query) {
+        //             return null;
+        //         }
+
+        //         const items = await searchCategoryItems({
+        //             category: key,
+        //             search: query,
+        //             lang: language,
+        //         });
+
+        //         return { key, items };
+        //     });
+
+        //     const updates = (await Promise.all(requests)).filter(Boolean) as {
+        //         key: SearchCategoryKey;
+        //         items: SearchFilterItem[];
+        //     }[];
+
+        //     if (!updates.length) {
+        //         return;
+        //     }
+
+        //     setCategories((previous) => {
+        //         const next = { ...previous };
+        //         updates.forEach(({ key, items }) => {
+        //             next[key] = items;
+        //         });
+        //         return next;
+        //     });
+        // }, 350);
+
+        //return () => clearTimeout(timeout);
+        setCategoriesFiltered((previous) => {
+            const next = { ...previous };
+            SECTION_CONFIG.forEach(({ key }) => {
+                const query = searchTerms[key].trim().toLowerCase();
                 if (!query) {
-                    return null;
+                    next[key] = categories[key];
+                    return;
                 }
 
-                const items = await searchCategoryItems({
-                    category: key,
-                    search: query,
-                    lang: language,
-                });
-
-                return { key, items };
+                next[key] = categories[key].filter((item) =>
+                    item.name.toLowerCase().includes(query)
+                );
             });
-
-            const updates = (await Promise.all(requests)).filter(Boolean) as {
-                key: SearchCategoryKey;
-                items: SearchFilterItem[];
-            }[];
-
-            if (!updates.length) {
-                return;
-            }
-
-            setCategories((previous) => {
-                const next = { ...previous };
-                updates.forEach(({ key, items }) => {
-                    next[key] = items;
-                });
-                return next;
-            });
-        }, 350);
-
-        return () => clearTimeout(timeout);
+            return next;
+        });
     }, [searchCategoryItems, searchTerms, language]);
-
-    const visibleSections = useMemo(() => {
-        return SECTION_CONFIG.filter(({ key }) => categories[key].length > 0);
-    }, [categories]);
 
     const openMobileSidebar = async () => {
         setRemoveScroll(true);
@@ -143,6 +157,20 @@ export const Page_search = (): ReactElement => {
         }));
     };
 
+    const handleOptionToggle = (categoryKey: SearchCategoryKey, item: SearchFilterItem) => {
+        setCategoriesSelected((previous) => {
+            const isSelected = previous[categoryKey].some((selected) => selected.id === item.id);
+            const nextItems = isSelected
+                ? previous[categoryKey].filter((selected) => selected.id !== item.id)
+                : [...previous[categoryKey], item];
+
+            return {
+                ...previous,
+                [categoryKey]: nextItems,
+            };
+        });
+    };
+
     return (
         <>
             <MobileSidebar $open={open}>
@@ -158,7 +186,7 @@ export const Page_search = (): ReactElement => {
                     </div>
 
                     <div className="fieldSelector">
-                        {visibleSections.map(({ key, label, inputName }) => (
+                        {SECTION_CONFIG.map(({ key, label, inputName }) => (
                             <div className="section" key={key}>
                                 <InputFIeld
                                     icon={UIIcons.MagnifierPlus}
@@ -169,10 +197,14 @@ export const Page_search = (): ReactElement => {
                                     value={searchTerms[key]}
                                     onChange={handleSearchChange(key)}
                                 />
-                                {categories[key].map((item) => (
-                                    <div className="optionItem" key={item.id}>
-                                        <div className="checkBox"> <Icon icon={UIIcons.Close} size={14} color="red" /> </div>
-                                        <span>{item.name}</span>
+                                {categoriesFiltered[key].map((item) => (
+                                    <div className="optionItem" key={item.id} onClick={() => handleOptionToggle(key, item)}>
+                                        <div className="checkBox">
+                                            {categoriesSelected[key].some((selected) => selected.id === item.id) && (
+                                                <Icon icon={UIIcons.Close} size={14} color={theme.colors.text} />
+                                            )}
+                                        </div>
+                                        <span className="noSelection">{item.name}</span>
                                     </div>
                                 ))}
                             </div>
