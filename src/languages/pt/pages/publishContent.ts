@@ -4,6 +4,7 @@ export default {
   langLabel: 'Idioma',
   select: 'Selecionar',
   descriptionLabel: 'Descrição',
+  descriptionLabelLang: 'Descrição em {lang}',
   descriptionPlaceholder: 'Coloque aqui a descrição do seu conteúdo',
   postTypeLabel: 'Tipo de Post',
   priceLabel: 'Preço',

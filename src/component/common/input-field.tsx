@@ -96,7 +96,7 @@ export const InputFIeld = (
                         <Icon
                             icon={icon}
                             // Condiciona a cor do ícone com base no estado de foco
-                            size={16}
+                            size={18}
                         />
                     )}
                 </div>

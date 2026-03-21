@@ -1,6 +1,6 @@
 import { ReactElement, useEffect, useRef, useState } from 'react';
 import { Button } from './button';
-import { useLanguage } from '../../context/Language';
+import { Language, useLanguage, languages } from '../../context/Language';
 import { LanguageSwitcherStyles } from '../styles/common/languageSwitcher-styles';
 import { useI18n } from '../../i18n';
 import Icon from '../icons/icon';
@@ -8,26 +8,16 @@ import { UIIcons } from '../icons';
 
 export const LanguageSwitcher = (): ReactElement => {
   const { language, changeLanguage } = useLanguage();
-  const [availableLanguages, setAvailableLanguages] = useState<Language[]>([]);
+  const [availableLanguages, setAvailableLanguages] = useState<Map<string, Language>>(new Map());
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { t } = useI18n();
 
-  const HandleChangingLanguage = (lang: Language) => {
+  const HandleChangingLanguage = (lang: string) => {
     setIsOpen(false);
-    changeLanguage(lang.code);
+    changeLanguage(lang);
   }
-
-  type Language = {
-    code: string;
-    flag: string;
-  };
-  const languages: Language[] = [
-    { code: "pt", flag: "🇧🇷" },
-    { code: "en", flag: "🇺🇸" },
-    { code: "es", flag: "🇦🇷" },
-  ];
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -54,7 +44,7 @@ export const LanguageSwitcher = (): ReactElement => {
   }, []);
 
   useEffect(() => {
-    setAvailableLanguages(languages.filter(lang => lang.code !== language));
+    setAvailableLanguages(languages);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [language]);
@@ -62,18 +52,20 @@ export const LanguageSwitcher = (): ReactElement => {
   return (
     <LanguageSwitcherStyles isOpen={isOpen} isHovered={isHovered} ref={dropdownRef}>
       <div className='SelectedLanguage' onClick={() => setIsOpen(!isOpen)} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
-        <span className='noSelection'>{languages.find(lang => lang.code === language)?.flag}</span>
+        <span className='noSelection'>{languages.get(language)?.flag}</span>
         <span className='noSelection'>{t(`component.common.header.${language}`)}</span>
         <Icon icon={isOpen ? UIIcons.ChevronUp : UIIcons.ChevronDown} size={10} />
       </div>
       <div className='AvailableLanguages'>
-        {availableLanguages.map(lang => (
-          <Button color='secondary' key={lang.code} handleOnClick={() => HandleChangingLanguage(lang)}>
-            <div className='Language'>
-              <span className='noSelection'>{lang.flag}</span>
-              <span className='noSelection'>{t(`component.common.header.${lang.code}`)}</span>
-            </div>
-          </Button>
+        {Array.from(availableLanguages.keys()).map((lang) => (
+          language !== lang && (
+            <Button color='secondary' key={lang} handleOnClick={() => HandleChangingLanguage(lang)}>
+              <div className='Language'>
+                <span className='noSelection'>{availableLanguages.get(lang)?.flag}</span>
+                <span className='noSelection'>{t(`component.common.header.${lang}`)}</span>
+              </div>
+            </Button>
+          )
         ))}
       </div>
     </LanguageSwitcherStyles>

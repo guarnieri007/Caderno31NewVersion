@@ -53,7 +53,7 @@ export const PublishContent = (): ReactElement => {
         clearUploadsWhenFinished
     } = useUploadFiles();
     const { ListCategories, ListLanguage, ListPostTypes } = PublishContentAPI();
-    const { language } = useLanguage();
+    const { language, cd_language } = useLanguage();
     const { handleCreatePost } = useCreatePost();
 
     const [errors, setErrors] = useState<{ [key in keyof PublishContentForm]?: string[] }>({});
@@ -158,7 +158,7 @@ export const PublishContent = (): ReactElement => {
             .sort((a, b) => a.ds_language_short.localeCompare(b.ds_language_short))
     }
 
-    const remainingLangs = languages.filter(l => !descriptionFields.some(df => df.cd_language === l.cd_language))
+    const remainingLangs = languages.filter(l => !descriptionFields.some(df => df.cd_language === l.cd_language)).length -1;
 
     async function sendForm(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault()
@@ -249,7 +249,7 @@ export const PublishContent = (): ReactElement => {
                                     type='button'
                                     color='secondary'
                                     handleOnClick={addDescriptionField}
-                                    clicable={!(remainingLangs.length === 0)}
+                                    clicable={(remainingLangs > 0)}
                                 >
                                     {t('pages.publishContent.addLang', undefined, 'Add Lang')}
                                 </Button>
@@ -289,7 +289,9 @@ export const PublishContent = (): ReactElement => {
                                             }
                                             <div className='input-item'>
                                                 <InputFIeld
-                                                    label={t('pages.publishContent.descriptionLabel', undefined, 'Description')}
+                                                    label={field.cd_language ?
+                                                        t('pages.publishContent.descriptionLabelLang', { lang: getLangDescription(languages.find(l => l.cd_language === field.cd_language)!, cd_language() ?? 1) })
+                                                        : t('pages.publishContent.descriptionLabel', undefined, 'Description')}
                                                     maxLength={maxDescriptionLength}
                                                     name={`description-${index}`}
                                                     placeholder={t('pages.publishContent.descriptionPlaceholder', undefined, 'Put here the description of your content')}

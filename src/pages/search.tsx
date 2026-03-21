@@ -214,7 +214,7 @@ export const Page_search = (): ReactElement => {
                                             <div className="optionItem" key={item.id} onClick={() => handleOptionToggle(key, item)}>
                                                 <div className="checkBox">
                                                     {categoriesSelected[key].some((selected) => selected.id === item.id) && (
-                                                        <Icon icon={UIIcons.Close} size={14} color={theme.colors.text} />
+                                                        <Icon icon={UIIcons.Close} size={22} color={theme.colors.text} />
                                                     )}
                                                 </div>
                                                 <span className="noSelection">{item.name}</span>
