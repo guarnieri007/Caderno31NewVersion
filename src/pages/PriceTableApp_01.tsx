@@ -1,4 +1,6 @@
 import { useState, useRef, useEffect, useCallback, useMemo, type ChangeEvent, type CSSProperties } from "react";
+import { useAuth } from "../context/AuthContext";
+import { PriceTableAPI, type PriceTableResponse, type PriceTablePayload } from "../api/priceTables";
 
 // ─── TYPES ────────────────────────────────────────────────────────────────────
 export type Layout = "dot" | "grid";
@@ -91,6 +93,7 @@ export interface Category {
 }
 
 export interface TableData {
+  _id?: string;
   id: string;
   layout: Layout;
   title: string;
@@ -191,6 +194,49 @@ function loadTables(): TableData[] {
 }
 function saveTables(tables: TableData[]): void {
   try { localStorage.setItem("pt3", JSON.stringify(tables)); } catch {return;}
+}
+
+function toPayload(tb: TableData): PriceTablePayload {
+  return {
+    tableId: tb.id,
+    layout: tb.layout,
+    title: tb.title,
+    subtitle: tb.subtitle,
+    footer: tb.footer,
+    note: tb.note,
+    templateId: tb.templateId,
+    dotTemplateId: tb.dotTemplateId,
+    bgImage: tb.bgImage,
+    bgOverlay: tb.bgOverlay,
+    avatar: tb.avatar,
+    showCats: tb.showCats,
+    categories: tb.categories,
+    fontSizes: tb.fontSizes,
+    customDotColors: tb.customDotColors,
+    customGridColors: tb.customGridColors,
+  };
+}
+
+function fromResponse(r: PriceTableResponse): TableData {
+  return {
+    _id: r._id,
+    id: r.tableId,
+    layout: (r.layout as Layout) || "dot",
+    title: r.title ?? "",
+    subtitle: r.subtitle ?? "",
+    footer: r.footer ?? "",
+    note: r.note ?? "",
+    templateId: r.templateId ?? "",
+    dotTemplateId: r.dotTemplateId ?? "",
+    bgImage: r.bgImage ?? null,
+    bgOverlay: r.bgOverlay ?? 0,
+    avatar: r.avatar ?? null,
+    showCats: r.showCats ?? true,
+    categories: r.categories ?? [],
+    fontSizes: (r.fontSizes ?? undefined) as FontSizes | undefined,
+    customDotColors: (r.customDotColors ?? undefined) as CustomDotColors | undefined,
+    customGridColors: (r.customGridColors ?? undefined) as CustomGridColors | undefined,
+  };
 }
 
 function newTable(): TableData {
@@ -903,7 +949,7 @@ interface ItemModalState { catId: string; itemId: string; data: Item; }
 
 interface TableFormProps {
   initial: TableData | null;
-  onSave: (data: TableData) => void;
+  onSave: (data: TableData) => void | Promise<void>;
   onCancel: () => void;
 }
 
@@ -1232,27 +1278,86 @@ function TableForm({ initial, onSave, onCancel }: TableFormProps) {
 type View = "list" | "form" | "preview";
 
 export default function App() {
+  const { user } = useAuth();
+  const { listPriceTables, createPriceTable, updatePriceTable, deletePriceTable } = PriceTableAPI();
+
   const [tables, setTables] = useState<TableData[]>(loadTables);
   const [view, setView] = useState<View>("list");
   const [editing, setEditing] = useState<string | null>(null);
   const [previewing, setPreviewing] = useState<string | null>(null);
   const [exporting, setExporting] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
   const importRef = useRef<HTMLInputElement>(null);
+
+  const isLoggedIn = !!user;
+
+  useEffect(() => {
+    if (!isLoggedIn) return;
+    let cancelled = false;
+    setLoading(true);
+    listPriceTables(user.cd_credential)
+      .then((res) => {
+        if (cancelled || !res) return;
+        const mapped = res.data.map(fromResponse);
+        setTables(mapped);
+        saveTables(mapped);
+      })
+      .catch((err) => console.error("Erro ao carregar tabelas:", err))
+      .finally(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
+  }, [isLoggedIn]);
 
   useEffect(() => saveTables(tables), [tables]);
 
   const goList = () => { setView("list"); setEditing(null); setPreviewing(null); };
 
-  const handleSave = (data: TableData) => {
-    setTables((ts) => {
-      if (editing) return ts.map((t) => (t.id === data.id ? data : t));
-      return [...ts, data];
-    });
-    goList();
+  const handleSave = async (data: TableData) => {
+    if (!isLoggedIn) {
+      setTables((ts) => {
+        if (editing) return ts.map((t) => (t.id === data.id ? data : t));
+        return [...ts, data];
+      });
+      goList();
+      return;
+    }
+
+    setSaving(true);
+    try {
+      if (editing && data._id) {
+        const { tableId: _, ...updateFields } = toPayload(data);
+        const updated = await updatePriceTable(data._id, updateFields);
+        if (updated) {
+          const mapped = fromResponse(updated);
+          setTables((ts) => ts.map((t) => (t.id === mapped.id ? mapped : t)));
+        }
+      } else {
+        const created = await createPriceTable(toPayload(data));
+        if (created) {
+          const mapped = fromResponse(created);
+          setTables((ts) => [...ts, mapped]);
+        }
+      }
+      goList();
+    } catch (err) {
+      alert("Erro ao salvar tabela: " + (err instanceof Error ? err.message : String(err)));
+    } finally {
+      setSaving(false);
+    }
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (!window.confirm("Excluir esta tabela permanentemente?")) return;
+    const table = tables.find((t) => t.id === id);
+
+    if (isLoggedIn && table?._id) {
+      try {
+        await deletePriceTable(table._id);
+      } catch (err) {
+        alert("Erro ao excluir tabela: " + (err instanceof Error ? err.message : String(err)));
+        return;
+      }
+    }
     setTables((ts) => ts.filter((t) => t.id !== id));
   };
 
@@ -1289,7 +1394,7 @@ export default function App() {
         </span>
         <div style={{ flex:1 }} />
         {view === "list" && <>
-          <button style={btnP} onClick={() => { setEditing(null); setView("form"); }}>+ Nova Tabela</button>
+          <button style={btnP} onClick={() => { setEditing(null); setView("form"); }} disabled={saving}>+ Nova Tabela</button>
           <button style={btnG} onClick={doExportJSON}>↓ JSON</button>
           <label style={{ ...btnG, display:"inline-block" }}>
             ↑ JSON <input ref={importRef} type="file" accept=".json" style={{ display:"none" }} onChange={doImportJSON} />
@@ -1302,8 +1407,15 @@ export default function App() {
       </nav>
 
       <div style={{ padding:20, maxWidth:1200, margin:"0 auto" }}>
+        {/* LOADING */}
+        {loading && (
+          <div style={{ textAlign:"center", padding:"60px 20px", color:"#555" }}>
+            <p style={{ fontSize:14 }}>Carregando tabelas...</p>
+          </div>
+        )}
+
         {/* LIST */}
-        {view === "list" && (
+        {view === "list" && !loading && (
           <>
             {tables.length === 0 ? (
               <div style={{ textAlign:"center", padding:"80px 20px", color:"#444" }}>
@@ -1376,6 +1488,15 @@ export default function App() {
 
       {/* Export modal */}
       {exportTable && <ExportModal table={exportTable} onClose={() => setExporting(null)} />}
+
+      {/* Saving overlay */}
+      {saving && (
+        <div style={{ position:"fixed", inset:0, background:"rgba(0,0,0,.6)", display:"flex", alignItems:"center", justifyContent:"center", zIndex:2000 }}>
+          <div style={{ background:"#1e1e2e", border:"1px solid #2a2a3e", borderRadius:12, padding:"24px 32px", color:"#e0e0e0", fontSize:14 }}>
+            Salvando...
+          </div>
+        </div>
+      )}
     </div>
   );
 }

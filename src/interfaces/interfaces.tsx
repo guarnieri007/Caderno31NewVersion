@@ -284,6 +284,7 @@ export interface UploadFileProps {
 }
 
 export interface User {
+  cd_credential: string;
   username: string;
   email: string;
   role?: string;
