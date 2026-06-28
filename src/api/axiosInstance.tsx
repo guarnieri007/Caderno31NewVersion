@@ -45,7 +45,7 @@ api.interceptors.response.use(
   async (error: AxiosError) => {
     const originalRequest = error.config as AxiosRequestConfig & { _retry?: boolean };
 
-    const backendMessage = error.response?.data?.message;
+    const backendMessage = JSON.stringify(error.response?.data);
     const isAuthEndpoint = originalRequest.url?.includes('auth/');
 
     if (isAuthError(error.response?.status ?? 0, backendMessage)
