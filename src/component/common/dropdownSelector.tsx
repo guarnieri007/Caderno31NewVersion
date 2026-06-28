@@ -83,7 +83,8 @@ export const DropdownSelector = <TItem, TValue extends string | number>({
                         setSearch(e.target.value);
                         setIsOpen(true);
                     }}
-                    icon={UIIcons.ChevronDown}
+                    icon={isOpen ? UIIcons.ChevronUp : UIIcons.ChevronDown}
+                    onIconClick={() => { if (isOpen) closeDropdown(); else openDropdown(); }}
                     onFocus={openDropdown}
                     onBlur={closeDropdown}
                     value={search !== "" ? search : inputValue}

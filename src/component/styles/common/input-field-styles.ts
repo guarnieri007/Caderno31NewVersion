@@ -66,6 +66,12 @@ export const InputFieldContent = styled.div.withConfig({
             };
         }
 
+        .icon-button {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
     }
 
     .expand {

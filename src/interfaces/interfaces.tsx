@@ -123,6 +123,7 @@ export interface InputFIeldProps {
   onBlur?: () => void;
   disabled?: boolean;
   restrictMaxLengthByText?: boolean;
+  onIconClick?: () => void;
 }
 
 export interface ItemAsCardProps {

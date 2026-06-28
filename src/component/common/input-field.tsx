@@ -22,6 +22,7 @@ export const InputFIeld = (
         onBlur,
         disabled,
         restrictMaxLengthByText = true,
+        onIconClick,
 
     }: InputFIeldProps): ReactNode => {
     const hasErrors: boolean = errors !== undefined && errors.length > 0;
@@ -55,7 +56,7 @@ export const InputFIeld = (
         }
     }
 
-    let labelLength = labelValue && typeof labelValue === "number"
+    const labelLength = labelValue && typeof labelValue === "number"
     ? labelValue : Number(labelValue);
 
     const valueLabel = typeof value === "string" ? value.length : 0;
@@ -93,11 +94,18 @@ export const InputFIeld = (
                     />
 
                     {icon !== null && icon !== undefined && (
-                        <Icon
-                            icon={icon}
-                            // Condiciona a cor do ícone com base no estado de foco
-                            size={18}
-                        />
+                        <span
+                            className={onIconClick ? "icon-button" : undefined}
+                            onClick={onIconClick ? (e) => {
+                                e.preventDefault();
+                                onIconClick();
+                            } : undefined}
+                        >
+                            <Icon
+                                icon={icon}
+                                size={18}
+                            />
+                        </span>
                     )}
                 </div>
                 {instructions !== null && instructions !== undefined && (

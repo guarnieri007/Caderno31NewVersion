@@ -111,7 +111,8 @@ export const CategorySelector = (
           onFocus={openDropdown}
           onBlur={closeDropdown}
           disabled={selected.length >= max_selection}
-          icon={UIIcons.ChevronDown}
+          icon={isOpen ? UIIcons.ChevronUp : UIIcons.ChevronDown}
+          onIconClick={() => { if (isOpen) closeDropdown(); else openDropdown(); }}
           labelValue={selected.length}
           value={search}
           restrictMaxLengthByText={false}
