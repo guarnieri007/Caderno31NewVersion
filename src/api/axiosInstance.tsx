@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { AuthAPI } from './auth';
 import { getAccessToken, setAccessToken } from '../context/AuthTokenSingleton';
+import { isAuthError } from './authError';
 
 const backendURL = `${import.meta.env.VITE_BACKEND_PROTOCOAL}://${import.meta.env.VITE_BACKEND_HOST}:${import.meta.env.VITE_BACKEND_PORT}/api/`;
 
@@ -44,9 +45,12 @@ api.interceptors.response.use(
   async (error: AxiosError) => {
     const originalRequest = error.config as AxiosRequestConfig & { _retry?: boolean };
 
-    if (( error.response?.status === 403 &&
-      (error.message === 'Token inválido ou expirado' || error.message === 'Token não fornecido') )
-      && !originalRequest._retry) {
+    const backendMessage = error.response?.data?.message;
+    const isAuthEndpoint = originalRequest.url?.includes('auth/');
+
+    if (isAuthError(error.response?.status ?? 0, backendMessage)
+      && !originalRequest._retry
+      && !isAuthEndpoint) {
       originalRequest._retry = true;
 
       if (isRefreshing) {

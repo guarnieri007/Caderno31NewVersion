@@ -8,6 +8,7 @@ import { Route, Routes } from 'react-router-dom'
 import { SignUp } from './pages/signup'
 import { NotFound404 } from './pages/notFound404'
 import { PublishContent } from './pages/publishContent'
+import  CreateTable from './pages/PriceTableApp_01';
 import { useRemoveScroll } from './context/RemoveScroll'
 import { useEffect } from 'react'
 import { ResetPassword } from './pages/ResetPassword'
@@ -39,6 +40,7 @@ function App() {
             <Route path='/reset-password' element={<ResetPassword />} />
             <Route path='/publishContent' element={<PublishContent />} />
             <Route path='/search' element={<Page_search />} />
+            <Route path='/create-table' element={<CreateTable />} />
             <Route path='*' element={<NotFound404 />} />
           </Routes>
         </MainContent>

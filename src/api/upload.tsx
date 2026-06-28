@@ -1,7 +1,18 @@
-// src/api/upload.tsx
 import { getAccessToken, setAccessToken } from "../context/AuthTokenSingleton";
 import { AuthAPI } from "./auth";
 import { isAuthError } from './authError';
+
+export interface UploadChunkOptions {
+  file: File;
+  chunkIndex: number;
+  chunkSize: number;
+  fileId: string;
+  totalChunks: number;
+  onProgress: (percent: number) => void;
+  onSuccess: () => void;
+  onError: (error: string) => void;
+  token?: string | null;
+}
 
 export const UploadAPI = () => {
   const backendURL = `${import.meta.env.VITE_BACKEND_PROTOCOAL}://${import.meta.env.VITE_BACKEND_HOST}:${import.meta.env.VITE_BACKEND_PORT}/api/upload/`;
@@ -13,12 +24,14 @@ export const UploadAPI = () => {
     const token = getAccessToken() || '';
     const response = await request(token);
 
+    if (response.ok) return response;
+
     let backendMessage: string | undefined;
     try {
       const json = await response.clone().json();
       backendMessage = json?.message;
     } catch {
-      /* ignore */
+      /* response body is not JSON */
     }
 
     if (!retry && isAuthError(response.status, backendMessage)) {
@@ -33,18 +46,18 @@ export const UploadAPI = () => {
     return response;
   };
 
-  const uploadChunk = (
-    file: File,
-    chunkIndex: number,
-    chunkSize: number,
-    fileId: string,
-    totalChunks: number,
-    onProgress: (percent: number) => void,
-    onSuccess: () => void,
-    onError: (error: string) => void,
-    token?: string | null
-  ): XMLHttpRequest => {
-    const sendChunk = (accessToken: string | null, retry = false) => {
+  const uploadChunk = ({
+    file,
+    chunkIndex,
+    chunkSize,
+    fileId,
+    totalChunks,
+    onProgress,
+    onSuccess,
+    onError,
+    token,
+  }: UploadChunkOptions): XMLHttpRequest => {
+    const sendChunk = (accessToken: string | null, retry = false): XMLHttpRequest => {
       const start = chunkIndex * chunkSize;
       const end = Math.min(start + chunkSize, file.size);
       const chunk = file.slice(start, end);
@@ -68,37 +81,32 @@ export const UploadAPI = () => {
       xhr.onload = async () => {
         if (xhr.status === 200) {
           onSuccess();
-        } else {
-          // Try to extract backend message
-          let backendMessage = xhr.statusText;
+          return;
+        }
+
+        let backendMessage = xhr.statusText;
+        try {
+          const json = JSON.parse(xhr.responseText || '{}');
+          if (json.message) backendMessage = json.message;
+        } catch {
+          /* response is not JSON, use statusText as fallback */
+        }
+
+        if (!retry && isAuthError(xhr.status, backendMessage)) {
           try {
-            const json = JSON.parse(xhr.responseText || '{}');
-            if (json.message) backendMessage = json.message;
-          }
-          catch {
-            return;
-          }
-
-          const authError = !retry && isAuthError(xhr.status, backendMessage);
-
-          if (authError) {
-            // token expirado ou inválido
-            try {
-              const { requestAccessTokenRefresh } = AuthAPI();
-              const newToken = await requestAccessTokenRefresh();
-              if (newToken) {
-                setAccessToken(newToken);
-                sendChunk(newToken, true); // tenta de novo
-              } else {
-                onError("Unauthorized and no token refresh");
-              }
-            } catch (err) {
-              onError(`Token refresh failed. error: ${err}`);
+            const { requestAccessTokenRefresh } = AuthAPI();
+            const newToken = await requestAccessTokenRefresh();
+            if (newToken) {
+              setAccessToken(newToken);
+              sendChunk(newToken, true);
+            } else {
+              onError("Unauthorized and no token refresh");
             }
-          } else {
-            onError(xhr.statusText);
+          } catch (err) {
+            onError(`Token refresh failed. error: ${err}`);
           }
-
+        } else {
+          onError(backendMessage);
         }
       };
 
@@ -115,7 +123,6 @@ export const UploadAPI = () => {
       return xhr;
     };
 
-    // inicia com o token atual
     return sendChunk(token || getAccessToken());
   };
 
