@@ -93,4 +93,3 @@ export const PostAPI = () => {
 
   return { listPosts, getPost, createPost, updatePost, deletePost };
 };
-

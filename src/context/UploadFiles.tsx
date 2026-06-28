@@ -99,13 +99,13 @@ export const UploadFilesProvider = ({ children }: { children: ReactNode }) => {
       const token = getAccessToken();
 
       await new Promise<void>((resolve, reject) => {
-        const xhr = uploadChunk(
+        const xhr = uploadChunk({
           file,
           chunkIndex,
           chunkSize,
-          fileId!,
+          fileId: fileId!,
           totalChunks,
-          (percent) => {
+          onProgress: (percent) => {
             const calculated = ((chunkIndex + percent / 100) / totalChunks) * 100;
             setUploads((prev) =>
               prev.map((u) =>
@@ -115,7 +115,7 @@ export const UploadFilesProvider = ({ children }: { children: ReactNode }) => {
               )
             );
           },
-          () => {
+          onSuccess: () => {
             currentChunk++;
             setUploads((prev) =>
               prev.map((u) =>
@@ -126,7 +126,7 @@ export const UploadFilesProvider = ({ children }: { children: ReactNode }) => {
             );
             resolve();
           },
-          (error) => {
+          onError: (error) => {
             console.error("Upload chunk error:", error);
             setUploads((prev) =>
               prev.map((u) =>
@@ -137,8 +137,8 @@ export const UploadFilesProvider = ({ children }: { children: ReactNode }) => {
             );
             reject();
           },
-          token
-        );
+          token,
+        });
 
         if (!activeRequests.current.has(fileId)) {
           activeRequests.current.set(fileId, []);
