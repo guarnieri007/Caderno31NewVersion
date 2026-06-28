@@ -41,6 +41,41 @@ export interface Format {
   h: number;
 }
 
+export interface FontSizes {
+  dotTitle1?: number;
+  dotTitle2?: number;
+  dotSub?: number;
+  dotCatName?: number;
+  dotItem?: number;
+  dotNote?: number;
+  dotFoot?: number;
+  gridTitle?: number;
+  gridSub?: number;
+  gridCatName?: number;
+  gridItemName?: number;
+  gridItemDesc?: number;
+  gridFoot?: number;
+}
+
+export interface CustomDotColors {
+  bg: string;
+  bg2: string;
+  txt: string;
+  txt2: string;
+  accent: string;
+  cat: string;
+  foot: string;
+}
+
+export interface CustomGridColors {
+  bg: string;
+  bg2: string;
+  accent: string;
+  txt: string;
+  txt2: string;
+  border: string;
+}
+
 export interface Item {
   id: string;
   name: string;
@@ -69,6 +104,9 @@ export interface TableData {
   avatar: string | null;
   showCats: boolean;
   categories: Category[];
+  fontSizes?: FontSizes;
+  customDotColors?: CustomDotColors;
+  customGridColors?: CustomGridColors;
 }
 
 // ─── TEMPLATES ────────────────────────────────────────────────────────────────
@@ -79,15 +117,17 @@ const TGRID: GridTheme[] = [
   { id:"dark",     name:"Noite",     css:"linear-gradient(135deg,#0a0a0a,#111)",    bg:"#0a0a0a", bg2:"#111",    accent:"#00e5ff", txt:"#e0e0e0", txt2:"#6a7080", tFont:"Arial,sans-serif", border:"#00e5ff", rowAlt:"rgba(0,229,255,.06)",  hBg:"rgba(0,229,255,.12)"  },
   { id:"violet",   name:"Violeta",   css:"linear-gradient(135deg,#120826,#1e0f3c)", bg:"#120826", bg2:"#1e0f3c", accent:"#b388ff", txt:"#ede7f6", txt2:"#9575cd", tFont:"Arial,sans-serif", border:"#b388ff", rowAlt:"rgba(179,136,255,.08)",hBg:"rgba(179,136,255,.15)"},
   { id:"cream",    name:"Bege",      css:"linear-gradient(135deg,#faf6f1,#f0e8dc)", bg:"#faf6f1", bg2:"#f0e8dc", accent:"#8b5e3c", txt:"#2c1a0e", txt2:"#7a5c4a", tFont:"Georgia,serif", border:"#c49a6c", rowAlt:"rgba(139,94,60,.06)",  hBg:"rgba(139,94,60,.12)"  },
+  { id:"custom",   name:"✦ Custom",  css:"linear-gradient(135deg,#1a1a2e,#16213e)", bg:"#1a1a2e", bg2:"#16213e", accent:"#e94560", txt:"#fff", txt2:"#a0a8c0", tFont:"Georgia,serif", border:"#e94560", rowAlt:"rgba(233,69,96,.07)", hBg:"rgba(233,69,96,.18)" },
 ];
 
 const TDOT: DotTheme[] = [
-  { id:"dot_black",  name:"Noir",       css:"linear-gradient(160deg,#111,#1c1c1c)",   bg:"#111",    bg2:"#272727", txt:"#e6e6e6", txt2:"#b3b3b3",    accent:"#fff",    cat:"#fff",    dotC:"rgba(255,255,255,.3)",  div:"rgba(255,255,255,.12)", foot:"#888"    },
+  { id:"dot_black",  name:"Noir",       css:"linear-gradient(160deg,#0d0d0d,#030303)",   bg:"#0d0d0d",    bg2:"#030303", txt:"#e6e6e6", txt2:"#b3b3b3",    accent:"#fff",    cat:"#fff",    dotC:"rgba(255,255,255,.3)",  div:"rgba(255,255,255,.12)", foot:"#888"    },
   { id:"dot_gold",   name:"Ouro",       css:"linear-gradient(160deg,#0a0800,#181400)", bg:"#0a0800", bg2:"#181400", txt:"#f0e0b0", txt2:"#9a8050", accent:"#c9a84c", cat:"#c9a84c", dotC:"rgba(201,168,76,.4)",   div:"rgba(201,168,76,.2)",  foot:"#7a6030" },
   { id:"dot_rose",   name:"Rosa Noir",  css:"linear-gradient(160deg,#0d0508,#160a10)", bg:"#0d0508", bg2:"#160a10", txt:"#f5d5e5", txt2:"#a06080", accent:"#e07090", cat:"#e07090", dotC:"rgba(224,112,144,.35)", div:"rgba(224,112,144,.2)", foot:"#a06080" },
   { id:"dot_ivory",  name:"Marfim",     css:"linear-gradient(160deg,#f8f4ee,#ede8e0)", bg:"#f8f4ee", bg2:"#ede8e0", txt:"#1a1410", txt2:"#7a6858", accent:"#4a3828", cat:"#4a3828", dotC:"rgba(74,56,40,.3)",    div:"rgba(74,56,40,.15)",   foot:"#7a6858" },
   { id:"dot_violet", name:"Violeta",    css:"linear-gradient(160deg,#08040f,#110818)", bg:"#08040f", bg2:"#110818", txt:"#e8d8f8", txt2:"#8060a8", accent:"#b088f0", cat:"#b088f0", dotC:"rgba(176,136,240,.35)",div:"rgba(176,136,240,.2)", foot:"#8060a8" },
   { id:"dot_grey",   name:"Cinza",      css:"linear-gradient(160deg,#181818,#222)",    bg:"#181818", bg2:"#222",    txt:"#d8d8d8", txt2:"#707070", accent:"#a0a0a0", cat:"#a8a8a8", dotC:"rgba(200,200,200,.3)",  div:"rgba(200,200,200,.15)", foot:"#707070" },
+  { id:"dot_custom", name:"✦ Custom",   css:"linear-gradient(160deg,#0d0d0d,#030303)", bg:"#0d0d0d", bg2:"#030303", txt:"#e6e6e6", txt2:"#b3b3b3", accent:"#fff",    cat:"#fff",    dotC:"rgba(255,255,255,.3)",  div:"rgba(255,255,255,.12)", foot:"#888888" },
 ];
 
 const FMTS: Format[] = [
@@ -104,6 +144,30 @@ const uid = (): string => Math.random().toString(36).slice(2, 9);
 const clone = <T,>(o: T): T => JSON.parse(JSON.stringify(o));
 const tG = (id: string): GridTheme => TGRID.find((t) => t.id === id) || TGRID[0];
 const tD = (id: string): DotTheme => TDOT.find((t) => t.id === id) || TDOT[0];
+
+function hexToRgba(hex: string, a: number): string {
+  const h = hex.replace("#", "");
+  const r = parseInt(h.slice(0, 2), 16) || 0;
+  const g = parseInt(h.slice(2, 4), 16) || 0;
+  const b = parseInt(h.slice(4, 6), 16) || 0;
+  return `rgba(${r},${g},${b},${a})`;
+}
+
+function eDotT(tb: TableData): DotTheme {
+  const baseId = tb.dotTemplateId || "dot_black";
+  if (baseId !== "dot_custom") return tD(baseId);
+  const c = tb.customDotColors;
+  if (!c) return tD("dot_black");
+  return { id:"dot_custom", name:"Custom", css:`linear-gradient(160deg,${c.bg},${c.bg2})`, bg:c.bg, bg2:c.bg2, txt:c.txt, txt2:c.txt2, accent:c.accent, cat:c.cat, dotC:hexToRgba(c.cat, 0.3), div:hexToRgba(c.accent, 0.12), foot:c.foot };
+}
+
+function eGridT(tb: TableData): GridTheme {
+  const baseId = tb.templateId || "elegance";
+  if (baseId !== "custom") return tG(baseId);
+  const c = tb.customGridColors;
+  if (!c) return tG("elegance");
+  return { id:"custom", name:"Custom", css:`linear-gradient(135deg,${c.bg},${c.bg2})`, bg:c.bg, bg2:c.bg2, accent:c.accent, txt:c.txt, txt2:c.txt2, tFont:"Georgia,serif", border:c.border, rowAlt:hexToRgba(c.accent, 0.07), hBg:hexToRgba(c.accent, 0.18) };
+}
 
 function fmtR(v: string | number | null | undefined): string {
   if (v === "" || v === null || v === undefined) return "";
@@ -141,7 +205,8 @@ function newTable(): TableData {
 
 // ─── HTML TABLE RENDERERS (for preview divs) ──────────────────────────────────
 function htmlDot(tb: TableData, sc = 1): string {
-  const t = tD(tb.dotTemplateId || "dot_black");
+  const t = eDotT(tb);
+  const M = eDotM(tb);
   const p = (v: number): string => `${v * sc}px`;
   const bgS = tb.bgImage
     ? `background:linear-gradient(rgba(0,0,0,${tb.bgOverlay || 0.5}),rgba(0,0,0,${tb.bgOverlay || 0.5})),url(${tb.bgImage}) center/cover`
@@ -151,14 +216,14 @@ function htmlDot(tb: TableData, sc = 1): string {
   const cats = (tb.categories || []).map((cat) => {
     const hdr = showC && cat.name
       ? `<div style="margin-bottom:${p(10)}">
-           <span style="font-family:sans-serif;font-size:${p(10)};letter-spacing:${p(2.5)};text-transform:uppercase;color:${t.cat};font-weight:600">${cat.name}</span>
+           <span style="font-family:sans-serif;font-size:${p(M.catNameSize)};letter-spacing:${p(2.5)};text-transform:uppercase;color:${t.cat};font-weight:600">${cat.name}</span>
            <div style="height:${p(0.5)};background:${t.div};margin-top:${p(6)}"></div>
          </div>` : "";
     const rows = (cat.items || []).map((item) =>
       `<div style="display:flex;align-items:baseline;gap:${p(4)};margin-bottom:${p(6)}">
-         <span style="font-family:sans-serif;font-size:${p(13)};letter-spacing:${p(2.5)};text-transform:uppercase;color:${t.txt};font-weight:300;white-space:nowrap">${item.name}</span>
-         <span style="flex:1;overflow:hidden;color:${t.dotC};font-size:${p(13)};font-family:monospace;letter-spacing:${p(0.5)}">${".".repeat(80)}</span>
-         <span style="font-family:sans-serif;font-size:${p(13)};letter-spacing:${p(1.5)};color:${t.txt};font-weight:300;white-space:nowrap">${priceText(item)}</span>
+         <span style="font-family:sans-serif;font-size:${p(M.itemSize)};letter-spacing:${p(2.5)};text-transform:uppercase;color:${t.txt};font-weight:300;white-space:nowrap">${item.name}</span>
+         <span style="flex:1;overflow:hidden;color:${t.dotC};font-size:${p(M.itemSize)};font-family:monospace;letter-spacing:${p(0.5)}">${".".repeat(80)}</span>
+         <span style="font-family:sans-serif;font-size:${p(M.itemSize)};letter-spacing:${p(1.5)};color:${t.txt};font-weight:300;white-space:nowrap">${priceText(item)}</span>
        </div>`
     ).join("");
     return hdr + rows;
@@ -167,18 +232,19 @@ function htmlDot(tb: TableData, sc = 1): string {
   return `<div style="${bgS};padding:${p(40)} ${p(36)};border-radius:${p(12)}">
     ${tb.avatar ? `<img src="${tb.avatar}" style="display:block;width:${p(66)};height:${p(66)};border-radius:50%;object-fit:cover;margin:0 auto ${p(14)};border:${p(1.5)} solid ${t.accent}60">` : ""}
     <div style="text-align:center;margin-bottom:${p(34)}">
-      <div style="font-family:Georgia,serif;font-size:${p(46)};font-weight:400;color:${t.txt};line-height:1.05">${lines[0] || ""}</div>
-      ${lines[1] ? `<div style="font-family:Georgia,serif;font-size:${p(36)};font-style:italic;font-weight:300;color:${t.txt};line-height:1;margin-top:${p(10)}">${lines[1]}</div>` : ""}
-      ${tb.subtitle ? `<div style="font-family:sans-serif;font-size:${p(15)};letter-spacing:${p(2.5)};text-transform:uppercase;color:${t.txt2};margin-top:${p(14)}">${tb.subtitle}</div>` : ""}
+      <div style="font-family:Georgia,serif;font-size:${p(M.title1Size)};font-weight:400;color:${t.txt};line-height:1.05">${lines[0] || ""}</div>
+      ${lines[1] ? `<div style="font-family:Georgia,serif;font-size:${p(M.title2Size)};font-style:italic;font-weight:300;color:${t.txt};line-height:1;margin-top:${p(10)}">${lines[1]}</div>` : ""}
+      ${tb.subtitle ? `<div style="font-family:sans-serif;font-size:${p(M.subSize)};letter-spacing:${p(2.5)};text-transform:uppercase;color:${t.txt2};margin-top:${p(14)}">${tb.subtitle}</div>` : ""}
     </div>
     <div style="max-width:${p(500)};margin:0 auto">${cats}</div>
-    ${tb.note ? `<div style="text-align:center;font-family:sans-serif;font-size:${p(11)};letter-spacing:${p(1.5)};color:${t.txt2};margin-top:${p(26)};text-transform:uppercase">${tb.note}</div>` : ""}
-    ${tb.footer ? tb.footer.split("|").map((line, i) => `<div style="text-align:center;font-family:sans-serif;font-size:${p(10)};letter-spacing:${p(1.5)};color:${t.foot};margin-top:${p(i === 0 ? 14 : 4)}">${line.trim()}</div>`).join("") : ""}
+    ${tb.note ? `<div style="text-align:center;font-family:sans-serif;font-size:${p(M.noteSize)};letter-spacing:${p(1.5)};color:${t.txt2};margin-top:${p(26)};text-transform:uppercase">${tb.note}</div>` : ""}
+    ${tb.footer ? tb.footer.split("|").map((line, i) => `<div style="text-align:center;font-family:sans-serif;font-size:${p(M.footSize)};letter-spacing:${p(1.5)};color:${t.foot};margin-top:${p(i === 0 ? 14 : 4)}">${line.trim()}</div>`).join("") : ""}
   </div>`;
 }
 
 function htmlGrid(tb: TableData, sc = 1): string {
-  const t = tG(tb.templateId || "elegance");
+  const t = eGridT(tb);
+  const M = eGridM(tb);
   const p = (v: number): string => `${v * sc}px`;
   const bgS = tb.bgImage
     ? `background:linear-gradient(rgba(0,0,0,${tb.bgOverlay || 0.45}),rgba(0,0,0,${tb.bgOverlay || 0.45})),url(${tb.bgImage}) center/cover`
@@ -187,27 +253,27 @@ function htmlGrid(tb: TableData, sc = 1): string {
     const rows = (cat.items || []).map((item, i) =>
       `<div style="display:flex;justify-content:space-between;align-items:center;padding:${p(8)} ${p(12)};background:${i % 2 === 1 ? t.rowAlt : "transparent"};border-radius:${p(4)};gap:${p(8)}">
          <div>
-           <div style="font-size:${p(13)};font-weight:500;color:${t.txt}">${item.name}</div>
-           ${item.description ? `<div style="font-size:${p(11)};color:${t.txt2}">${item.description}</div>` : ""}
+           <div style="font-size:${p(M.itemNameSize)};font-weight:500;color:${t.txt}">${item.name}</div>
+           ${item.description ? `<div style="font-size:${p(M.itemDescSize)};color:${t.txt2}">${item.description}</div>` : ""}
          </div>
-         <span style="font-size:${p(13)};font-weight:700;color:${t.accent};white-space:nowrap;background:${t.hBg};padding:${p(3)} ${p(10)};border-radius:${p(20)};border:${p(1)} solid ${t.border}">${priceText(item)}</span>
+         <span style="font-size:${p(M.itemNameSize)};font-weight:700;color:${t.accent};white-space:nowrap;background:${t.hBg};padding:${p(3)} ${p(10)};border-radius:${p(20)};border:${p(1)} solid ${t.border}">${priceText(item)}</span>
        </div>`
     ).join("");
     return `<div style="margin-bottom:${p(18)}">
       <div style="background:${t.hBg};border:${p(1)} solid ${t.border};border-radius:${p(6)};padding:${p(7)} ${p(14)};margin-bottom:${p(7)}">
-        <div style="font-size:${p(13)};color:${t.accent};font-weight:700;letter-spacing:${p(0.5)};text-transform:uppercase">${cat.name}</div>
+        <div style="font-size:${p(M.catNameSize)};color:${t.accent};font-weight:700;letter-spacing:${p(0.5)};text-transform:uppercase">${cat.name}</div>
       </div>${rows}
     </div>`;
   }).join("");
   return `<div style="${bgS};padding:${p(28)};border-radius:${p(12)}">
     <div style="text-align:center;margin-bottom:${p(20)}">
       ${tb.avatar ? `<img src="${tb.avatar}" style="width:${p(66)};height:${p(66)};border-radius:50%;border:${p(3)} solid ${t.accent};object-fit:cover;display:block;margin:0 auto ${p(10)}">` : ""}
-      <div style="font-family:${t.tFont};font-size:${p(24)};font-weight:700;color:${t.accent};letter-spacing:${p(1)}">${tb.title || "Tabela de Preços"}</div>
-      ${tb.subtitle ? `<div style="font-size:${p(12)};color:${t.txt2};margin-top:${p(5)}">${tb.subtitle}</div>` : ""}
+      <div style="font-family:${t.tFont};font-size:${p(M.titleSize)};font-weight:700;color:${t.accent};letter-spacing:${p(1)}">${tb.title || "Tabela de Preços"}</div>
+      ${tb.subtitle ? `<div style="font-size:${p(M.subSize)};color:${t.txt2};margin-top:${p(5)}">${tb.subtitle}</div>` : ""}
       <div style="width:${p(42)};height:${p(2)};background:${t.accent};margin:${p(12)} auto 0;border-radius:2px"></div>
     </div>
     ${cats}
-    ${tb.footer ? `<div style="text-align:center;font-size:${p(10)};color:${t.txt2};margin-top:${p(12)};border-top:${p(1)} solid ${t.border};padding-top:${p(10)}">${tb.footer}</div>` : ""}
+    ${tb.footer ? `<div style="text-align:center;font-size:${p(M.footSize)};color:${t.txt2};margin-top:${p(12)};border-top:${p(1)} solid ${t.border};padding-top:${p(10)}">${tb.footer}</div>` : ""}
   </div>`;
 }
 
@@ -286,60 +352,88 @@ const GRID_M = {
   contTopPad: 24, contTitleSize: 20, contGapAfter: 18,
 };
 
-function dotHeaderFullH(tb: TableData, sc: number): number {
+type DotMetrics = typeof DOT_M;
+type GridMetrics = typeof GRID_M;
+
+function eDotM(tb: TableData): DotMetrics {
+  const s = tb.fontSizes;
+  if (!s) return DOT_M;
+  const t1 = s.dotTitle1 ?? DOT_M.title1Size;
+  return { ...DOT_M,
+    title1Size: t1, title2Size: s.dotTitle2 ?? DOT_M.title2Size,
+    subSize: s.dotSub ?? DOT_M.subSize, catNameSize: s.dotCatName ?? DOT_M.catNameSize,
+    itemSize: s.dotItem ?? DOT_M.itemSize, noteSize: s.dotNote ?? DOT_M.noteSize,
+    footSize: s.dotFoot ?? DOT_M.footSize,
+    contTitleSize: Math.round(t1 * DOT_M.contTitleSize / DOT_M.title1Size),
+  };
+}
+
+function eGridM(tb: TableData): GridMetrics {
+  const s = tb.fontSizes;
+  if (!s) return GRID_M;
+  const t = s.gridTitle ?? GRID_M.titleSize;
+  return { ...GRID_M,
+    titleSize: t, subSize: s.gridSub ?? GRID_M.subSize,
+    catNameSize: s.gridCatName ?? GRID_M.catNameSize, itemNameSize: s.gridItemName ?? GRID_M.itemNameSize,
+    itemDescSize: s.gridItemDesc ?? GRID_M.itemDescSize, footSize: s.gridFoot ?? GRID_M.footSize,
+    contTitleSize: Math.round(t * GRID_M.contTitleSize / GRID_M.titleSize),
+  };
+}
+
+function dotHeaderFullH(tb: TableData, sc: number, M: DotMetrics = DOT_M): number {
   const lines = (tb.title || "Tabela de\npreços").split("\n");
-  let h = DOT_M.topPad * sc;
-  if (tb.avatar) h += DOT_M.avatarD * sc + DOT_M.avatarGap * sc;
-  h += lineBoxH(DOT_M.title1Size * sc, DOT_M.title1LH);
-  if (lines[1]) h += DOT_M.title2Gap * sc + lineBoxH(DOT_M.title2Size * sc, DOT_M.title2LH);
-  if (tb.subtitle) h += DOT_M.subGap * sc + lineBoxH(DOT_M.subSize * sc, DOT_M.genLH);
-  h += DOT_M.preCatGap * sc;
+  let h = M.topPad * sc;
+  if (tb.avatar) h += M.avatarD * sc + M.avatarGap * sc;
+  h += lineBoxH(M.title1Size * sc, M.title1LH);
+  if (lines[1]) h += M.title2Gap * sc + lineBoxH(M.title2Size * sc, M.title2LH);
+  if (tb.subtitle) h += M.subGap * sc + lineBoxH(M.subSize * sc, M.genLH);
+  h += M.preCatGap * sc;
   return h;
 }
-function dotHeaderContH(sc: number): number {
-  return DOT_M.contTopPad * sc + lineBoxH(DOT_M.contTitleSize * sc, DOT_M.genLH) + DOT_M.contGapAfter * sc;
+function dotHeaderContH(sc: number, M: DotMetrics = DOT_M): number {
+  return M.contTopPad * sc + lineBoxH(M.contTitleSize * sc, M.genLH) + M.contGapAfter * sc;
 }
-function dotCatHeaderH(sc: number): number {
-  return lineBoxH(DOT_M.catNameSize * sc, DOT_M.genLH) + DOT_M.catDivGapTop * sc + DOT_M.catDivH * sc + DOT_M.catHeaderGapAfter * sc;
+function dotCatHeaderH(sc: number, M: DotMetrics = DOT_M): number {
+  return lineBoxH(M.catNameSize * sc, M.genLH) + M.catDivGapTop * sc + M.catDivH * sc + M.catHeaderGapAfter * sc;
 }
-function dotItemH(sc: number): number {
-  return lineBoxH(DOT_M.itemSize * sc, DOT_M.genLH) + DOT_M.itemGapAfter * sc;
+function dotItemH(sc: number, M: DotMetrics = DOT_M): number {
+  return lineBoxH(M.itemSize * sc, M.genLH) + M.itemGapAfter * sc;
 }
-function dotFooterH(tb: TableData, sc: number): number {
+function dotFooterH(tb: TableData, sc: number, M: DotMetrics = DOT_M): number {
   let h = 0;
-  if (tb.note) h += DOT_M.noteGap * sc + lineBoxH(DOT_M.noteSize * sc, DOT_M.genLH);
+  if (tb.note) h += M.noteGap * sc + lineBoxH(M.noteSize * sc, M.genLH);
   if (tb.footer) {
     const n = tb.footer.split("|").length;
-    h += DOT_M.footGap * sc + n * lineBoxH(DOT_M.footSize * sc, DOT_M.footLineLH);
+    h += M.footGap * sc + n * lineBoxH(M.footSize * sc, M.footLineLH);
   }
-  h += DOT_M.bottomPad * sc;
+  h += M.bottomPad * sc;
   return h;
 }
 
-function gridHeaderFullH(tb: TableData, sc: number): number {
-  let h = GRID_M.padAll * sc;
-  if (tb.avatar) h += GRID_M.avatarD * sc + GRID_M.avatarGap * sc;
-  h += lineBoxH(GRID_M.titleSize * sc, GRID_M.titleLH);
-  if (tb.subtitle) h += GRID_M.subGap * sc + lineBoxH(GRID_M.subSize * sc, GRID_M.genLH);
-  h += GRID_M.underGapTop * sc + GRID_M.underH * sc;
-  h += GRID_M.headerGapAfter * sc;
+function gridHeaderFullH(tb: TableData, sc: number, M: GridMetrics = GRID_M): number {
+  let h = M.padAll * sc;
+  if (tb.avatar) h += M.avatarD * sc + M.avatarGap * sc;
+  h += lineBoxH(M.titleSize * sc, M.titleLH);
+  if (tb.subtitle) h += M.subGap * sc + lineBoxH(M.subSize * sc, M.genLH);
+  h += M.underGapTop * sc + M.underH * sc;
+  h += M.headerGapAfter * sc;
   return h;
 }
-function gridHeaderContH(sc: number): number {
-  return GRID_M.contTopPad * sc + lineBoxH(GRID_M.contTitleSize * sc, GRID_M.genLH) + GRID_M.contGapAfter * sc;
+function gridHeaderContH(sc: number, M: GridMetrics = GRID_M): number {
+  return M.contTopPad * sc + lineBoxH(M.contTitleSize * sc, M.genLH) + M.contGapAfter * sc;
 }
-function gridCatHeaderH(sc: number): number {
-  return GRID_M.catBarPadV * sc * 2 + lineBoxH(GRID_M.catNameSize * sc, GRID_M.genLH) + GRID_M.catHeaderGapAfter * sc;
+function gridCatHeaderH(sc: number, M: GridMetrics = GRID_M): number {
+  return M.catBarPadV * sc * 2 + lineBoxH(M.catNameSize * sc, M.genLH) + M.catHeaderGapAfter * sc;
 }
-function gridItemH(item: Item, sc: number): number {
-  let h = GRID_M.rowPadV * sc * 2 + lineBoxH(GRID_M.itemNameSize * sc, GRID_M.genLH);
-  if (item.description) h += lineBoxH(GRID_M.itemDescSize * sc, GRID_M.genLH);
+function gridItemH(item: Item, sc: number, M: GridMetrics = GRID_M): number {
+  let h = M.rowPadV * sc * 2 + lineBoxH(M.itemNameSize * sc, M.genLH);
+  if (item.description) h += lineBoxH(M.itemDescSize * sc, M.genLH);
   return h;
 }
-function gridFooterH(tb: TableData, sc: number): number {
+function gridFooterH(tb: TableData, sc: number, M: GridMetrics = GRID_M): number {
   let h = 0;
-  if (tb.footer) h += GRID_M.footGapTop * sc + GRID_M.footBorderH * sc + GRID_M.footPadTop * sc + lineBoxH(GRID_M.footSize * sc, GRID_M.genLH);
-  h += GRID_M.bottomPad * sc;
+  if (tb.footer) h += M.footGapTop * sc + M.footBorderH * sc + M.footPadTop * sc + lineBoxH(M.footSize * sc, M.genLH);
+  h += M.bottomPad * sc;
   return h;
 }
 
@@ -366,35 +460,32 @@ export interface ExportPage { isFirst: boolean; segments: PageSegment[]; content
 
 function measureDot(fmt: Format, tb: TableData): Measurement {
   const sc = fmt.w / 700;
+  const M = eDotM(tb);
   const showC = tb.showCats !== false;
-  const catHeaderH = dotCatHeaderH(sc);
-  const itemH = dotItemH(sc);
+  const chH = dotCatHeaderH(sc, M);
+  const iH = dotItemH(sc, M);
   const cats = tb.categories || [];
-  // html only inserts the 30px spacer *between* categories (`.join(...)`),
-  // never after the last one — so gapAfter must be 0 for the final category,
-  // otherwise export ends up with extra space the preview never had.
   const categories: MeasuredCategory[] = cats.map((cat, idx) => ({
     cat,
-    headerH: showC && cat.name ? catHeaderH : 0,
-    items: (cat.items || []).map((item) => ({ item, h: itemH })),
-    gapAfter: idx < cats.length - 1 ? DOT_M.catGapBetween * sc : 0,
+    headerH: showC && cat.name ? chH : 0,
+    items: (cat.items || []).map((item) => ({ item, h: iH })),
+    gapAfter: idx < cats.length - 1 ? M.catGapBetween * sc : 0,
   }));
-  return { sc, headerFullH: dotHeaderFullH(tb, sc), headerContH: dotHeaderContH(sc), footerH: dotFooterH(tb, sc), categories };
+  return { sc, headerFullH: dotHeaderFullH(tb, sc, M), headerContH: dotHeaderContH(sc, M), footerH: dotFooterH(tb, sc, M), categories };
 }
 
 function measureGrid(fmt: Format, tb: TableData): Measurement {
   const sc = fmt.w / 700;
-  const catHeaderH = gridCatHeaderH(sc);
+  const M = eGridM(tb);
+  const chH = gridCatHeaderH(sc, M);
   const cats = tb.categories || [];
-  // Unlike dot, html's grid layout puts margin-bottom on *every* category div
-  // (including the last), so gapAfter applies unconditionally here.
   const categories: MeasuredCategory[] = cats.map((cat) => ({
     cat,
-    headerH: catHeaderH,
-    items: (cat.items || []).map((item) => ({ item, h: gridItemH(item, sc) })),
-    gapAfter: GRID_M.catGapAfter * sc,
+    headerH: chH,
+    items: (cat.items || []).map((item) => ({ item, h: gridItemH(item, sc, M) })),
+    gapAfter: M.catGapAfter * sc,
   }));
-  return { sc, headerFullH: gridHeaderFullH(tb, sc), headerContH: gridHeaderContH(sc), footerH: gridFooterH(tb, sc), categories };
+  return { sc, headerFullH: gridHeaderFullH(tb, sc, M), headerContH: gridHeaderContH(sc, M), footerH: gridFooterH(tb, sc, M), categories };
 }
 
 export function measureTable(fmt: Format, tb: TableData): Measurement {
@@ -443,7 +534,8 @@ export function paginate(m: Measurement, maxH: number): ExportPage[] {
 
 // ─── PAGE RENDERERS ────────────────────────────────────────────────────────────
 async function renderDotPage(ctx: CanvasRenderingContext2D, tb: TableData, sc: number, page: ExportPage, canvasW: number, canvasH: number): Promise<void> {
-  const t = tD(tb.dotTemplateId || "dot_black");
+  const t = eDotT(tb);
+  const M = eDotM(tb);
   if (tb.bgImage) {
     const img = await loadImage(tb.bgImage);
     if (img) ctx.drawImage(img, 0, 0, canvasW, canvasH);
@@ -456,63 +548,60 @@ async function renderDotPage(ctx: CanvasRenderingContext2D, tb: TableData, sc: n
   }
 
   const cx = canvasW / 2;
-  // html caps the category column at max-width:500 (scaled) and centers it;
-  // on most export formats this column is narrower than the full canvas
-  // width, exactly like the preview's centered card.
-  const sidePad = DOT_M.sidePad * sc;
-  const colW = Math.min(canvasW - sidePad * 2, DOT_M.maxColW * sc);
+  const sidePad = M.sidePad * sc;
+  const colW = Math.min(canvasW - sidePad * 2, M.maxColW * sc);
   const colX = cx - colW / 2;
   let y: number;
 
   if (page.isFirst) {
-    y = DOT_M.topPad * sc;
+    y = M.topPad * sc;
     if (tb.avatar) {
       const img = await loadImage(tb.avatar);
       if (img) {
-        const r = (DOT_M.avatarD * sc) / 2;
+        const r = (M.avatarD * sc) / 2;
         ctx.save(); ctx.beginPath(); ctx.arc(cx, y + r, r, 0, Math.PI * 2); ctx.clip();
         ctx.drawImage(img, cx - r, y, r * 2, r * 2); ctx.restore();
         ctx.strokeStyle = t.accent + "80"; ctx.lineWidth = 2 * sc;
         ctx.beginPath(); ctx.arc(cx, y + r, r, 0, Math.PI * 2); ctx.stroke();
-        y += r * 2 + DOT_M.avatarGap * sc;
+        y += r * 2 + M.avatarGap * sc;
       }
     }
     const lines = (tb.title || "Tabela de\npreços").split("\n");
     ctx.textAlign = "center"; ctx.fillStyle = t.txt;
-    y = drawLine(ctx, lines[0] || "", cx, y, DOT_M.title1Size * sc, `400 ${DOT_M.title1Size * sc}px Georgia,serif`, DOT_M.title1LH);
+    y = drawLine(ctx, lines[0] || "", cx, y, M.title1Size * sc, `400 ${M.title1Size * sc}px Georgia,serif`, M.title1LH);
     if (lines[1]) {
-      y += DOT_M.title2Gap * sc;
-      y = drawLine(ctx, lines[1], cx, y, DOT_M.title2Size * sc, `italic 300 ${DOT_M.title2Size * sc}px Georgia,serif`, DOT_M.title2LH);
+      y += M.title2Gap * sc;
+      y = drawLine(ctx, lines[1], cx, y, M.title2Size * sc, `italic 300 ${M.title2Size * sc}px Georgia,serif`, M.title2LH);
     }
     if (tb.subtitle) {
-      y += DOT_M.subGap * sc;
+      y += M.subGap * sc;
       ctx.fillStyle = t.txt2;
-      y = drawLine(ctx, tb.subtitle.toUpperCase(), cx, y, DOT_M.subSize * sc, `300 ${DOT_M.subSize * sc}px Arial,sans-serif`, DOT_M.genLH);
+      y = drawLine(ctx, tb.subtitle.toUpperCase(), cx, y, M.subSize * sc, `300 ${M.subSize * sc}px Arial,sans-serif`, M.genLH);
     }
-    y += DOT_M.preCatGap * sc;
+    y += M.preCatGap * sc;
   } else {
-    y = DOT_M.contTopPad * sc;
+    y = M.contTopPad * sc;
     ctx.textAlign = "center"; ctx.fillStyle = t.txt;
     const contTitle = (tb.title || "Tabela de preços").split("\n").join(" ").trim() || "Tabela de preços";
-    y = drawLine(ctx, contTitle, cx, y, DOT_M.contTitleSize * sc, `400 ${DOT_M.contTitleSize * sc}px Georgia,serif`, DOT_M.genLH);
-    y += DOT_M.contGapAfter * sc;
+    y = drawLine(ctx, contTitle, cx, y, M.contTitleSize * sc, `400 ${M.contTitleSize * sc}px Georgia,serif`, M.genLH);
+    y += M.contGapAfter * sc;
   }
 
   const showC = tb.showCats !== false;
   const lastCatOverall = tb.categories && tb.categories.length ? tb.categories[tb.categories.length - 1] : null;
-  const rowH = dotItemH(sc);
+  const rowH = dotItemH(sc, M);
   for (const seg of page.segments) {
     if (showC && seg.cat.name) {
       ctx.textAlign = "left"; ctx.fillStyle = t.cat;
-      const afterName = drawLine(ctx, seg.cat.name.toUpperCase(), colX, y, DOT_M.catNameSize * sc, `600 ${DOT_M.catNameSize * sc}px Arial,sans-serif`, DOT_M.genLH);
-      const divY = afterName + DOT_M.catDivGapTop * sc;
+      const afterName = drawLine(ctx, seg.cat.name.toUpperCase(), colX, y, M.catNameSize * sc, `600 ${M.catNameSize * sc}px Arial,sans-serif`, M.genLH);
+      const divY = afterName + M.catDivGapTop * sc;
       ctx.fillStyle = t.div;
-      ctx.fillRect(colX, divY, colW, DOT_M.catDivH * sc);
-      y = divY + DOT_M.catDivH * sc + DOT_M.catHeaderGapAfter * sc;
+      ctx.fillRect(colX, divY, colW, M.catDivH * sc);
+      y = divY + M.catDivH * sc + M.catHeaderGapAfter * sc;
     }
     for (const item of seg.items) {
       const pt = priceText(item);
-      const fs = DOT_M.itemSize * sc;
+      const fs = M.itemSize * sc;
       const baseline = y + fs * ASCENT;
       ctx.font = `300 ${fs}px Arial,sans-serif`;
       ctx.fillStyle = t.txt; ctx.textAlign = "left";
@@ -533,26 +622,26 @@ async function renderDotPage(ctx: CanvasRenderingContext2D, tb: TableData, sc: n
     }
     const lastItemOfCat = seg.cat.items[seg.cat.items.length - 1];
     const completesCategory = seg.items.length > 0 && seg.items[seg.items.length - 1] === lastItemOfCat;
-    // Mirror measureDot: no trailing gap after the very last category.
-    if (completesCategory && seg.cat !== lastCatOverall) y += DOT_M.catGapBetween * sc;
+    if (completesCategory && seg.cat !== lastCatOverall) y += M.catGapBetween * sc;
   }
 
   if (tb.note) {
-    y += DOT_M.noteGap * sc;
+    y += M.noteGap * sc;
     ctx.textAlign = "center"; ctx.fillStyle = t.txt2;
-    y = drawLine(ctx, tb.note, cx, y, DOT_M.noteSize * sc, `300 ${DOT_M.noteSize * sc}px Arial,sans-serif`, DOT_M.genLH);
+    y = drawLine(ctx, tb.note, cx, y, M.noteSize * sc, `300 ${M.noteSize * sc}px Arial,sans-serif`, M.genLH);
   }
   if (tb.footer) {
-    y += DOT_M.footGap * sc;
+    y += M.footGap * sc;
     ctx.textAlign = "center"; ctx.fillStyle = t.foot;
     for (const line of tb.footer.split("|")) {
-      y = drawLine(ctx, line.trim(), cx, y, DOT_M.footSize * sc, `300 ${DOT_M.footSize * sc}px Arial,sans-serif`, DOT_M.footLineLH);
+      y = drawLine(ctx, line.trim(), cx, y, M.footSize * sc, `300 ${M.footSize * sc}px Arial,sans-serif`, M.footLineLH);
     }
   }
 }
 
 async function renderGridPage(ctx: CanvasRenderingContext2D, tb: TableData, sc: number, page: ExportPage, canvasW: number, canvasH: number): Promise<void> {
-  const t = tG(tb.templateId || "elegance");
+  const t = eGridT(tb);
+  const M = eGridM(tb);
   if (tb.bgImage) {
     const img = await loadImage(tb.bgImage);
     if (img) ctx.drawImage(img, 0, 0, canvasW, canvasH);
@@ -564,7 +653,7 @@ async function renderGridPage(ctx: CanvasRenderingContext2D, tb: TableData, sc: 
     ctx.fillStyle = g; ctx.fillRect(0, 0, canvasW, canvasH);
   }
 
-  const pad = GRID_M.padAll * sc;
+  const pad = M.padAll * sc;
   const cx = canvasW / 2;
   const colW = canvasW - pad * 2;
   let y: number;
@@ -574,68 +663,68 @@ async function renderGridPage(ctx: CanvasRenderingContext2D, tb: TableData, sc: 
     if (tb.avatar) {
       const img = await loadImage(tb.avatar);
       if (img) {
-        const r = (GRID_M.avatarD * sc) / 2;
+        const r = (M.avatarD * sc) / 2;
         ctx.save(); ctx.beginPath(); ctx.arc(cx, y + r, r, 0, Math.PI * 2); ctx.clip();
         ctx.drawImage(img, cx - r, y, r * 2, r * 2); ctx.restore();
         ctx.strokeStyle = t.accent; ctx.lineWidth = 3 * sc;
         ctx.beginPath(); ctx.arc(cx, y + r, r, 0, Math.PI * 2); ctx.stroke();
-        y += r * 2 + GRID_M.avatarGap * sc;
+        y += r * 2 + M.avatarGap * sc;
       }
     }
     ctx.fillStyle = t.accent; ctx.textAlign = "center";
-    y = drawLine(ctx, tb.title || "Tabela de Preços", cx, y, GRID_M.titleSize * sc, `bold ${GRID_M.titleSize * sc}px Georgia,serif`, GRID_M.titleLH);
+    y = drawLine(ctx, tb.title || "Tabela de Preços", cx, y, M.titleSize * sc, `bold ${M.titleSize * sc}px Georgia,serif`, M.titleLH);
     if (tb.subtitle) {
-      y += GRID_M.subGap * sc;
+      y += M.subGap * sc;
       ctx.fillStyle = t.txt2;
-      y = drawLine(ctx, tb.subtitle, cx, y, GRID_M.subSize * sc, `${GRID_M.subSize * sc}px Arial`, GRID_M.genLH);
+      y = drawLine(ctx, tb.subtitle, cx, y, M.subSize * sc, `${M.subSize * sc}px Arial`, M.genLH);
     }
-    y += GRID_M.underGapTop * sc;
+    y += M.underGapTop * sc;
     ctx.fillStyle = t.accent;
-    ctx.fillRect(cx - 21 * sc, y, 42 * sc, GRID_M.underH * sc);
-    y += GRID_M.underH * sc + GRID_M.headerGapAfter * sc;
+    ctx.fillRect(cx - 21 * sc, y, 42 * sc, M.underH * sc);
+    y += M.underH * sc + M.headerGapAfter * sc;
   } else {
-    y = GRID_M.contTopPad * sc;
+    y = M.contTopPad * sc;
     ctx.fillStyle = t.accent; ctx.textAlign = "center";
     const contTitle = (tb.title || "Tabela de Preços").replace(/\n/g, " ");
-    y = drawLine(ctx, contTitle, cx, y, GRID_M.contTitleSize * sc, `bold ${GRID_M.contTitleSize * sc}px Georgia,serif`, GRID_M.genLH);
-    y += GRID_M.contGapAfter * sc;
+    y = drawLine(ctx, contTitle, cx, y, M.contTitleSize * sc, `bold ${M.contTitleSize * sc}px Georgia,serif`, M.genLH);
+    y += M.contGapAfter * sc;
   }
 
   for (const seg of page.segments) {
-    const barH = gridCatHeaderH(sc) - GRID_M.catHeaderGapAfter * sc;
+    const barH = gridCatHeaderH(sc, M) - M.catHeaderGapAfter * sc;
     rRect(ctx, pad, y, colW, barH, 5 * sc);
     ctx.fillStyle = t.hBg; ctx.fill();
     ctx.strokeStyle = t.border; ctx.lineWidth = 1.5 * sc; ctx.stroke();
-    ctx.fillStyle = t.accent; ctx.font = `bold ${GRID_M.catNameSize * sc}px Arial`; ctx.textAlign = "left";
-    ctx.fillText(seg.cat.name.toUpperCase(), pad + 14 * sc, y + GRID_M.catBarPadV * sc + GRID_M.catNameSize * sc * ASCENT);
-    y += barH + GRID_M.catHeaderGapAfter * sc;
+    ctx.fillStyle = t.accent; ctx.font = `bold ${M.catNameSize * sc}px Arial`; ctx.textAlign = "left";
+    ctx.fillText(seg.cat.name.toUpperCase(), pad + 14 * sc, y + M.catBarPadV * sc + M.catNameSize * sc * ASCENT);
+    y += barH + M.catHeaderGapAfter * sc;
 
     seg.items.forEach((item, i) => {
-      const h = gridItemH(item, sc);
+      const h = gridItemH(item, sc, M);
       if (i % 2 === 1) { ctx.fillStyle = t.rowAlt; ctx.fillRect(pad, y, colW, h); }
-      const nameBaseline = y + GRID_M.rowPadV * sc + GRID_M.itemNameSize * sc * ASCENT;
-      ctx.fillStyle = t.txt; ctx.font = `500 ${GRID_M.itemNameSize * sc}px Arial`; ctx.textAlign = "left";
+      const nameBaseline = y + M.rowPadV * sc + M.itemNameSize * sc * ASCENT;
+      ctx.fillStyle = t.txt; ctx.font = `500 ${M.itemNameSize * sc}px Arial`; ctx.textAlign = "left";
       ctx.fillText(item.name, pad + 12 * sc, nameBaseline);
-      ctx.fillStyle = t.accent; ctx.font = `bold ${GRID_M.itemNameSize * sc}px Arial`; ctx.textAlign = "right";
+      ctx.fillStyle = t.accent; ctx.font = `bold ${M.itemNameSize * sc}px Arial`; ctx.textAlign = "right";
       ctx.fillText(priceText(item), pad + colW - 12 * sc, nameBaseline);
       if (item.description) {
-        const descTopY = y + GRID_M.rowPadV * sc + lineBoxH(GRID_M.itemNameSize * sc, GRID_M.genLH);
-        ctx.fillStyle = t.txt2; ctx.font = `${GRID_M.itemDescSize * sc}px Arial`; ctx.textAlign = "left";
-        ctx.fillText(item.description, pad + 12 * sc, descTopY + GRID_M.itemDescSize * sc * ASCENT);
+        const descTopY = y + M.rowPadV * sc + lineBoxH(M.itemNameSize * sc, M.genLH);
+        ctx.fillStyle = t.txt2; ctx.font = `${M.itemDescSize * sc}px Arial`; ctx.textAlign = "left";
+        ctx.fillText(item.description, pad + 12 * sc, descTopY + M.itemDescSize * sc * ASCENT);
       }
       y += h;
     });
     const lastItemOfCat = seg.cat.items[seg.cat.items.length - 1];
     const completesCategory = seg.items.length > 0 && seg.items[seg.items.length - 1] === lastItemOfCat;
-    if (completesCategory) y += GRID_M.catGapAfter * sc;
+    if (completesCategory) y += M.catGapAfter * sc;
   }
 
   if (tb.footer) {
-    y += GRID_M.footGapTop * sc;
-    ctx.fillStyle = t.border; ctx.fillRect(pad, y, colW, GRID_M.footBorderH * sc);
-    y += GRID_M.footBorderH * sc + GRID_M.footPadTop * sc;
+    y += M.footGapTop * sc;
+    ctx.fillStyle = t.border; ctx.fillRect(pad, y, colW, M.footBorderH * sc);
+    y += M.footBorderH * sc + M.footPadTop * sc;
     ctx.fillStyle = t.txt2; ctx.textAlign = "center";
-    drawLine(ctx, tb.footer, cx, y, GRID_M.footSize * sc, `${GRID_M.footSize * sc}px Arial`, GRID_M.genLH);
+    drawLine(ctx, tb.footer, cx, y, M.footSize * sc, `${M.footSize * sc}px Arial`, M.genLH);
   }
 }
 
@@ -926,12 +1015,100 @@ function TableForm({ initial, onSave, onCancel }: TableFormProps) {
         <div style={sec}>
           <label style={lbl}>Tema visual</label>
           <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:8 }}>
-            {tList.map((tp) => (
-              <button key={tp.id} onClick={() => setF(isDot ? { dotTemplateId: tp.id } : { templateId: tp.id })}
-                style={{ background: tp.css, border: `2px solid ${curTpl === tp.id ? "#e94560" : "transparent"}`, borderRadius:8, padding:"20px 6px 7px", fontSize:11, fontWeight:600, color:"#fff", textShadow:"0 1px 3px rgba(0,0,0,.9)", cursor:"pointer" }}>
-                {tp.name}
-              </button>
-            ))}
+            {tList.map((tp) => {
+              const isCustom = tp.id === "custom" || tp.id === "dot_custom";
+              const customBg = isCustom
+                ? (isDot && form.customDotColors ? `linear-gradient(160deg,${form.customDotColors.bg},${form.customDotColors.bg2})` :
+                   !isDot && form.customGridColors ? `linear-gradient(135deg,${form.customGridColors.bg},${form.customGridColors.bg2})` : tp.css)
+                : tp.css;
+              return (
+                <button key={tp.id} onClick={() => {
+                  if (isCustom) {
+                    if (isDot && !form.customDotColors) {
+                      const cur = tD(form.dotTemplateId || "dot_black");
+                      setF({ dotTemplateId: tp.id, customDotColors: { bg: cur.bg, bg2: cur.bg2, txt: cur.txt, txt2: cur.txt2, accent: cur.accent, cat: cur.cat, foot: cur.foot } });
+                    } else if (!isDot && !form.customGridColors) {
+                      const cur = tG(form.templateId || "elegance");
+                      setF({ templateId: tp.id, customGridColors: { bg: cur.bg, bg2: cur.bg2, accent: cur.accent, txt: cur.txt, txt2: cur.txt2, border: cur.border } });
+                    } else {
+                      setF(isDot ? { dotTemplateId: tp.id } : { templateId: tp.id });
+                    }
+                  } else {
+                    setF(isDot ? { dotTemplateId: tp.id } : { templateId: tp.id });
+                  }
+                }}
+                  style={{ background: customBg, border: `2px solid ${curTpl === tp.id ? "#e94560" : "transparent"}`, borderRadius:8, padding:"20px 6px 7px", fontSize:11, fontWeight:600, color:"#fff", textShadow:"0 1px 3px rgba(0,0,0,.9)", cursor:"pointer" }}>
+                  {tp.name}
+                </button>
+              );
+            })}
+          </div>
+          {/* Custom color pickers */}
+          {((isDot && curTpl === "dot_custom") || (!isDot && curTpl === "custom")) && (() => {
+            const colorFields = isDot
+              ? [["bg","Fundo 1"],["bg2","Fundo 2"],["txt","Texto"],["txt2","Texto 2"],["accent","Destaque"],["cat","Categoria"],["foot","Rodapé"]] as const
+              : [["bg","Fundo 1"],["bg2","Fundo 2"],["accent","Destaque"],["txt","Texto"],["txt2","Texto 2"],["border","Borda"]] as const;
+            const colors = isDot ? (form.customDotColors || { bg:"#0d0d0d", bg2:"#030303", txt:"#e6e6e6", txt2:"#b3b3b3", accent:"#ffffff", cat:"#ffffff", foot:"#888888" }) : (form.customGridColors || { bg:"#1a1a2e", bg2:"#16213e", accent:"#e94560", txt:"#ffffff", txt2:"#a0a8c0", border:"#e94560" });
+            const setColor = (key: string, val: string) => {
+              if (isDot) setF({ customDotColors: { ...colors, [key]: val } as CustomDotColors });
+              else setF({ customGridColors: { ...colors, [key]: val } as CustomGridColors });
+            };
+            return (
+              <div style={{ marginTop:10, background:"#12121e", border:"1px solid #2a2a3e", borderRadius:10, padding:12 }}>
+                <div style={{ fontSize:11, color:"#777", marginBottom:8 }}>Cores personalizadas</div>
+                <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(100px,1fr))", gap:8 }}>
+                  {colorFields.map(([key, label]) => (
+                    <label key={key} style={{ display:"flex", alignItems:"center", gap:6, cursor:"pointer" }}>
+                      <input type="color" value={(colors as unknown as Record<string, string>)[key] || "#000000"}
+                        onChange={(e: ChangeEvent<HTMLInputElement>) => setColor(key, e.target.value)}
+                        style={{ width:28, height:28, border:"1px solid #444", borderRadius:6, padding:0, cursor:"pointer", background:"transparent" }} />
+                      <span style={{ fontSize:10, color:"#999" }}>{label}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+            );
+          })()}
+        </div>
+
+        {/* Font size controls */}
+        <div style={sec}>
+          <label style={lbl}>Tamanhos de texto</label>
+          <div style={{ background:"#12121e", border:"1px solid #2a2a3e", borderRadius:10, padding:12 }}>
+            {(isDot ? [
+              ["dotTitle1", "Título (linha 1)", DOT_M.title1Size, 20, 80],
+              ["dotTitle2", "Título (linha 2)", DOT_M.title2Size, 16, 60],
+              ["dotSub", "Subtítulo", DOT_M.subSize, 8, 30],
+              ["dotCatName", "Categoria", DOT_M.catNameSize, 6, 24],
+              ["dotItem", "Itens", DOT_M.itemSize, 8, 24],
+              ["dotNote", "Nota", DOT_M.noteSize, 6, 20],
+              ["dotFoot", "Rodapé", DOT_M.footSize, 6, 24],
+            ] : [
+              ["gridTitle", "Título", GRID_M.titleSize, 12, 48],
+              ["gridSub", "Subtítulo", GRID_M.subSize, 8, 24],
+              ["gridCatName", "Categoria", GRID_M.catNameSize, 6, 24],
+              ["gridItemName", "Nome do item", GRID_M.itemNameSize, 8, 24],
+              ["gridItemDesc", "Descrição", GRID_M.itemDescSize, 6, 20],
+              ["gridFoot", "Rodapé", GRID_M.footSize, 6, 20],
+            ] as [string, string, number, number, number][]).map(([key, label, def, min, max]) => {
+              const val = (form.fontSizes as Record<string, number | undefined> | undefined)?.[key] ?? def;
+              return (
+                <div key={key} style={{ display:"flex", alignItems:"center", gap:8, marginBottom:6 }}>
+                  <span style={{ fontSize:10, color:"#999", width:90, flexShrink:0 }}>{label}</span>
+                  <input type="range" min={min} max={max} step={1} value={val}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                      const v = parseInt(e.target.value, 10);
+                      setF({ fontSizes: { ...form.fontSizes, [key]: v === def ? undefined : v } });
+                    }}
+                    style={{ flex:1, accentColor:"#e94560" }} />
+                  <span style={{ fontSize:10, color:"#c9a84c", width:24, textAlign:"right", flexShrink:0 }}>{val}</span>
+                  {val !== def && (
+                    <button onClick={() => setF({ fontSizes: { ...form.fontSizes, [key]: undefined } })}
+                      style={{ background:"none", border:"none", color:"#e94560", fontSize:12, cursor:"pointer", padding:0, lineHeight:1 }}>↺</button>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
 
@@ -1141,7 +1318,7 @@ export default function App() {
                 <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))", gap:16 }}>
                   {tables.map((tb) => {
                     const isDot = tb.layout === "dot";
-                    const t = isDot ? tD(tb.dotTemplateId) : tG(tb.templateId);
+                    const t = isDot ? eDotT(tb) : eGridT(tb);
                     const items = (tb.categories || []).reduce((a, c) => a + c.items.length, 0);
                     return (
                       <div key={tb.id} style={{ background:"#12121e", border:"1px solid #1e1e3a", borderRadius:14, overflow:"hidden" }}>
