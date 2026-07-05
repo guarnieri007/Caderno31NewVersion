@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { ReactElement, useEffect } from "react";
 import littleMonkey from "../assets/images/notFound/macaquito.png";
 import { useTheme } from "styled-components";
 import { DefaultTheme } from "styled-components/dist/types";
@@ -50,7 +50,17 @@ export const NotFound404 = (): ReactElement => {
     function GoToHomePage() {
         navigate("/");
     }
+    
+    useEffect(() => {
+        const meta = document.createElement("meta");
+        meta.name = "robots";
+        meta.content = "noindex";
+        document.head.appendChild(meta);
 
+        return () => {
+            document.head.removeChild(meta); // limpa ao sair da página
+        };
+    }, []);
 
     return (
         <NotFoundContainer>
