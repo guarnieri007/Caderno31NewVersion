@@ -158,7 +158,7 @@ export const PublishContent = (): ReactElement => {
             .sort((a, b) => a.ds_language_short.localeCompare(b.ds_language_short))
     }
 
-    const remainingLangs = languages.filter(l => !descriptionFields.some(df => df.cd_language === l.cd_language)).length -1;
+    const remainingLangs = languages.filter(l => !descriptionFields.some(df => df.cd_language === l.cd_language)).length - 1;
 
     async function sendForm(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault()
@@ -239,151 +239,152 @@ export const PublishContent = (): ReactElement => {
 
     return (
         <PublishContentStyle>
-            <div className="card_style">
-                {(categoriesQuantity > 0 && categories.length > 0 && languages.length > 0) ? (
-                    <>
-                        <h1 className="title_style">{t('pages.publishContent.title', undefined, 'Post a new content')}</h1>
-                        <form onSubmit={sendForm}>
-                            <div className='input-descriptions'>
-                                <Button
-                                    type='button'
-                                    color='secondary'
-                                    handleOnClick={addDescriptionField}
-                                    clicable={(remainingLangs > 0)}
-                                >
-                                    {t('pages.publishContent.addLang', undefined, 'Add Lang')}
-                                </Button>
-                                <div className='description-inputs'>
-                                    {descriptionFields.map((field, index) => (
-                                        <div className='description-item' key={field.id}>
-                                            {
-                                                <div className='lang-selector'>
+            {(categoriesQuantity > 0 && categories.length > 0 && languages.length > 0) ? (
+                <div className="card_style">
+                    <h1 className="title_style">{t('pages.publishContent.title', undefined, 'Post a new content')}</h1>
+                    <form onSubmit={sendForm}>
+                        <div className='input-descriptions'>
+                            <Button
+                                type='button'
+                                color='secondary'
+                                handleOnClick={addDescriptionField}
+                                clicable={(remainingLangs > 0)}
+                            >
+                                {t('pages.publishContent.addLang', undefined, 'Add Lang')}
+                            </Button>
+                            <div className='description-inputs'>
+                                {descriptionFields.map((field, index) => (
+                                    <div className='description-item' key={field.id}>
+                                        <div className='input-item'>
+                                            <InputFIeld
+                                                label={field.cd_language ?
+                                                    t('pages.publishContent.descriptionLabelLang', { lang: getLangDescription(languages.find(l => l.cd_language === field.cd_language)!, cd_language() ?? 1) })
+                                                    : t('pages.publishContent.descriptionLabel', undefined, 'Description')}
+                                                maxLength={maxDescriptionLength}
+                                                name={`description-${index}`}
+                                                placeholder={t('pages.publishContent.descriptionPlaceholder', undefined, 'Put here the description of your content')}
+                                                type="text"
+                                                icon={UIIcons.Book}
+                                                errors={translationErrors[index] ?? errors.translations}
+                                                value={descriptionTexts[index] ?? ''}
+                                                onChange={(e) => handleDescriptionTextChange(index, e.target.value)}
+                                            />
+                                        </div>
 
-                                                    <DropdownSelector<ResponseLanguage, number>
-                                                        getValue={(item) => item.cd_language}
-                                                        getLabel={(item, cd_language) => getLangDescription(item, cd_language)}
-                                                        name={`description-lang-${index}`}
-                                                        placeHolder={t('pages.publishContent.selectLangPlaceholder', undefined, 'Select Language')}
-                                                        label={t('pages.publishContent.langLabel', undefined, 'Lang')}
-                                                        categories={getAvailableLanguages(index)}
-                                                        cd_language={
-                                                            languages.find(l => l.ds_language_short.toLocaleLowerCase() === language.toLocaleLowerCase())?.cd_language || 1
-                                                        }
-                                                        value={field.cd_language}
-                                                        onChange={(nextValue) => {
-                                                            setDescriptionFields((fields) =>
-                                                                fields.map((f, i) => (i === index ? { ...f, cd_language: nextValue } : f))
-                                                            );
-                                                        }}
-                                                        filterFunction={(search, list, cd_language) => {
-                                                            const s = search.trim().toLowerCase();
-                                                            if (!s) return list;
-                                                            return list.filter((item) =>
-                                                                getLangDescription(item, cd_language).toLowerCase().includes(s)
-                                                            );
-                                                        }}
-                                                    />
+                                        <div className='lang-selector'>
 
-                                                </div>
-
-                                            }
-                                            <div className='input-item'>
-                                                <InputFIeld
-                                                    label={field.cd_language ?
-                                                        t('pages.publishContent.descriptionLabelLang', { lang: getLangDescription(languages.find(l => l.cd_language === field.cd_language)!, cd_language() ?? 1) })
-                                                        : t('pages.publishContent.descriptionLabel', undefined, 'Description')}
-                                                    maxLength={maxDescriptionLength}
-                                                    name={`description-${index}`}
-                                                    placeholder={t('pages.publishContent.descriptionPlaceholder', undefined, 'Put here the description of your content')}
-                                                    type="text"
-                                                    icon={UIIcons.Book}
-                                                    errors={translationErrors[index] ?? errors.translations}
-                                                    value={descriptionTexts[index] ?? ''}
-                                                    onChange={(e) => handleDescriptionTextChange(index, e.target.value)}
-                                                />
-                                            </div>
-                                            <div className='remove-description'>
-                                                <Button
-                                                    type='button'
-                                                    handleOnClick={() => removeDescriptionField(index)}
-                                                    clicable={index === 0 ? (descriptionFields[0].cd_language !== null || (descriptionTexts[0] ?? '').trim() !== '') : true}
-                                                    color={"secondary"}
-                                                >
-                                                    <Icon icon={UIIcons.Trash} size={24} color={theme.colors.button_text} />
-                                                </Button>
-                                            </div>
-
+                                            <DropdownSelector<ResponseLanguage, number>
+                                                getValue={(item) => item.cd_language}
+                                                getLabel={(item, cd_language) => getLangDescription(item, cd_language)}
+                                                name={`description-lang-${index}`}
+                                                placeHolder={t('pages.publishContent.selectLangPlaceholder', undefined, 'Select Language')}
+                                                label={t('pages.publishContent.langLabel', undefined, 'Lang')}
+                                                categories={getAvailableLanguages(index)}
+                                                cd_language={
+                                                    languages.find(l => l.ds_language_short.toLocaleLowerCase() === language.toLocaleLowerCase())?.cd_language || 1
+                                                }
+                                                value={field.cd_language}
+                                                onChange={(nextValue) => {
+                                                    setDescriptionFields((fields) =>
+                                                        fields.map((f, i) => (i === index ? { ...f, cd_language: nextValue } : f))
+                                                    );
+                                                }}
+                                                filterFunction={(search, list, cd_language) => {
+                                                    const s = search.trim().toLowerCase();
+                                                    if (!s) return list;
+                                                    return list.filter((item) =>
+                                                        getLangDescription(item, cd_language).toLowerCase().includes(s)
+                                                    );
+                                                }}
+                                            />
 
                                         </div>
-                                    ))}
-                                </div>
+
+
+                                        <div className='remove-description'>
+                                            <Button
+                                                type='button'
+                                                handleOnClick={() => removeDescriptionField(index)}
+                                                clicable={index === 0 ? (descriptionFields[0].cd_language !== null || (descriptionTexts[0] ?? '').trim() !== '') : true}
+                                                color={"secondary"}
+                                            >
+                                                <span>
+                                                    <Icon icon={UIIcons.Trash} size={24} color={theme.colors.button_text} />
+                                                </span>
+                                            </Button>
+                                        </div>
+
+
+                                    </div>
+                                ))}
                             </div>
+                        </div>
 
-                            <PostTypeCheckbox
-                                label={t('pages.publishContent.postTypeLabel', undefined, 'Post Type')}
-                                languages={languages}
-                                name="postTypes"
-                                options={postTypes}
-                                onChange={setSelectedPostTypes}
-                                errors={errors.postTypes}
+                        <PostTypeCheckbox
+                            label={t('pages.publishContent.postTypeLabel', undefined, 'Post Type')}
+                            languages={languages}
+                            name="postTypes"
+                            options={postTypes}
+                            onChange={setSelectedPostTypes}
+                            errors={errors.postTypes}
 
-                            />
+                        />
 
-                            <AnimatePresence mode="wait">
-                                {selectedPostTypes.some(pt => pt.cd_post_type === 2) && (
-                                    <motion.div
-                                        key="price-field"
-                                        initial={{ opacity: 0, height: 0 }}
-                                        animate={{ opacity: 1, height: 'auto' }}
-                                        exit={{ opacity: 0, height: 0 }}
-                                        transition={{ duration: 0.2 }}
-                                        style={{ width: '100%' }}
-                                    >
-                                        <InputFIeld
-                                            label={t('pages.publishContent.priceLabel', undefined, 'Price')}
-                                            maxLength={maxLengths.price?.max ? maxLengths.price.max : 0}
-                                            name="price"
-                                            placeholder={t('pages.publishContent.pricePlaceholder', undefined, 'Tokens')}
-                                            type="number"
-                                            icon={UIIcons.Key}
-                                            errors={errors.price}
-                                            instructions={[t('pages.publishContent.priceInstruction', undefined, 'Max value 999999 tokens')]}
-                                        />
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
+                        <AnimatePresence mode="wait">
+                            {selectedPostTypes.some(pt => pt.cd_post_type === 2) && (
+                                <motion.div
+                                    key="price-field"
+                                    initial={{ opacity: 0, height: 0 }}
+                                    animate={{ opacity: 1, height: 'auto' }}
+                                    exit={{ opacity: 0, height: 0 }}
+                                    transition={{ duration: 0.2 }}
+                                    style={{ width: '100%' }}
+                                >
+                                    <InputFIeld
+                                        label={t('pages.publishContent.priceLabel', undefined, 'Price')}
+                                        maxLength={maxLengths.price?.max ? maxLengths.price.max : 0}
+                                        name="price"
+                                        placeholder={t('pages.publishContent.pricePlaceholder', undefined, 'Tokens')}
+                                        type="number"
+                                        icon={UIIcons.Key}
+                                        errors={errors.price}
+                                        instructions={[t('pages.publishContent.priceInstruction', undefined, 'Max value 999999 tokens')]}
+                                    />
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
 
-                            <CategorySelector
-                                name="categories"
-                                max_selection={categoriesQuantity}
-                                placeHolder={t('pages.publishContent.categoriesPlaceholder', undefined, 'Select the desired categories')}
-                                selected_categories={[
-                                ] as ResponseCategory[]}
-                                all_categories={categories}
-                                languages={languages}
-                            />
+                        <CategorySelector
+                            name="categories"
+                            max_selection={categoriesQuantity}
+                            placeHolder={t('pages.publishContent.categoriesPlaceholder', undefined, 'Select the desired categories')}
+                            selected_categories={[
+                            ] as ResponseCategory[]}
+                            all_categories={categories}
+                            languages={languages}
+                        />
 
-                            <UploadArea
-                                addFiles={addFiles}
-                                uploads={uploads}
-                                retryUpload={retryUpload}
-                                removeUpload={removeUpload}
-                            />
+                        <UploadArea
+                            addFiles={addFiles}
+                            uploads={uploads}
+                            retryUpload={retryUpload}
+                            removeUpload={removeUpload}
+                        />
 
-                            <Button
-                                color="primary"
-                                type="submit"
-                                clicable={!loading}
-                                loading={loading}
-                            >
-                                {t('pages.publishContent.submit', undefined, 'Publish')}
-                            </Button>
-                        </form>
-                    </>
-                ) : (
-                    <p style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%" }}><Spinner /></p>
-                )}
-            </div>
+                        <Button
+                            color="primary"
+                            type="submit"
+                            clicable={!loading}
+                            loading={loading}
+                        >
+                            {t('pages.publishContent.submit', undefined, 'Publish')}
+                        </Button>
+                    </form>
+
+                </div>
+            ) : (
+                <p style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%" }}><Spinner /></p>
+            )}
         </PublishContentStyle>
     )
 }

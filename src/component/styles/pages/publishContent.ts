@@ -39,7 +39,7 @@ export const PublishContentStyle = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: start;
-    gap: ${({ theme }) => theme.spacings.normal};
+    row-gap: ${({ theme }) => theme.spacings.big};
   }
 
   & .input-descriptions {
@@ -51,13 +51,19 @@ export const PublishContentStyle = styled.div`
     & .description-inputs {
       display: flex;
       flex-direction: column;
-      gap: ${({ theme }) => theme.spacings.normal};
+      row-gap: ${({ theme }) => theme.spacings.biger};
       margin-top: ${({ theme }) => theme.spacings.small};
     }
     & .description-item {
-      display: flex;
-      gap: ${({ theme }) => theme.spacings.small};
+      display: grid;
+      grid-template-columns: 4fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: ${({ theme }) => theme.spacings.normal};
       align-items: flex-start;
+    }
+
+    & .description-item > *:first-child {
+      grid-column: 1 / -1;  /* ocupa da primeira até a última coluna */
     }
 
     & .remove-description {
@@ -70,13 +76,16 @@ export const PublishContentStyle = styled.div`
       position: relative;
       height: 40px;
       display: flex;
+      width: 100%;
 
       & button {
+          width: 100%;
           display: flex;
           height: auto;
         & span {
           display: flex;
           align-items: center;
+          justify-content: center;
         }
       }
 

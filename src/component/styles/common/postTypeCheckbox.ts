@@ -16,7 +16,7 @@ export const PostTypeCheckboxStyle = styled.div`
     display: flex;
     align-items: center;
     gap: ${(prop) => prop.theme.spacings.min};
-    padding: 0 15px;
+    padding: 8px 16px;
     border-radius: ${(prop) => prop.theme.spacings.small};
     cursor: pointer;
     border: 1px solid transparent;

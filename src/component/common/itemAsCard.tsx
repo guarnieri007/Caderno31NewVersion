@@ -20,7 +20,7 @@ export const ItemAsCard = ({ categories, title, price, image, profile_image, cre
 
     const iconColor = useTheme().colors["text_hover"];
     const categoriesBGColor = useTheme().colors.button_text;
-    const categoriesTextColor = useTheme().colors.text;
+    const categoriesTextColor = useTheme().colors.text_hover;
 
     return (
         <ItemAsCardDiv bg_image={`url(${image})`}>
@@ -37,7 +37,7 @@ export const ItemAsCard = ({ categories, title, price, image, profile_image, cre
                             </div>
                         )}
                         <div style={{ flexGrow: 1 }}>
-                            <Chip bg_color={useTheme().colors.background_secondary} text_color={useTheme().colors.text}>
+                            <Chip bg_color={useTheme().colors.background_secondary} text_color={useTheme().colors.text_hover}>
                                 Assinante
                             </Chip>
                             <Button color="primary" loading={false} clicable={true} handleOnClick={() => { }} >{GetCurrencyText(currency)} {price}</Button>

@@ -290,7 +290,7 @@ export const Chip = styled.div.withConfig({
   
   @media (max-width: 768px) {
     font-size: 0.8rem;
-    padding: 0 0.4rem;
+    padding: 0.2rem 0.8rem;
     line-height: 1.65rem;
   }
 
